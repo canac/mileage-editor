@@ -3,6 +3,7 @@
     ref="mileageEntries"
     class="mileage-table"
   >
+    <h1>Mileage Log</h1>
     <form
       v-for="(entry, index) in entries"
       :key="index"
