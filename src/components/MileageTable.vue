@@ -18,10 +18,12 @@
       <input
         v-model="entry.to"
         placeholder="To"
+        @input="entry.to = expandAddress(entry.to)"
       >
       <input
         v-model="entry.from"
         placeholder="From"
+        @input="entry.from = expandAddress(entry.from)"
       >
       <input
         v-model.number="entry.miles"
@@ -40,10 +42,13 @@
 import {
   Ref, defineComponent, nextTick, ref,
 } from 'vue';
+import useFavoritePlaces from '../composables/useFavoritePlaces';
 import { MileageEntry } from '../types';
 
 export default defineComponent({
   setup() {
+    const { favoritePlaces } = useFavoritePlaces();
+
     // Generate a new mileage entry with default values
     function makeNewEntry(): MileageEntry {
       return {
@@ -76,9 +81,23 @@ export default defineComponent({
       }
     }
 
+    // Attempt to expand an address shortcut to a full address
+    function expandAddress(address: string): string {
+      for (const place of favoritePlaces.value) {
+        if (address.toLowerCase() === place.name.toLowerCase()) {
+          return place.address;
+        }
+      }
+
+      // Leave the address unchanged
+      return address;
+    }
+
     return {
+      favoritePlaces,
       entries,
       onSubmit,
+      expandAddress,
       mileageEntries,
     };
   },

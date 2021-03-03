@@ -40,6 +40,14 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['error', { code: 120 }],
+
+    // Allow ForOfStatement disabled by the airbnb styleguide
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
     strict: ['error', 'global'],
   },
 };
