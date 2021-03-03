@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="favoritePlaces"
+    ref="favoritePlacesRef"
     class="favorite-places"
   >
     <h1>Favorite Places</h1>
@@ -30,20 +30,12 @@
 import {
   Ref, defineComponent, nextTick, ref,
 } from 'vue';
-import { FavoritePlace } from '../types';
+import useFavoritePlaces from '../composables/useFavoritePlaces';
 
 export default defineComponent({
   setup() {
-    // Generate a new favorite place with default values
-    function makeNewPlace(): FavoritePlace {
-      return {
-        name: '',
-        address: '',
-      };
-    }
-
-    const places: Ref<FavoritePlace[]> = ref([makeNewPlace()]);
-    const favoritePlaces: Ref<HTMLElement | null> = ref(null);
+    const { makeNewPlace, favoritePlaces: places } = useFavoritePlaces();
+    const favoritePlacesRef: Ref<HTMLElement | null> = ref(null);
 
     async function onSubmit(index: number) {
       if (index === places.value.length - 1) {
@@ -55,8 +47,8 @@ export default defineComponent({
       }
 
       // Now focus the newly created place
-      if (favoritePlaces.value) {
-        const input: HTMLElement | null = favoritePlaces.value
+      if (favoritePlacesRef.value) {
+        const input: HTMLElement | null = favoritePlacesRef.value
           .querySelector(`.favorite-place:nth-of-type(${index + 2}) input`);
         if (input) {
           input.focus();
@@ -67,7 +59,7 @@ export default defineComponent({
     return {
       places,
       onSubmit,
-      favoritePlaces,
+      favoritePlacesRef,
     };
   },
 });
