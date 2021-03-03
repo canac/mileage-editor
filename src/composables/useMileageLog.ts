@@ -5,6 +5,7 @@ import { MileageEntry } from '../types';
 function makeNewEntry(): MileageEntry {
   return {
     date: new Date().toISOString().slice(0, 10), // today
+    description: '',
     to: '',
     from: '',
     miles: 0,

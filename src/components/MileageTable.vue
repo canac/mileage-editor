@@ -16,6 +16,10 @@
         type="date"
       >
       <input
+        v-model="entry.description"
+        placeholder="Description"
+      >
+      <input
         v-model="entry.to"
         placeholder="To"
         @input="entry.to = expandAddress(entry.to)"
@@ -98,12 +102,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .mileage-entry {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 12em 16em 1fr 1fr 8em;
   grid-column-gap: 1em;
   padding-bottom: 1em;
 
   input {
-    font-size: 1.5em;
+    font-size: 1.25em;
   }
 }
 </style>
