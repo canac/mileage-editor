@@ -5,7 +5,7 @@
   >
     <h1>Mileage Log</h1>
     <form
-      v-for="(entry, index) in entries"
+      v-for="(entry, index) in mileageLog"
       :key="index"
       class="mileage-entry"
       @submit.prevent="onSubmit(index)"
@@ -43,29 +43,20 @@ import {
   Ref, defineComponent, nextTick, ref,
 } from 'vue';
 import useFavoritePlaces from '../composables/useFavoritePlaces';
+import useMileageLog from '../composables/useMileageLog';
 import { MileageEntry } from '../types';
 
 export default defineComponent({
   setup() {
     const { favoritePlaces } = useFavoritePlaces();
+    const { mileageLog, makeNewEntry } = useMileageLog();
 
-    // Generate a new mileage entry with default values
-    function makeNewEntry(): MileageEntry {
-      return {
-        date: new Date().toISOString().slice(0, 10), // today
-        to: '',
-        from: '',
-        miles: 0,
-      };
-    }
-
-    const entries: Ref<MileageEntry[]> = ref([makeNewEntry()]);
     const mileageEntries: Ref<HTMLElement | null> = ref(null);
 
     async function onSubmit(index: number) {
-      if (index === entries.value.length - 1) {
+      if (index === mileageLog.value.length - 1) {
         // If we submitted the last entry, create a new entry
-        entries.value = [...entries.value, makeNewEntry()];
+        mileageLog.value = [...mileageLog.value, makeNewEntry()];
 
         // Wait for the DOM to update, which will create the new entry
         await nextTick();
@@ -95,7 +86,7 @@ export default defineComponent({
 
     return {
       favoritePlaces,
-      entries,
+      mileageLog,
       onSubmit,
       expandAddress,
       mileageEntries,
