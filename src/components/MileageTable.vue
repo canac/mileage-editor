@@ -18,16 +18,16 @@
         v-model="entry.description"
         placeholder="Description"
       >
-      <input
+      <AddressAutocomplete
         v-model="entry.to"
         placeholder="To"
         @input="entry.to = expandAddress(entry.to)"
-      >
-      <input
+      />
+      <AddressAutocomplete
         v-model="entry.from"
         placeholder="From"
         @input="entry.from = expandAddress(entry.from)"
-      >
+      />
       <input
         v-model.number="entry.miles"
         placeholder="Miles"
@@ -43,10 +43,12 @@ import {
 } from 'vue';
 import useFavoritePlaces from '../composables/useFavoritePlaces';
 import useMileageLog from '../composables/useMileageLog';
+import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
 
 export default defineComponent({
   components: {
+    AddressAutocomplete,
     DataGrid,
   },
 

@@ -13,10 +13,10 @@
         v-model="place.name"
         placeholder="Name"
       >
-      <input
+      <AddressAutocomplete
         v-model="place.address"
         placeholder="Address"
-      >
+      />
     </data-grid>
   </div>
 </template>
@@ -26,10 +26,12 @@ import {
   defineComponent,
 } from 'vue';
 import useFavoritePlaces from '../composables/useFavoritePlaces';
+import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
 
 export default defineComponent({
   components: {
+    AddressAutocomplete,
     DataGrid,
   },
 
