@@ -1,14 +1,13 @@
 <template>
   <div
-    ref="favoritePlacesRef"
     class="favorite-places"
   >
     <h1>Favorite Places</h1>
-    <form
-      v-for="(place, index) in places"
-      :key="index"
-      class="favorite-place"
-      @submit.prevent="onSubmit(index)"
+    <data-grid
+      v-slot="{ row: place }"
+      :rows="places"
+      :create-new-row="makeNewPlace"
+      :focus-selector="'input:nth-of-type(1)'"
     >
       <input
         v-model="place.name"
@@ -18,59 +17,36 @@
         v-model="place.address"
         placeholder="Address"
       >
-      <button
-        type="submit"
-        style="display: none;"
-      />
-    </form>
+    </data-grid>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  Ref, defineComponent, nextTick, ref,
+  defineComponent,
 } from 'vue';
 import useFavoritePlaces from '../composables/useFavoritePlaces';
+import DataGrid from './DataGrid.vue';
 
 export default defineComponent({
+  components: {
+    DataGrid,
+  },
+
   setup() {
     const { makeNewPlace, favoritePlaces: places } = useFavoritePlaces();
-    const favoritePlacesRef: Ref<HTMLElement | null> = ref(null);
-
-    async function onSubmit(index: number) {
-      if (index === places.value.length - 1) {
-        // If we submitted the last place, create a new place
-        places.value = [...places.value, makeNewPlace()];
-
-        // Wait for the DOM to update, which will create the new place
-        await nextTick();
-      }
-
-      // Now focus the newly created place
-      if (favoritePlacesRef.value) {
-        const input: HTMLElement | null = favoritePlacesRef.value
-          .querySelector(`.favorite-place:nth-of-type(${index + 2}) input`);
-        if (input) {
-          input.focus();
-        }
-      }
-    }
 
     return {
       places,
-      onSubmit,
-      favoritePlacesRef,
+      makeNewPlace,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.favorite-place {
-  display: grid;
+.data-grid :deep(.row) {
   grid-template-columns: 1fr 3fr;
-  grid-column-gap: 1em;
-  padding-bottom: 1em;
 
   input {
     font-size: 1.5em;

@@ -1,14 +1,13 @@
 <template>
   <div
-    ref="mileageEntries"
     class="mileage-table"
   >
     <h1>Mileage Log</h1>
-    <form
-      v-for="(entry, index) in mileageLog"
-      :key="index"
-      class="mileage-entry"
-      @submit.prevent="onSubmit(index)"
+    <data-grid
+      v-slot="{ row: entry }"
+      :rows="mileageLog"
+      :create-new-row="makeNewEntry"
+      :focus-selector="'input:nth-of-type(1)'"
     >
       <input
         v-model="entry.date"
@@ -34,47 +33,26 @@
         placeholder="Miles"
         type="number"
       >
-      <button
-        type="submit"
-        style="display: none;"
-      />
-    </form>
+    </data-grid>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  Ref, defineComponent, nextTick, ref,
+  defineComponent,
 } from 'vue';
 import useFavoritePlaces from '../composables/useFavoritePlaces';
 import useMileageLog from '../composables/useMileageLog';
-import { MileageEntry } from '../types';
+import DataGrid from './DataGrid.vue';
 
 export default defineComponent({
+  components: {
+    DataGrid,
+  },
+
   setup() {
     const { favoritePlaces } = useFavoritePlaces();
     const { mileageLog, makeNewEntry } = useMileageLog();
-
-    const mileageEntries: Ref<HTMLElement | null> = ref(null);
-
-    async function onSubmit(index: number) {
-      if (index === mileageLog.value.length - 1) {
-        // If we submitted the last entry, create a new entry
-        mileageLog.value = [...mileageLog.value, makeNewEntry()];
-
-        // Wait for the DOM to update, which will create the new entry
-        await nextTick();
-      }
-
-      // Now focus the newly created entry
-      if (mileageEntries.value) {
-        const input: HTMLElement | null = mileageEntries.value
-          .querySelector(`.mileage-entry:nth-of-type(${index + 2}) input`);
-        if (input) {
-          input.focus();
-        }
-      }
-    }
 
     // Attempt to expand an address shortcut to a full address
     function expandAddress(address: string): string {
@@ -91,20 +69,16 @@ export default defineComponent({
     return {
       favoritePlaces,
       mileageLog,
-      onSubmit,
+      makeNewEntry,
       expandAddress,
-      mileageEntries,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.mileage-entry {
-  display: grid;
+.data-grid :deep(.row) {
   grid-template-columns: 12em 16em 1fr 1fr 8em;
-  grid-column-gap: 1em;
-  padding-bottom: 1em;
 
   input {
     font-size: 1.25em;
