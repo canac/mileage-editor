@@ -28,7 +28,9 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+</style>
 
+<style lang="scss" scoped>
 .app {
   --root-margin: 8px;
   margin: var(--root-margin);
