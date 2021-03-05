@@ -7,7 +7,6 @@
       v-slot="{ row: place }"
       :rows="places"
       :create-new-row="makeNewPlace"
-      :focus-selector="'input:nth-of-type(1)'"
     >
       <input
         v-model="place.name"

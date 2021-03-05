@@ -3,7 +3,6 @@
     ref="input"
     v-model="value"
     class="address-autocomplete"
-    @keydown="$event.keyCode === 13 && $event.preventDefault()"
   >
 </template>
 

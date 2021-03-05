@@ -35,9 +35,9 @@ export default defineComponent({
       required: true,
     },
 
-    focusSelector: {
+    columnSelector: {
       type: String,
-      required: true,
+      default: 'input',
     },
   },
 
@@ -46,21 +46,40 @@ export default defineComponent({
     const { rows, createNewRow } = toRefs(props);
 
     async function onSubmit(index: number) {
-      if (index === rows.value.length - 1) {
-        // If we submitted the last row, create a new row
-        rows.value.push(createNewRow.value());
-
-        // Wait for the DOM to update, which will create the new row
-        await nextTick();
+      if (!gridRef.value) {
+        return;
       }
 
-      // Now focus the newly created row
-      if (gridRef.value) {
-        const input: HTMLElement | null = gridRef.value
-          .querySelector(`.row:nth-of-type(${index + 2}) ${props.focusSelector}`);
-        if (input) {
-          input.focus();
+      // Determine which column of the grid is currently focused
+      const columns = Array.from(gridRef.value.querySelectorAll<HTMLElement>(
+        `.row:nth-of-type(${index + 1}) ${props.columnSelector}`,
+      ));
+      const focusedInput = gridRef.value.querySelector<HTMLElement>(':focus');
+      const focusedColumn = focusedInput ? columns.indexOf(focusedInput) : -1;
+      if (focusedColumn === -1) {
+        return;
+      }
+
+      // If the last column is focused, advance the focus to the next row
+      if (focusedColumn === columns.length - 1) {
+        // If this is the last row
+        if (index === rows.value.length - 1) {
+          // Then create a new row
+          rows.value.push(createNewRow.value());
+
+          // Wait for the DOM to update, which will create the new row in the DOM
+          await nextTick();
         }
+
+        const [firstColumn] = Array.from(gridRef.value.querySelectorAll<HTMLElement>(
+          `.row:nth-of-type(${index + 2}) ${props.columnSelector}`,
+        ));
+        if (firstColumn) {
+          firstColumn.focus();
+        }
+      } else {
+        // Otherwise, advance the focus to the next column
+        columns[focusedColumn + 1].focus();
       }
     }
 

@@ -7,7 +7,6 @@
       v-slot="{ row: entry }"
       :rows="mileageLog"
       :create-new-row="makeNewEntry"
-      :focus-selector="'input:nth-of-type(1)'"
     >
       <input
         v-model="entry.date"
