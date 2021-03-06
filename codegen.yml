@@ -8,4 +8,6 @@ generates:
       - "typescript-operations"
       - "typescript-vue-apollo"
     config:
+      scalars:
+        MongoID: string
       vueCompositionApiImportFrom: vue

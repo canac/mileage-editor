@@ -1,7 +1,0 @@
-query LoadFavoritePlaces {
-  favoritePlaceMany {
-    _id
-    name
-    address
-  }
-}

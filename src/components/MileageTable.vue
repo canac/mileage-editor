@@ -37,10 +37,8 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-} from 'vue';
-import useFavoritePlaces from '../composables/useFavoritePlaces';
+import { defineComponent } from 'vue';
+import { useRead } from '../composables/useFavoritePlacesCrud';
 import useMileageLog from '../composables/useMileageLog';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
@@ -52,7 +50,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { favoritePlaces } = useFavoritePlaces();
+    const { favoritePlaces } = useRead();
     const { mileageLog, makeNewEntry } = useMileageLog();
 
     // Attempt to expand an address shortcut to a full address

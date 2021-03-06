@@ -16,7 +16,7 @@ export type Scalars = {
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
   /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
-  MongoID: any;
+  MongoID: string;
   Date: any;
 };
 
@@ -1118,14 +1118,60 @@ export type FilterRemoveManyJourney_IdOperatorsInput = {
   exists?: Maybe<Scalars['Boolean']>;
 };
 
-export type LoadFavoritePlacesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ReadFavoritePlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadFavoritePlacesQuery = (
+export type ReadFavoritePlacesQuery = (
   { __typename?: 'Query' }
   & { favoritePlaceMany: Array<(
     { __typename?: 'FavoritePlace' }
     & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+  )> }
+);
+
+export type CreateFavoritePlaceMutationVariables = Exact<{
+  favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput;
+}>;
+
+
+export type CreateFavoritePlaceMutation = (
+  { __typename?: 'Mutation' }
+  & { favoritePlaceCreateOne?: Maybe<(
+    { __typename?: 'CreateOneFavoritePlacePayload' }
+    & { record?: Maybe<(
+      { __typename?: 'FavoritePlace' }
+      & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+    )> }
+  )> }
+);
+
+export type UpdateFavoritePlaceMutationVariables = Exact<{
+  favoritePlaceUpdateByIdId: Scalars['MongoID'];
+  favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput;
+}>;
+
+
+export type UpdateFavoritePlaceMutation = (
+  { __typename?: 'Mutation' }
+  & { favoritePlaceUpdateById?: Maybe<(
+    { __typename?: 'UpdateByIdFavoritePlacePayload' }
+    & { record?: Maybe<(
+      { __typename?: 'FavoritePlace' }
+      & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+    )> }
+  )> }
+);
+
+export type DeleteFavoritePlaceMutationVariables = Exact<{
+  favoritePlaceRemoveByIdId: Scalars['MongoID'];
+}>;
+
+
+export type DeleteFavoritePlaceMutation = (
+  { __typename?: 'Mutation' }
+  & { favoritePlaceRemoveById?: Maybe<(
+    { __typename?: 'RemoveByIdFavoritePlacePayload' }
+    & Pick<RemoveByIdFavoritePlacePayload, 'recordId'>
   )> }
 );
 
@@ -1141,8 +1187,8 @@ export type LoadMileageLogQuery = (
 );
 
 
-export const LoadFavoritePlacesDocument = gql`
-    query LoadFavoritePlaces {
+export const ReadFavoritePlacesDocument = gql`
+    query ReadFavoritePlaces {
   favoritePlaceMany {
     _id
     name
@@ -1152,21 +1198,120 @@ export const LoadFavoritePlacesDocument = gql`
     `;
 
 /**
- * __useLoadFavoritePlacesQuery__
+ * __useReadFavoritePlacesQuery__
  *
- * To run a query within a Vue component, call `useLoadFavoritePlacesQuery` and pass it any options that fit your needs.
- * When your component renders, `useLoadFavoritePlacesQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * To run a query within a Vue component, call `useReadFavoritePlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadFavoritePlacesQuery` returns an object from Apollo Client that contains result, loading and error properties
  * you can use to render your UI.
  *
  * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
  *
  * @example
- * const { result, loading, error } = useLoadFavoritePlacesQuery();
+ * const { result, loading, error } = useReadFavoritePlacesQuery();
  */
-export function useLoadFavoritePlacesQuery(options: VueApolloComposable.UseQueryOptions<LoadFavoritePlacesQuery, LoadFavoritePlacesQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<LoadFavoritePlacesQuery, LoadFavoritePlacesQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<LoadFavoritePlacesQuery, LoadFavoritePlacesQueryVariables>> = {}) {
-  return VueApolloComposable.useQuery<LoadFavoritePlacesQuery, LoadFavoritePlacesQueryVariables>(LoadFavoritePlacesDocument, {}, options);
+export function useReadFavoritePlacesQuery(options: VueApolloComposable.UseQueryOptions<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables>(ReadFavoritePlacesDocument, {}, options);
 }
-export type LoadFavoritePlacesQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<LoadFavoritePlacesQuery, LoadFavoritePlacesQueryVariables>;
+export type ReadFavoritePlacesQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables>;
+export const CreateFavoritePlaceDocument = gql`
+    mutation CreateFavoritePlace($favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput!) {
+  favoritePlaceCreateOne(record: $favoritePlaceCreateOneRecord) {
+    record {
+      _id
+      name
+      address
+    }
+  }
+}
+    `;
+
+/**
+ * __useCreateFavoritePlaceMutation__
+ *
+ * To run a mutation, you first call `useCreateFavoritePlaceMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFavoritePlaceMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useCreateFavoritePlaceMutation({
+ *   variables: {
+ *     favoritePlaceCreateOneRecord: // value for 'favoritePlaceCreateOneRecord'
+ *   },
+ * });
+ */
+export function useCreateFavoritePlaceMutation(options: VueApolloComposable.UseMutationOptions<CreateFavoritePlaceMutation, CreateFavoritePlaceMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<CreateFavoritePlaceMutation, CreateFavoritePlaceMutationVariables>>) {
+  return VueApolloComposable.useMutation<CreateFavoritePlaceMutation, CreateFavoritePlaceMutationVariables>(CreateFavoritePlaceDocument, options);
+}
+export type CreateFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<CreateFavoritePlaceMutation, CreateFavoritePlaceMutationVariables>;
+export const UpdateFavoritePlaceDocument = gql`
+    mutation UpdateFavoritePlace($favoritePlaceUpdateByIdId: MongoID!, $favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput!) {
+  favoritePlaceUpdateById(
+    _id: $favoritePlaceUpdateByIdId
+    record: $favoritePlaceUpdateByIdRecord
+  ) {
+    record {
+      _id
+      name
+      address
+    }
+  }
+}
+    `;
+
+/**
+ * __useUpdateFavoritePlaceMutation__
+ *
+ * To run a mutation, you first call `useUpdateFavoritePlaceMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFavoritePlaceMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useUpdateFavoritePlaceMutation({
+ *   variables: {
+ *     favoritePlaceUpdateByIdId: // value for 'favoritePlaceUpdateByIdId'
+ *     favoritePlaceUpdateByIdRecord: // value for 'favoritePlaceUpdateByIdRecord'
+ *   },
+ * });
+ */
+export function useUpdateFavoritePlaceMutation(options: VueApolloComposable.UseMutationOptions<UpdateFavoritePlaceMutation, UpdateFavoritePlaceMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<UpdateFavoritePlaceMutation, UpdateFavoritePlaceMutationVariables>>) {
+  return VueApolloComposable.useMutation<UpdateFavoritePlaceMutation, UpdateFavoritePlaceMutationVariables>(UpdateFavoritePlaceDocument, options);
+}
+export type UpdateFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<UpdateFavoritePlaceMutation, UpdateFavoritePlaceMutationVariables>;
+export const DeleteFavoritePlaceDocument = gql`
+    mutation DeleteFavoritePlace($favoritePlaceRemoveByIdId: MongoID!) {
+  favoritePlaceRemoveById(_id: $favoritePlaceRemoveByIdId) {
+    recordId
+  }
+}
+    `;
+
+/**
+ * __useDeleteFavoritePlaceMutation__
+ *
+ * To run a mutation, you first call `useDeleteFavoritePlaceMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFavoritePlaceMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useDeleteFavoritePlaceMutation({
+ *   variables: {
+ *     favoritePlaceRemoveByIdId: // value for 'favoritePlaceRemoveByIdId'
+ *   },
+ * });
+ */
+export function useDeleteFavoritePlaceMutation(options: VueApolloComposable.UseMutationOptions<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables>>) {
+  return VueApolloComposable.useMutation<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables>(DeleteFavoritePlaceDocument, options);
+}
+export type DeleteFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables>;
 export const LoadMileageLogDocument = gql`
     query LoadMileageLog {
   journeyMany {

@@ -1,0 +1,33 @@
+query ReadFavoritePlaces {
+  favoritePlaceMany {
+    _id
+    name
+    address
+  }
+}
+
+mutation CreateFavoritePlace($favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput!) {
+  favoritePlaceCreateOne(record: $favoritePlaceCreateOneRecord) {
+    record {
+      _id
+      name
+      address
+    }
+  }
+}
+
+mutation UpdateFavoritePlace($favoritePlaceUpdateByIdId: MongoID!, $favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput!) {
+  favoritePlaceUpdateById(_id: $favoritePlaceUpdateByIdId, record: $favoritePlaceUpdateByIdRecord) {
+    record {
+      _id
+      name
+      address
+    }
+  }
+}
+
+mutation DeleteFavoritePlace($favoritePlaceRemoveByIdId: MongoID!) {
+  favoritePlaceRemoveById(_id: $favoritePlaceRemoveByIdId) {
+    recordId
+  }
+}

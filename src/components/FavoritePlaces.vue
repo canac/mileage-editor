@@ -21,10 +21,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-} from 'vue';
-import useFavoritePlaces from '../composables/useFavoritePlaces';
+import { useRead } from '../composables/useFavoritePlacesCrud';
+import { FavoritePlace } from '../generated/graphql';
+import { defineComponent } from 'vue';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
 
@@ -35,11 +34,19 @@ export default defineComponent({
   },
 
   setup() {
-    const { makeNewPlace, favoritePlaces: places } = useFavoritePlaces();
+    const { favoritePlaces } = useRead();
 
     return {
-      places,
-      makeNewPlace,
+      places: favoritePlaces,
+
+      // Generate a new favorite place with default values
+      makeNewPlace(): FavoritePlace {
+        return {
+          _id: Math.random.toString(),
+          name: '',
+          address: '',
+        };
+      },
     };
   },
 });
