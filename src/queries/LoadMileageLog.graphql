@@ -1,0 +1,10 @@
+query LoadMileageLog {
+  journeyMany {
+    _id
+    date
+    description
+    to
+    from
+    miles
+  }
+}

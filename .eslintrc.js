@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ignorePatterns: ['dist/'],
+  ignorePatterns: ['dist/', 'src/generated/'],
   extends: [
     '@vue/airbnb',
   ],
