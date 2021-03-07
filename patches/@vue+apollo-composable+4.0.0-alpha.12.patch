@@ -34,3 +34,13 @@ index 0d4ce68..2f1f62c 100644
  export function useQuery(document, variables, options) {
      return useQueryImpl(document, variables, options);
  }
+diff --git a/node_modules/@vue/apollo-composable/dist/util/ExtractSingleKey.d.ts b/node_modules/@vue/apollo-composable/dist/util/ExtractSingleKey.d.ts
+index 9218dcc..4d9ee31 100644
+--- a/node_modules/@vue/apollo-composable/dist/util/ExtractSingleKey.d.ts
++++ b/node_modules/@vue/apollo-composable/dist/util/ExtractSingleKey.d.ts
+@@ -5,4 +5,4 @@ export declare type IsUnion<T, U = T> = U extends any ? ([T] extends [U] ? false
+ /**
+  * Extracts an inner type if T has a single key K, otherwise it returns T.
+  */
+-export declare type ExtractSingleKey<T, K extends keyof T = keyof T> = IsUnion<K> extends true ? T : T[K];
++export type ExtractSingleKey<T, K extends keyof T = keyof T, KWithoutTypename extends K = Exclude<K, '__typename'>> = IsUnion<KWithoutTypename> extends true ? T : T[KWithoutTypename]

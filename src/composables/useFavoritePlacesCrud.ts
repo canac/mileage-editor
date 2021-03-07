@@ -14,7 +14,7 @@ export function useRead(): {
   const { result } = useReadFavoritePlacesQuery();
 
   return {
-    favoritePlaces: useResult<ReadFavoritePlacesQuery, FavoritePlace[], 'favoritePlaceMany'>(result, []),
+    favoritePlaces: useResult(result, []),
   };
 }
 
