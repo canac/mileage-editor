@@ -6,24 +6,26 @@
     <data-grid
       v-slot="{ row: place }"
       :rows="places"
-      :create-new-row="makeNewPlace"
+      :create-new-row="createFavoritePlace"
     >
       <input
         v-model="place.name"
         placeholder="Name"
+        @change="updateFavoritePlace(place, 'name')"
       >
       <AddressAutocomplete
         v-model="place.address"
         placeholder="Address"
+        @change="updateFavoritePlace(place, 'address')"
       />
     </data-grid>
   </div>
 </template>
 
 <script lang="ts">
-import { useRead } from '../composables/useFavoritePlacesCrud';
+import { computed, defineComponent } from 'vue';
+import { useCreate, useRead, useUpdate } from '../composables/useFavoritePlacesCrud';
 import { FavoritePlace } from '../generated/graphql';
-import { defineComponent } from 'vue';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
 
@@ -35,17 +37,28 @@ export default defineComponent({
 
   setup() {
     const { favoritePlaces } = useRead();
+    /* eslint-disable @typescript-eslint/unbound-method */
+    const { create } = useCreate();
+    const { update } = useUpdate();
+    /* eslint-enable @typescript-eslint/unbound-method */
 
     return {
-      places: favoritePlaces,
+      // Clone the readonly places array
+      places: computed(() => favoritePlaces.value.map((place) => ({ ...place }))),
 
-      // Generate a new favorite place with default values
-      makeNewPlace(): FavoritePlace {
-        return {
-          _id: Math.random.toString(),
+      // Create a new favorite place in the database
+      createFavoritePlace(): Promise<FavoritePlace> {
+        return create({
           name: '',
           address: '',
-        };
+        });
+      },
+
+      // Save the field that changed to the database
+      async updateFavoritePlace(place: FavoritePlace, field: keyof FavoritePlace): Promise<FavoritePlace> {
+        return update(place._id, {
+          [field]: place[field],
+        });
       },
     };
   },

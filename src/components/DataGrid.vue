@@ -43,7 +43,8 @@ export default defineComponent({
 
   setup(props) {
     const gridRef: Ref<HTMLElement | null> = ref(null);
-    const { rows, createNewRow } = toRefs(props);
+    const { createNewRow } = props;
+    const { rows } = toRefs(props);
 
     async function onSubmit(index: number) {
       if (!gridRef.value) {
@@ -65,7 +66,7 @@ export default defineComponent({
         // If this is the last row
         if (index === rows.value.length - 1) {
           // Then create a new row
-          rows.value.push(createNewRow.value());
+          rows.value.push(await createNewRow());
 
           // Wait for the DOM to update, which will create the new row in the DOM
           await nextTick();
