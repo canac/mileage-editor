@@ -1,5 +1,5 @@
 import { useResult } from '@vue/apollo-composable';
-import { Ref, computed } from 'vue';
+import { Ref } from 'vue';
 import {
   FavoritePlace,
   ReadFavoritePlacesDocument,
@@ -13,9 +13,8 @@ export function useRead(): {
   } {
   const { result } = useReadFavoritePlacesQuery();
 
-  const favoritePlaces = useResult<ReadFavoritePlacesQuery, 'favoritePlaceMany'>(result);
   return {
-    favoritePlaces: computed(() => favoritePlaces.value ?? []),
+    favoritePlaces: useResult<ReadFavoritePlacesQuery, FavoritePlace[], 'favoritePlaceMany'>(result, []),
   };
 }
 
