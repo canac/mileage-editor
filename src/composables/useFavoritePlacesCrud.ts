@@ -61,11 +61,11 @@ export function useCreate(): {
 }
 
 export function useUpdate(): {
-  update(id: string, modifiedFields: Partial<FavoritePlace>): Promise<FavoritePlace>,
+  update(id: FavoritePlace['_id'], modifiedFields: Partial<FavoritePlace>): Promise<FavoritePlace>,
   } {
   const { mutate } = useUpdateFavoritePlaceMutation({});
 
-  async function update(id: string, modifiedFields: Partial<FavoritePlace>): Promise<FavoritePlace> {
+  async function update(id: FavoritePlace['_id'], modifiedFields: Partial<FavoritePlace>): Promise<FavoritePlace> {
     const { data } = await mutate({
       favoritePlaceUpdateByIdId: id,
       favoritePlaceUpdateByIdRecord: modifiedFields,
@@ -82,11 +82,11 @@ export function useUpdate(): {
 }
 
 export function useDestroy(): {
-  destroy(id: string): Promise<string>,
+  destroy(id: FavoritePlace['_id']): Promise<FavoritePlace['_id']>,
   } {
   const { mutate } = useDeleteFavoritePlaceMutation({});
 
-  async function destroy(id: string): Promise<string> {
+  async function destroy(id: FavoritePlace['_id']): Promise<FavoritePlace['_id']> {
     const { data } = await mutate({
       favoritePlaceRemoveByIdId: id,
     }, {
