@@ -2,6 +2,7 @@ import { useResult } from '@vue/apollo-composable';
 import { Ref, computed } from 'vue';
 import {
   FavoritePlace,
+  ReadFavoritePlacesDocument,
   ReadFavoritePlacesQuery,
   useCreateFavoritePlaceMutation, useDeleteFavoritePlaceMutation,
   useReadFavoritePlacesQuery, useUpdateFavoritePlaceMutation,
@@ -26,6 +27,27 @@ export function useCreate(): {
   async function create(newPlace: FavoritePlace): Promise<FavoritePlace> {
     const { data } = await mutate({
       favoritePlaceCreateOneRecord: newPlace,
+    }, {
+      update(cache, result) {
+        const createdPlace = result.data?.favoritePlaceCreateOne?.record;
+        if (!createdPlace) {
+          return;
+        }
+
+        // Add the newly created favorite place to the cache
+        const cachedQuery = cache.readQuery<ReadFavoritePlacesQuery>({ query: ReadFavoritePlacesDocument });
+        if (!cachedQuery) {
+          return;
+        }
+
+        cache.writeQuery({
+          query: ReadFavoritePlacesDocument,
+          data: {
+            ...cachedQuery,
+            favoritePlaceMany: [...cachedQuery.favoritePlaceMany, createdPlace],
+          },
+        });
+      },
     });
 
     if (data?.favoritePlaceCreateOne?.record) {
@@ -67,6 +89,27 @@ export function useDestroy(): {
   async function destroy(id: string): Promise<string> {
     const { data } = await mutate({
       favoritePlaceRemoveByIdId: id,
+    }, {
+      update(cache, result) {
+        const deletedPlaceId = result.data?.favoritePlaceRemoveById?.recordId;
+        if (!deletedPlaceId) {
+          return;
+        }
+
+        // Remove the deleted favorite place from the cache
+        const cachedQuery = cache.readQuery<ReadFavoritePlacesQuery>({ query: ReadFavoritePlacesDocument });
+        if (!cachedQuery) {
+          return;
+        }
+
+        cache.writeQuery({
+          query: ReadFavoritePlacesDocument,
+          data: {
+            ...cachedQuery,
+            favoritePlaceMany: cachedQuery.favoritePlaceMany.filter(({ _id }) => _id !== deletedPlaceId),
+          },
+        });
+      },
     });
 
     if (data?.favoritePlaceRemoveById?.recordId) {
