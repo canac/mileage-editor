@@ -1,13 +1,13 @@
 query ReadFavoritePlaces {
-  favoritePlaceMany {
+  records: favoritePlaceMany {
     _id
     name
     address
   }
 }
 
-mutation CreateFavoritePlace($favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput!) {
-  favoritePlaceCreateOne(record: $favoritePlaceCreateOneRecord) {
+mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
+  result: favoritePlaceCreateOne(record: $record) {
     record {
       _id
       name
@@ -16,8 +16,8 @@ mutation CreateFavoritePlace($favoritePlaceCreateOneRecord: CreateOneFavoritePla
   }
 }
 
-mutation UpdateFavoritePlace($favoritePlaceUpdateByIdId: MongoID!, $favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput!) {
-  favoritePlaceUpdateById(_id: $favoritePlaceUpdateByIdId, record: $favoritePlaceUpdateByIdRecord) {
+mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
+  result: favoritePlaceUpdateById(_id: $id, record: $record) {
     record {
       _id
       name
@@ -26,8 +26,8 @@ mutation UpdateFavoritePlace($favoritePlaceUpdateByIdId: MongoID!, $favoritePlac
   }
 }
 
-mutation DeleteFavoritePlace($favoritePlaceRemoveByIdId: MongoID!) {
-  favoritePlaceRemoveById(_id: $favoritePlaceRemoveByIdId) {
+mutation DeleteFavoritePlace($id: MongoID!) {
+  result: favoritePlaceRemoveById(_id: $id) {
     recordId
   }
 }

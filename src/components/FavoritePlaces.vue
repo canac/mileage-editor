@@ -24,7 +24,11 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useCreate, useRead, useUpdate } from '../composables/useFavoritePlacesCrud';
+import {
+  useCreateFavoritePlace,
+  useReadFavoritePlace,
+  useUpdateFavoritePlace,
+} from '../composables/useFavoritePlacesCrud';
 import { FavoritePlace } from '../generated/graphql';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
@@ -36,10 +40,10 @@ export default defineComponent({
   },
 
   setup() {
-    const { favoritePlaces } = useRead();
+    const { models: favoritePlaces } = useReadFavoritePlace();
     /* eslint-disable @typescript-eslint/unbound-method */
-    const { create } = useCreate();
-    const { update } = useUpdate();
+    const { create } = useCreateFavoritePlace();
+    const { update } = useUpdateFavoritePlace();
     /* eslint-enable @typescript-eslint/unbound-method */
 
     return {

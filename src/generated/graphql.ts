@@ -1123,20 +1123,20 @@ export type ReadFavoritePlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ReadFavoritePlacesQuery = (
   { __typename?: 'Query' }
-  & { favoritePlaceMany: Array<(
+  & { records: Array<(
     { __typename?: 'FavoritePlace' }
     & Pick<FavoritePlace, '_id' | 'name' | 'address'>
   )> }
 );
 
 export type CreateFavoritePlaceMutationVariables = Exact<{
-  favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput;
+  record: CreateOneFavoritePlaceInput;
 }>;
 
 
 export type CreateFavoritePlaceMutation = (
   { __typename?: 'Mutation' }
-  & { favoritePlaceCreateOne?: Maybe<(
+  & { result?: Maybe<(
     { __typename?: 'CreateOneFavoritePlacePayload' }
     & { record?: Maybe<(
       { __typename?: 'FavoritePlace' }
@@ -1146,14 +1146,14 @@ export type CreateFavoritePlaceMutation = (
 );
 
 export type UpdateFavoritePlaceMutationVariables = Exact<{
-  favoritePlaceUpdateByIdId: Scalars['MongoID'];
-  favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput;
+  id: Scalars['MongoID'];
+  record: UpdateByIdFavoritePlaceInput;
 }>;
 
 
 export type UpdateFavoritePlaceMutation = (
   { __typename?: 'Mutation' }
-  & { favoritePlaceUpdateById?: Maybe<(
+  & { result?: Maybe<(
     { __typename?: 'UpdateByIdFavoritePlacePayload' }
     & { record?: Maybe<(
       { __typename?: 'FavoritePlace' }
@@ -1163,13 +1163,13 @@ export type UpdateFavoritePlaceMutation = (
 );
 
 export type DeleteFavoritePlaceMutationVariables = Exact<{
-  favoritePlaceRemoveByIdId: Scalars['MongoID'];
+  id: Scalars['MongoID'];
 }>;
 
 
 export type DeleteFavoritePlaceMutation = (
   { __typename?: 'Mutation' }
-  & { favoritePlaceRemoveById?: Maybe<(
+  & { result?: Maybe<(
     { __typename?: 'RemoveByIdFavoritePlacePayload' }
     & Pick<RemoveByIdFavoritePlacePayload, 'recordId'>
   )> }
@@ -1189,7 +1189,7 @@ export type LoadMileageLogQuery = (
 
 export const ReadFavoritePlacesDocument = gql`
     query ReadFavoritePlaces {
-  favoritePlaceMany {
+  records: favoritePlaceMany {
     _id
     name
     address
@@ -1214,8 +1214,8 @@ export function useReadFavoritePlacesQuery(options: VueApolloComposable.UseQuery
 }
 export type ReadFavoritePlacesQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<ReadFavoritePlacesQuery, ReadFavoritePlacesQueryVariables>;
 export const CreateFavoritePlaceDocument = gql`
-    mutation CreateFavoritePlace($favoritePlaceCreateOneRecord: CreateOneFavoritePlaceInput!) {
-  favoritePlaceCreateOne(record: $favoritePlaceCreateOneRecord) {
+    mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
+  result: favoritePlaceCreateOne(record: $record) {
     record {
       _id
       name
@@ -1238,7 +1238,7 @@ export const CreateFavoritePlaceDocument = gql`
  * @example
  * const { mutate, loading, error, onDone } = useCreateFavoritePlaceMutation({
  *   variables: {
- *     favoritePlaceCreateOneRecord: // value for 'favoritePlaceCreateOneRecord'
+ *     record: // value for 'record'
  *   },
  * });
  */
@@ -1247,11 +1247,8 @@ export function useCreateFavoritePlaceMutation(options: VueApolloComposable.UseM
 }
 export type CreateFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<CreateFavoritePlaceMutation, CreateFavoritePlaceMutationVariables>;
 export const UpdateFavoritePlaceDocument = gql`
-    mutation UpdateFavoritePlace($favoritePlaceUpdateByIdId: MongoID!, $favoritePlaceUpdateByIdRecord: UpdateByIdFavoritePlaceInput!) {
-  favoritePlaceUpdateById(
-    _id: $favoritePlaceUpdateByIdId
-    record: $favoritePlaceUpdateByIdRecord
-  ) {
+    mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
+  result: favoritePlaceUpdateById(_id: $id, record: $record) {
     record {
       _id
       name
@@ -1274,8 +1271,8 @@ export const UpdateFavoritePlaceDocument = gql`
  * @example
  * const { mutate, loading, error, onDone } = useUpdateFavoritePlaceMutation({
  *   variables: {
- *     favoritePlaceUpdateByIdId: // value for 'favoritePlaceUpdateByIdId'
- *     favoritePlaceUpdateByIdRecord: // value for 'favoritePlaceUpdateByIdRecord'
+ *     id: // value for 'id'
+ *     record: // value for 'record'
  *   },
  * });
  */
@@ -1284,8 +1281,8 @@ export function useUpdateFavoritePlaceMutation(options: VueApolloComposable.UseM
 }
 export type UpdateFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<UpdateFavoritePlaceMutation, UpdateFavoritePlaceMutationVariables>;
 export const DeleteFavoritePlaceDocument = gql`
-    mutation DeleteFavoritePlace($favoritePlaceRemoveByIdId: MongoID!) {
-  favoritePlaceRemoveById(_id: $favoritePlaceRemoveByIdId) {
+    mutation DeleteFavoritePlace($id: MongoID!) {
+  result: favoritePlaceRemoveById(_id: $id) {
     recordId
   }
 }
@@ -1304,7 +1301,7 @@ export const DeleteFavoritePlaceDocument = gql`
  * @example
  * const { mutate, loading, error, onDone } = useDeleteFavoritePlaceMutation({
  *   variables: {
- *     favoritePlaceRemoveByIdId: // value for 'favoritePlaceRemoveByIdId'
+ *     id: // value for 'id'
  *   },
  * });
  */
