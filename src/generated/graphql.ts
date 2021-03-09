@@ -17,7 +17,7 @@ export type Scalars = {
   JSON: any;
   /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
   MongoID: string;
-  Date: any;
+  Date: string;
 };
 
 export type ValidationError = ErrorInterface & {

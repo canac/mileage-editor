@@ -9,5 +9,6 @@ generates:
       - "typescript-vue-apollo"
     config:
       scalars:
+        Date: string
         MongoID: string
       vueCompositionApiImportFrom: vue
