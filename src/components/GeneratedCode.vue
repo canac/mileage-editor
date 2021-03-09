@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import useMileageLog from '../composables/useMileageLog';
+import { useReadJourney } from '../composables/useMileageLogCrud';
 import { MileageEntry } from '../types';
 
 /* eslint-disable
@@ -41,7 +41,7 @@ function populateMileageLog(mileageLog: MileageEntry[]) {
 
 export default defineComponent({
   setup() {
-    const { mileageLog } = useMileageLog();
+    const { models: mileageLog } = useReadJourney();
 
     const generatedCode = computed(
       (): string => `(${populateMileageLog.toString()})(${JSON.stringify(mileageLog.value, null, 2)});`,

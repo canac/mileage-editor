@@ -1180,14 +1180,65 @@ export type DeleteFavoritePlaceMutation = (
   )> }
 );
 
-export type LoadMileageLogQueryVariables = Exact<{ [key: string]: never; }>;
+export type JourneyFieldsFragment = (
+  { __typename?: 'Journey' }
+  & Pick<Journey, '_id' | 'date' | 'description' | 'to' | 'from' | 'miles'>
+);
+
+export type ReadJourneysQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadMileageLogQuery = (
+export type ReadJourneysQuery = (
   { __typename?: 'Query' }
-  & { journeyMany: Array<(
+  & { records: Array<(
     { __typename?: 'Journey' }
-    & Pick<Journey, '_id' | 'date' | 'description' | 'to' | 'from' | 'miles'>
+    & JourneyFieldsFragment
+  )> }
+);
+
+export type CreateJourneyMutationVariables = Exact<{
+  record: CreateOneJourneyInput;
+}>;
+
+
+export type CreateJourneyMutation = (
+  { __typename?: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename?: 'CreateOneJourneyPayload' }
+    & { record?: Maybe<(
+      { __typename?: 'Journey' }
+      & JourneyFieldsFragment
+    )> }
+  )> }
+);
+
+export type UpdateJourneyMutationVariables = Exact<{
+  id: Scalars['MongoID'];
+  record: UpdateByIdJourneyInput;
+}>;
+
+
+export type UpdateJourneyMutation = (
+  { __typename?: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename?: 'UpdateByIdJourneyPayload' }
+    & { record?: Maybe<(
+      { __typename?: 'Journey' }
+      & JourneyFieldsFragment
+    )> }
+  )> }
+);
+
+export type DeleteJourneyMutationVariables = Exact<{
+  id: Scalars['MongoID'];
+}>;
+
+
+export type DeleteJourneyMutation = (
+  { __typename?: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename?: 'RemoveByIdJourneyPayload' }
+    & Pick<RemoveByIdJourneyPayload, 'recordId'>
   )> }
 );
 
@@ -1196,6 +1247,16 @@ export const FavoritePlaceFieldsFragmentDoc = gql`
   _id
   name
   address
+}
+    `;
+export const JourneyFieldsFragmentDoc = gql`
+    fragment JourneyFields on Journey {
+  _id
+  date
+  description
+  to
+  from
+  miles
 }
     `;
 export const ReadFavoritePlacesDocument = gql`
@@ -1314,32 +1375,119 @@ export function useDeleteFavoritePlaceMutation(options: VueApolloComposable.UseM
   return VueApolloComposable.useMutation<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables>(DeleteFavoritePlaceDocument, options);
 }
 export type DeleteFavoritePlaceMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<DeleteFavoritePlaceMutation, DeleteFavoritePlaceMutationVariables>;
-export const LoadMileageLogDocument = gql`
-    query LoadMileageLog {
-  journeyMany {
-    _id
-    date
-    description
-    to
-    from
-    miles
+export const ReadJourneysDocument = gql`
+    query ReadJourneys {
+  records: journeyMany {
+    ...JourneyFields
   }
 }
-    `;
+    ${JourneyFieldsFragmentDoc}`;
 
 /**
- * __useLoadMileageLogQuery__
+ * __useReadJourneysQuery__
  *
- * To run a query within a Vue component, call `useLoadMileageLogQuery` and pass it any options that fit your needs.
- * When your component renders, `useLoadMileageLogQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * To run a query within a Vue component, call `useReadJourneysQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadJourneysQuery` returns an object from Apollo Client that contains result, loading and error properties
  * you can use to render your UI.
  *
  * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
  *
  * @example
- * const { result, loading, error } = useLoadMileageLogQuery();
+ * const { result, loading, error } = useReadJourneysQuery();
  */
-export function useLoadMileageLogQuery(options: VueApolloComposable.UseQueryOptions<LoadMileageLogQuery, LoadMileageLogQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<LoadMileageLogQuery, LoadMileageLogQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<LoadMileageLogQuery, LoadMileageLogQueryVariables>> = {}) {
-  return VueApolloComposable.useQuery<LoadMileageLogQuery, LoadMileageLogQueryVariables>(LoadMileageLogDocument, {}, options);
+export function useReadJourneysQuery(options: VueApolloComposable.UseQueryOptions<ReadJourneysQuery, ReadJourneysQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<ReadJourneysQuery, ReadJourneysQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<ReadJourneysQuery, ReadJourneysQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<ReadJourneysQuery, ReadJourneysQueryVariables>(ReadJourneysDocument, {}, options);
 }
-export type LoadMileageLogQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<LoadMileageLogQuery, LoadMileageLogQueryVariables>;
+export type ReadJourneysQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<ReadJourneysQuery, ReadJourneysQueryVariables>;
+export const CreateJourneyDocument = gql`
+    mutation CreateJourney($record: CreateOneJourneyInput!) {
+  result: journeyCreateOne(record: $record) {
+    record {
+      ...JourneyFields
+    }
+  }
+}
+    ${JourneyFieldsFragmentDoc}`;
+
+/**
+ * __useCreateJourneyMutation__
+ *
+ * To run a mutation, you first call `useCreateJourneyMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJourneyMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useCreateJourneyMutation({
+ *   variables: {
+ *     record: // value for 'record'
+ *   },
+ * });
+ */
+export function useCreateJourneyMutation(options: VueApolloComposable.UseMutationOptions<CreateJourneyMutation, CreateJourneyMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<CreateJourneyMutation, CreateJourneyMutationVariables>>) {
+  return VueApolloComposable.useMutation<CreateJourneyMutation, CreateJourneyMutationVariables>(CreateJourneyDocument, options);
+}
+export type CreateJourneyMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<CreateJourneyMutation, CreateJourneyMutationVariables>;
+export const UpdateJourneyDocument = gql`
+    mutation UpdateJourney($id: MongoID!, $record: UpdateByIdJourneyInput!) {
+  result: journeyUpdateById(_id: $id, record: $record) {
+    record {
+      ...JourneyFields
+    }
+  }
+}
+    ${JourneyFieldsFragmentDoc}`;
+
+/**
+ * __useUpdateJourneyMutation__
+ *
+ * To run a mutation, you first call `useUpdateJourneyMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateJourneyMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useUpdateJourneyMutation({
+ *   variables: {
+ *     id: // value for 'id'
+ *     record: // value for 'record'
+ *   },
+ * });
+ */
+export function useUpdateJourneyMutation(options: VueApolloComposable.UseMutationOptions<UpdateJourneyMutation, UpdateJourneyMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<UpdateJourneyMutation, UpdateJourneyMutationVariables>>) {
+  return VueApolloComposable.useMutation<UpdateJourneyMutation, UpdateJourneyMutationVariables>(UpdateJourneyDocument, options);
+}
+export type UpdateJourneyMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<UpdateJourneyMutation, UpdateJourneyMutationVariables>;
+export const DeleteJourneyDocument = gql`
+    mutation DeleteJourney($id: MongoID!) {
+  result: journeyRemoveById(_id: $id) {
+    recordId
+  }
+}
+    `;
+
+/**
+ * __useDeleteJourneyMutation__
+ *
+ * To run a mutation, you first call `useDeleteJourneyMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteJourneyMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useDeleteJourneyMutation({
+ *   variables: {
+ *     id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteJourneyMutation(options: VueApolloComposable.UseMutationOptions<DeleteJourneyMutation, DeleteJourneyMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<DeleteJourneyMutation, DeleteJourneyMutationVariables>>) {
+  return VueApolloComposable.useMutation<DeleteJourneyMutation, DeleteJourneyMutationVariables>(DeleteJourneyDocument, options);
+}
+export type DeleteJourneyMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<DeleteJourneyMutation, DeleteJourneyMutationVariables>;
