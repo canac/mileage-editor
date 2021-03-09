@@ -1118,6 +1118,11 @@ export type FilterRemoveManyJourney_IdOperatorsInput = {
   exists?: Maybe<Scalars['Boolean']>;
 };
 
+export type FavoritePlaceFieldsFragment = (
+  { __typename?: 'FavoritePlace' }
+  & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+);
+
 export type ReadFavoritePlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1125,7 +1130,7 @@ export type ReadFavoritePlacesQuery = (
   { __typename?: 'Query' }
   & { records: Array<(
     { __typename?: 'FavoritePlace' }
-    & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+    & FavoritePlaceFieldsFragment
   )> }
 );
 
@@ -1140,7 +1145,7 @@ export type CreateFavoritePlaceMutation = (
     { __typename?: 'CreateOneFavoritePlacePayload' }
     & { record?: Maybe<(
       { __typename?: 'FavoritePlace' }
-      & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+      & FavoritePlaceFieldsFragment
     )> }
   )> }
 );
@@ -1157,7 +1162,7 @@ export type UpdateFavoritePlaceMutation = (
     { __typename?: 'UpdateByIdFavoritePlacePayload' }
     & { record?: Maybe<(
       { __typename?: 'FavoritePlace' }
-      & Pick<FavoritePlace, '_id' | 'name' | 'address'>
+      & FavoritePlaceFieldsFragment
     )> }
   )> }
 );
@@ -1186,16 +1191,20 @@ export type LoadMileageLogQuery = (
   )> }
 );
 
-
+export const FavoritePlaceFieldsFragmentDoc = gql`
+    fragment FavoritePlaceFields on FavoritePlace {
+  _id
+  name
+  address
+}
+    `;
 export const ReadFavoritePlacesDocument = gql`
     query ReadFavoritePlaces {
   records: favoritePlaceMany {
-    _id
-    name
-    address
+    ...FavoritePlaceFields
   }
 }
-    `;
+    ${FavoritePlaceFieldsFragmentDoc}`;
 
 /**
  * __useReadFavoritePlacesQuery__
@@ -1217,13 +1226,11 @@ export const CreateFavoritePlaceDocument = gql`
     mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
   result: favoritePlaceCreateOne(record: $record) {
     record {
-      _id
-      name
-      address
+      ...FavoritePlaceFields
     }
   }
 }
-    `;
+    ${FavoritePlaceFieldsFragmentDoc}`;
 
 /**
  * __useCreateFavoritePlaceMutation__
@@ -1250,13 +1257,11 @@ export const UpdateFavoritePlaceDocument = gql`
     mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
   result: favoritePlaceUpdateById(_id: $id, record: $record) {
     record {
-      _id
-      name
-      address
+      ...FavoritePlaceFields
     }
   }
 }
-    `;
+    ${FavoritePlaceFieldsFragmentDoc}`;
 
 /**
  * __useUpdateFavoritePlaceMutation__

@@ -1,17 +1,19 @@
-query ReadFavoritePlaces {
-  records: favoritePlaceMany {
+fragment FavoritePlaceFields on FavoritePlace {
     _id
     name
     address
+}
+
+query ReadFavoritePlaces {
+  records: favoritePlaceMany {
+    ...FavoritePlaceFields
   }
 }
 
 mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
   result: favoritePlaceCreateOne(record: $record) {
     record {
-      _id
-      name
-      address
+      ...FavoritePlaceFields
     }
   }
 }
@@ -19,9 +21,7 @@ mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
 mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
   result: favoritePlaceUpdateById(_id: $id, record: $record) {
     record {
-      _id
-      name
-      address
+      ...FavoritePlaceFields
     }
   }
 }
