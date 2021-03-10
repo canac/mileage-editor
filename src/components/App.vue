@@ -10,10 +10,13 @@
 <script lang="ts">
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import { defineComponent, provide } from 'vue';
-import apolloClient from './apollo';
-import FavoritePlaces from './components/FavoritePlaces.vue';
-import GeneratedCode from './components/GeneratedCode.vue';
-import MileageTable from './components/MileageTable.vue';
+import apolloClient from '../apollo';
+import FavoritePlaces from './FavoritePlaces.vue';
+import GeneratedCode from './GeneratedCode.vue';
+import MileageTable from './MileageTable.vue';
+
+import '@fortawesome/fontawesome-free/css/solid.css';
+import '@fortawesome/fontawesome-free/css/fontawesome.css';
 
 export default defineComponent({
   name: 'App',
