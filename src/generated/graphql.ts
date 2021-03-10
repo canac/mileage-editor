@@ -17,11 +17,12 @@ export type Scalars = {
   JSON: any;
   /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
   MongoID: string;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: string;
 };
 
 export type ValidationError = ErrorInterface & {
-  __typename?: 'ValidationError';
+  __typename: 'ValidationError';
   /** Combined error message from all validators */
   message?: Maybe<Scalars['String']>;
   /** List of validator errors */
@@ -34,7 +35,7 @@ export type ErrorInterface = {
 };
 
 export type ValidatorError = {
-  __typename?: 'ValidatorError';
+  __typename: 'ValidatorError';
   /** Validation error message */
   message?: Maybe<Scalars['String']>;
   /** Source of the validation error from the model path */
@@ -47,7 +48,7 @@ export type ValidatorError = {
 
 
 export type MongoError = ErrorInterface & {
-  __typename?: 'MongoError';
+  __typename: 'MongoError';
   /** MongoDB error message */
   message?: Maybe<Scalars['String']>;
   /** MongoDB error code */
@@ -55,13 +56,13 @@ export type MongoError = ErrorInterface & {
 };
 
 export type RuntimeError = ErrorInterface & {
-  __typename?: 'RuntimeError';
+  __typename: 'RuntimeError';
   /** Runtime error message */
   message?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename: 'Query';
   favoritePlaceById?: Maybe<FavoritePlace>;
   favoritePlaceByIds: Array<FavoritePlace>;
   favoritePlaceOne?: Maybe<FavoritePlace>;
@@ -203,7 +204,7 @@ export type QueryJourneyPaginationArgs = {
 };
 
 export type FavoritePlace = {
-  __typename?: 'FavoritePlace';
+  __typename: 'FavoritePlace';
   name: Scalars['String'];
   address: Scalars['String'];
   _id: Scalars['MongoID'];
@@ -305,7 +306,7 @@ export type FilterCountFavoritePlace_IdOperatorsInput = {
 
 /** A connection to a list of items. */
 export type FavoritePlaceConnection = {
-  __typename?: 'FavoritePlaceConnection';
+  __typename: 'FavoritePlaceConnection';
   /** Total object count. */
   count: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -316,7 +317,7 @@ export type FavoritePlaceConnection = {
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
-  __typename?: 'PageInfo';
+  __typename: 'PageInfo';
   /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
@@ -329,7 +330,7 @@ export type PageInfo = {
 
 /** An edge in a connection. */
 export type FavoritePlaceEdge = {
-  __typename?: 'FavoritePlaceEdge';
+  __typename: 'FavoritePlaceEdge';
   /** The item at the end of the edge */
   node: FavoritePlace;
   /** A cursor for use in pagination */
@@ -343,7 +344,7 @@ export enum SortConnectionFavoritePlaceEnum {
 
 /** List of items with pagination. */
 export type FavoritePlacePagination = {
-  __typename?: 'FavoritePlacePagination';
+  __typename: 'FavoritePlacePagination';
   /** Total object count. */
   count?: Maybe<Scalars['Int']>;
   /** Array of objects. */
@@ -353,7 +354,7 @@ export type FavoritePlacePagination = {
 };
 
 export type PaginationInfo = {
-  __typename?: 'PaginationInfo';
+  __typename: 'PaginationInfo';
   currentPage: Scalars['Int'];
   perPage: Scalars['Int'];
   pageCount?: Maybe<Scalars['Int']>;
@@ -363,7 +364,7 @@ export type PaginationInfo = {
 };
 
 export type Journey = {
-  __typename?: 'Journey';
+  __typename: 'Journey';
   date: Scalars['Date'];
   description: Scalars['String'];
   to: Scalars['String'];
@@ -477,7 +478,7 @@ export type FilterCountJourney_IdOperatorsInput = {
 
 /** A connection to a list of items. */
 export type JourneyConnection = {
-  __typename?: 'JourneyConnection';
+  __typename: 'JourneyConnection';
   /** Total object count. */
   count: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -488,7 +489,7 @@ export type JourneyConnection = {
 
 /** An edge in a connection. */
 export type JourneyEdge = {
-  __typename?: 'JourneyEdge';
+  __typename: 'JourneyEdge';
   /** The item at the end of the edge */
   node: Journey;
   /** A cursor for use in pagination */
@@ -502,7 +503,7 @@ export enum SortConnectionJourneyEnum {
 
 /** List of items with pagination. */
 export type JourneyPagination = {
-  __typename?: 'JourneyPagination';
+  __typename: 'JourneyPagination';
   /** Total object count. */
   count?: Maybe<Scalars['Int']>;
   /** Array of objects. */
@@ -512,7 +513,7 @@ export type JourneyPagination = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename: 'Mutation';
   /** Create one document with mongoose defaults, setters, hooks and validation */
   favoritePlaceCreateOne?: Maybe<CreateOneFavoritePlacePayload>;
   /** Creates Many documents with mongoose defaults, setters, hooks and validation */
@@ -648,7 +649,7 @@ export type MutationJourneyRemoveManyArgs = {
 };
 
 export type CreateOneFavoritePlacePayload = {
-  __typename?: 'CreateOneFavoritePlacePayload';
+  __typename: 'CreateOneFavoritePlacePayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Created document */
@@ -663,7 +664,7 @@ export type CreateOneFavoritePlaceInput = {
 };
 
 export type CreateManyFavoritePlacePayload = {
-  __typename?: 'CreateManyFavoritePlacePayload';
+  __typename: 'CreateManyFavoritePlacePayload';
   /** Documents IDs */
   recordIds: Array<Scalars['MongoID']>;
   /** Created documents */
@@ -680,7 +681,7 @@ export type CreateManyFavoritePlaceInput = {
 };
 
 export type UpdateByIdFavoritePlacePayload = {
-  __typename?: 'UpdateByIdFavoritePlacePayload';
+  __typename: 'UpdateByIdFavoritePlacePayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Updated document */
@@ -695,7 +696,7 @@ export type UpdateByIdFavoritePlaceInput = {
 };
 
 export type UpdateOneFavoritePlacePayload = {
-  __typename?: 'UpdateOneFavoritePlacePayload';
+  __typename: 'UpdateOneFavoritePlacePayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Updated document */
@@ -741,7 +742,7 @@ export enum SortUpdateOneFavoritePlaceInput {
 }
 
 export type UpdateManyFavoritePlacePayload = {
-  __typename?: 'UpdateManyFavoritePlacePayload';
+  __typename: 'UpdateManyFavoritePlacePayload';
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']>;
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -785,7 +786,7 @@ export enum SortUpdateManyFavoritePlaceInput {
 }
 
 export type RemoveByIdFavoritePlacePayload = {
-  __typename?: 'RemoveByIdFavoritePlacePayload';
+  __typename: 'RemoveByIdFavoritePlacePayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Removed document */
@@ -795,7 +796,7 @@ export type RemoveByIdFavoritePlacePayload = {
 };
 
 export type RemoveOneFavoritePlacePayload = {
-  __typename?: 'RemoveOneFavoritePlacePayload';
+  __typename: 'RemoveOneFavoritePlacePayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Removed document */
@@ -836,7 +837,7 @@ export enum SortRemoveOneFavoritePlaceInput {
 }
 
 export type RemoveManyFavoritePlacePayload = {
-  __typename?: 'RemoveManyFavoritePlacePayload';
+  __typename: 'RemoveManyFavoritePlacePayload';
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']>;
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -870,7 +871,7 @@ export type FilterRemoveManyFavoritePlace_IdOperatorsInput = {
 };
 
 export type CreateOneJourneyPayload = {
-  __typename?: 'CreateOneJourneyPayload';
+  __typename: 'CreateOneJourneyPayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Created document */
@@ -888,7 +889,7 @@ export type CreateOneJourneyInput = {
 };
 
 export type CreateManyJourneyPayload = {
-  __typename?: 'CreateManyJourneyPayload';
+  __typename: 'CreateManyJourneyPayload';
   /** Documents IDs */
   recordIds: Array<Scalars['MongoID']>;
   /** Created documents */
@@ -908,7 +909,7 @@ export type CreateManyJourneyInput = {
 };
 
 export type UpdateByIdJourneyPayload = {
-  __typename?: 'UpdateByIdJourneyPayload';
+  __typename: 'UpdateByIdJourneyPayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Updated document */
@@ -926,7 +927,7 @@ export type UpdateByIdJourneyInput = {
 };
 
 export type UpdateOneJourneyPayload = {
-  __typename?: 'UpdateOneJourneyPayload';
+  __typename: 'UpdateOneJourneyPayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Updated document */
@@ -978,7 +979,7 @@ export enum SortUpdateOneJourneyInput {
 }
 
 export type UpdateManyJourneyPayload = {
-  __typename?: 'UpdateManyJourneyPayload';
+  __typename: 'UpdateManyJourneyPayload';
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']>;
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -1028,7 +1029,7 @@ export enum SortUpdateManyJourneyInput {
 }
 
 export type RemoveByIdJourneyPayload = {
-  __typename?: 'RemoveByIdJourneyPayload';
+  __typename: 'RemoveByIdJourneyPayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Removed document */
@@ -1038,7 +1039,7 @@ export type RemoveByIdJourneyPayload = {
 };
 
 export type RemoveOneJourneyPayload = {
-  __typename?: 'RemoveOneJourneyPayload';
+  __typename: 'RemoveOneJourneyPayload';
   /** Document ID */
   recordId?: Maybe<Scalars['MongoID']>;
   /** Removed document */
@@ -1082,7 +1083,7 @@ export enum SortRemoveOneJourneyInput {
 }
 
 export type RemoveManyJourneyPayload = {
-  __typename?: 'RemoveManyJourneyPayload';
+  __typename: 'RemoveManyJourneyPayload';
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']>;
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -1119,7 +1120,7 @@ export type FilterRemoveManyJourney_IdOperatorsInput = {
 };
 
 export type FavoritePlaceFieldsFragment = (
-  { __typename?: 'FavoritePlace' }
+  { __typename: 'FavoritePlace' }
   & Pick<FavoritePlace, '_id' | 'name' | 'address'>
 );
 
@@ -1127,9 +1128,9 @@ export type ReadFavoritePlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ReadFavoritePlacesQuery = (
-  { __typename?: 'Query' }
+  { __typename: 'Query' }
   & { records: Array<(
-    { __typename?: 'FavoritePlace' }
+    { __typename: 'FavoritePlace' }
     & FavoritePlaceFieldsFragment
   )> }
 );
@@ -1140,11 +1141,11 @@ export type CreateFavoritePlaceMutationVariables = Exact<{
 
 
 export type CreateFavoritePlaceMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'CreateOneFavoritePlacePayload' }
+    { __typename: 'CreateOneFavoritePlacePayload' }
     & { record?: Maybe<(
-      { __typename?: 'FavoritePlace' }
+      { __typename: 'FavoritePlace' }
       & FavoritePlaceFieldsFragment
     )> }
   )> }
@@ -1157,11 +1158,11 @@ export type UpdateFavoritePlaceMutationVariables = Exact<{
 
 
 export type UpdateFavoritePlaceMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'UpdateByIdFavoritePlacePayload' }
+    { __typename: 'UpdateByIdFavoritePlacePayload' }
     & { record?: Maybe<(
-      { __typename?: 'FavoritePlace' }
+      { __typename: 'FavoritePlace' }
       & FavoritePlaceFieldsFragment
     )> }
   )> }
@@ -1173,15 +1174,15 @@ export type DeleteFavoritePlaceMutationVariables = Exact<{
 
 
 export type DeleteFavoritePlaceMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'RemoveByIdFavoritePlacePayload' }
+    { __typename: 'RemoveByIdFavoritePlacePayload' }
     & Pick<RemoveByIdFavoritePlacePayload, 'recordId'>
   )> }
 );
 
 export type JourneyFieldsFragment = (
-  { __typename?: 'Journey' }
+  { __typename: 'Journey' }
   & Pick<Journey, '_id' | 'date' | 'description' | 'to' | 'from' | 'miles'>
 );
 
@@ -1189,9 +1190,9 @@ export type ReadJourneysQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ReadJourneysQuery = (
-  { __typename?: 'Query' }
+  { __typename: 'Query' }
   & { records: Array<(
-    { __typename?: 'Journey' }
+    { __typename: 'Journey' }
     & JourneyFieldsFragment
   )> }
 );
@@ -1202,11 +1203,11 @@ export type CreateJourneyMutationVariables = Exact<{
 
 
 export type CreateJourneyMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'CreateOneJourneyPayload' }
+    { __typename: 'CreateOneJourneyPayload' }
     & { record?: Maybe<(
-      { __typename?: 'Journey' }
+      { __typename: 'Journey' }
       & JourneyFieldsFragment
     )> }
   )> }
@@ -1219,11 +1220,11 @@ export type UpdateJourneyMutationVariables = Exact<{
 
 
 export type UpdateJourneyMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'UpdateByIdJourneyPayload' }
+    { __typename: 'UpdateByIdJourneyPayload' }
     & { record?: Maybe<(
-      { __typename?: 'Journey' }
+      { __typename: 'Journey' }
       & JourneyFieldsFragment
     )> }
   )> }
@@ -1235,9 +1236,9 @@ export type DeleteJourneyMutationVariables = Exact<{
 
 
 export type DeleteJourneyMutation = (
-  { __typename?: 'Mutation' }
+  { __typename: 'Mutation' }
   & { result?: Maybe<(
-    { __typename?: 'RemoveByIdJourneyPayload' }
+    { __typename: 'RemoveByIdJourneyPayload' }
     & Pick<RemoveByIdJourneyPayload, 'recordId'>
   )> }
 );

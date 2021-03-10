@@ -8,6 +8,7 @@ generates:
       - "typescript-operations"
       - "typescript-vue-apollo"
     config:
+      nonOptionalTypename: true
       scalars:
         Date: string
         MongoID: string

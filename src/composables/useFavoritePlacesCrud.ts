@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  CreateFavoritePlaceMutation, DeleteFavoritePlaceMutation, FavoritePlace,
-  ReadFavoritePlacesDocument, ReadFavoritePlacesQuery, UpdateFavoritePlaceMutation,
+  FavoritePlace, ReadFavoritePlacesDocument, ReadFavoritePlacesQuery,
   useCreateFavoritePlaceMutation, useDeleteFavoritePlaceMutation,
   useReadFavoritePlacesQuery, useUpdateFavoritePlaceMutation,
 } from '../generated/graphql';
@@ -14,19 +13,19 @@ export function useReadFavoritePlace() {
 }
 
 export function useCreateFavoritePlace() {
-  return useCreate<FavoritePlace, CreateFavoritePlaceMutation, ReadFavoritePlacesQuery>(
-    useCreateFavoritePlaceMutation, ReadFavoritePlacesDocument,
+  return useCreate<FavoritePlace, ReadFavoritePlacesQuery>(
+    useCreateFavoritePlaceMutation, 'FavoritePlace', ReadFavoritePlacesDocument,
   );
 }
 
 export function useUpdateFavoritePlace() {
-  return useUpdate<FavoritePlace, UpdateFavoritePlaceMutation>(
-    useUpdateFavoritePlaceMutation,
+  return useUpdate<FavoritePlace>(
+    useUpdateFavoritePlaceMutation, 'FavoritePlace',
   );
 }
 
 export function useDestroyFavoritePlace() {
-  return useDestroy<FavoritePlace, DeleteFavoritePlaceMutation, ReadFavoritePlacesQuery>(
-    useDeleteFavoritePlaceMutation, ReadFavoritePlacesDocument,
+  return useDestroy<FavoritePlace, ReadFavoritePlacesQuery>(
+    useDeleteFavoritePlaceMutation, 'FavoritePlace', ReadFavoritePlacesDocument,
   );
 }

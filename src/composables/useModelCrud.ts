@@ -2,34 +2,48 @@ import {
   UseMutationOptions, UseMutationReturn, UseQueryReturn, useResult,
 } from '@vue/apollo-composable';
 import { DocumentNode } from 'graphql';
+import { v4 } from 'uuid';
 import { Ref } from 'vue';
 import {
   MakeOptional, Scalars,
 } from '../generated/graphql';
 
 type MongoId = Scalars['MongoID'];
-type WithoutId<Model> = Omit<Model, '_id'>;
+type OnlyFields<Model> = Omit<Model, '__typename' | '_id'>;
 type ModelTemplate = {
-  __typename?: string;
+  __typename: string;
   _id: MongoId;
   [key: string]: unknown;
 }
-type MutationResult<Model = ModelTemplate> = {
-  __typename?: 'Mutation';
+type CreateMutationResult<Model extends ModelTemplate> = {
+  __typename: 'Mutation';
   result?: {
-    __typename?: string;
-    record?: Model;
+    __typename: `CreateOne${Model['__typename']}Payload`;
+    record?: Model | null;
+  } | null;
+}
+type UpdateMutationResult<Model extends ModelTemplate> = {
+  __typename: 'Mutation';
+  result?: {
+    __typename: `UpdateById${Model['__typename']}Payload`;
+    record?: Model | null;
+  } | null;
+}
+type DestroyMutationResult<Model extends ModelTemplate> = {
+  __typename: 'Mutation';
+  result?: {
+    __typename: `RemoveById${Model['__typename']}Payload`;
     recordId?: MongoId;
   } | null;
 }
-type ReadResult<Model = ModelTemplate> = {
-  __typename?: 'Query';
+type QueryResult<Model = ModelTemplate> = {
+  __typename: 'Query';
   records: Model[];
 }
 type CreateVariables<Model> = {
-  record: WithoutId<Model>;
+  record: OnlyFields<Model>;
 }
-type ModifiableFields<Model> = Omit<MakeOptional<Model, keyof Model>, '__typename' | '_id'>
+type ModifiableFields<Model> = OnlyFields<MakeOptional<Model, keyof Model>>;
 type UpdateVariables<Model> = {
   id: MongoId;
   record: ModifiableFields<Model>;
@@ -39,7 +53,7 @@ type DestroyVariables = {
 }
 
 export function useRead<Model extends ModelTemplate>(
-  useReadQuery: () => UseQueryReturn<ReadResult<Model>, Record<string, never>>,
+  useReadQuery: () => UseQueryReturn<QueryResult<Model>, Record<string, never>>,
 ): {
   models: Ref<Readonly<Model[]>>,
 } {
@@ -53,18 +67,18 @@ export function useRead<Model extends ModelTemplate>(
 
 export function useCreate<
   Model extends ModelTemplate,
-  Result extends MutationResult<Model>,
-  Query extends ReadResult,
+  Query extends QueryResult,
 >(
-  useCreateMutation: (options: UseMutationOptions<Result, CreateVariables<Model>>) =>
-    UseMutationReturn<Result, CreateVariables<Model>>,
+  useCreateMutation: (options: UseMutationOptions<CreateMutationResult<Model>, CreateVariables<Model>>) =>
+    UseMutationReturn<CreateMutationResult<Model>, CreateVariables<Model>>,
+  modelName: Model['__typename'],
   readQuery: DocumentNode,
 ): {
-  create(newModel: WithoutId<Model>): Promise<Model>,
+  create(newModel: OnlyFields<Model>): Promise<Model>,
 } {
   const { mutate } = useCreateMutation({});
 
-  async function create(newModel: WithoutId<Model>): Promise<Model> {
+  async function create(newModel: OnlyFields<Model>): Promise<Model> {
     const { data } = await mutate({
       record: newModel,
     }, {
@@ -88,6 +102,17 @@ export function useCreate<
           },
         });
       },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        result: {
+          __typename: `CreateOne${modelName}Payload` as const,
+          record: {
+            __typename: modelName,
+            _id: v4(),
+            ...newModel,
+          } as Model,
+        },
+      },
     });
 
     const record = data?.result?.record;
@@ -103,10 +128,10 @@ export function useCreate<
 
 export function useUpdate<
   Model extends ModelTemplate,
-  Result extends MutationResult<Model>,
 >(
-  useUpdateMutation: (options: UseMutationOptions<Result, UpdateVariables<Model>>) =>
-    UseMutationReturn<Result, UpdateVariables<Model>>,
+  useUpdateMutation: (options: UseMutationOptions<UpdateMutationResult<Model>, UpdateVariables<Model>>) =>
+    UseMutationReturn<UpdateMutationResult<Model>, UpdateVariables<Model>>,
+  modelName: Model['__typename'],
 ): {
   update(id: MongoId, modifiedFields: ModifiableFields<Model>): Promise<Model>,
 } {
@@ -116,6 +141,18 @@ export function useUpdate<
     const { data } = await mutate({
       id,
       record: modifiedFields,
+    }, {
+      optimisticResponse: {
+        __typename: 'Mutation',
+        result: {
+          __typename: `UpdateById${modelName}Payload` as const,
+          record: {
+            __typename: modelName,
+            _id: id,
+            ...modifiedFields,
+          } as Model,
+        },
+      },
     });
 
     const record = data?.result?.record;
@@ -131,11 +168,11 @@ export function useUpdate<
 
 export function useDestroy<
   Model extends ModelTemplate,
-  Result extends MutationResult<Model>,
-  Query extends ReadResult,
+  Query extends QueryResult,
 >(
-  useDestroyMutation: (options: UseMutationOptions<Result, DestroyVariables>) =>
-    UseMutationReturn<Result, DestroyVariables>,
+  useDestroyMutation: (options: UseMutationOptions<DestroyMutationResult<Model>, DestroyVariables>) =>
+    UseMutationReturn<DestroyMutationResult<Model>, DestroyVariables>,
+  modelName: Model['__typename'],
   readQuery: DocumentNode,
 ): {
   destroy(id: MongoId): Promise<MongoId>,
@@ -165,6 +202,13 @@ export function useDestroy<
             records: cachedQuery.records.filter(({ _id }) => _id !== deletedId),
           },
         });
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        result: {
+          __typename: `RemoveById${modelName}Payload` as const,
+          recordId: id,
+        },
       },
     });
 
