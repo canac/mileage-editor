@@ -1,0 +1,37 @@
+fragment JourneyFields on Journey {
+  _id
+  date
+  description
+  to
+  from
+  miles
+}
+
+query ReadJourneys {
+  records: journeyMany {
+    ...JourneyFields
+  }
+}
+
+mutation CreateJourney($record: CreateOneJourneyInput!) {
+  result: journeyCreateOne(record: $record) {
+    record {
+      ...JourneyFields
+    }
+  }
+}
+
+mutation UpdateJourney($id: MongoID!, $record: UpdateByIdJourneyInput!) {
+  result: journeyUpdateById(_id: $id, record: $record) {
+    record {
+      ...JourneyFields
+    }
+  }
+}
+
+mutation DeleteJourney($id: MongoID!) {
+
+  result: journeyRemoveById(_id: $id) {
+    recordId
+  }
+}

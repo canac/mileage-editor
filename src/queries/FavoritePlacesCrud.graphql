@@ -1,0 +1,33 @@
+fragment FavoritePlaceFields on FavoritePlace {
+    _id
+    name
+    address
+}
+
+query ReadFavoritePlaces {
+  records: favoritePlaceMany {
+    ...FavoritePlaceFields
+  }
+}
+
+mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
+  result: favoritePlaceCreateOne(record: $record) {
+    record {
+      ...FavoritePlaceFields
+    }
+  }
+}
+
+mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
+  result: favoritePlaceUpdateById(_id: $id, record: $record) {
+    record {
+      ...FavoritePlaceFields
+    }
+  }
+}
+
+mutation DeleteFavoritePlace($id: MongoID!) {
+  result: favoritePlaceRemoveById(_id: $id) {
+    recordId
+  }
+}

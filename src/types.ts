@@ -5,8 +5,3 @@ export interface MileageEntry {
   from: string;
   miles: number;
 }
-
-export interface FavoritePlace {
-  name: string;
-  address: string;
-}

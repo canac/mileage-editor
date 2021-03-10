@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { DefaultApolloClient } from '@vue/apollo-composable';
+import { defineComponent, provide } from 'vue';
+import apolloClient from './apollo';
 import FavoritePlaces from './components/FavoritePlaces.vue';
 import GeneratedCode from './components/GeneratedCode.vue';
 import MileageTable from './components/MileageTable.vue';
@@ -19,6 +21,10 @@ export default defineComponent({
     FavoritePlaces,
     GeneratedCode,
     MileageTable,
+  },
+
+  setup() {
+    provide(DefaultApolloClient, apolloClient);
   },
 });
 </script>
