@@ -55,11 +55,11 @@ type DestroyVariables = {
 export function useRead<Model extends ModelTemplate>(
   useReadQuery: () => UseQueryReturn<QueryResult<Model>, Record<string, never>>,
 ): {
-  models: Ref<Readonly<Model[]>>,
+  models: Ref<Readonly<Model[] | undefined>>,
 } {
   const { result } = useReadQuery();
 
-  const models = useResult(result, []);
+  const models = useResult(result);
   return {
     models,
   };

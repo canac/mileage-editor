@@ -20,14 +20,14 @@
 
 <script lang="ts">
 import {
-  PropType, Ref, defineComponent, nextTick, ref, toRefs,
+  PropType, Ref, defineComponent, nextTick, ref, toRefs, watch,
 } from 'vue';
 
 export default defineComponent({
   props: {
     rows: {
-      type: Object as PropType<unknown[]>,
-      required: true,
+      type: Object as PropType<unknown[] | undefined>,
+      default: undefined,
     },
 
     createNewRow: {
@@ -46,8 +46,15 @@ export default defineComponent({
     const { createNewRow } = props;
     const { rows } = toRefs(props);
 
+    // Create a new row whenever there aren't any
+    watch(rows, async () => {
+      if (rows.value && rows.value.length === 0) {
+        rows.value.push(await createNewRow());
+      }
+    });
+
     async function onSubmit(index: number) {
-      if (!gridRef.value) {
+      if (!gridRef.value || !rows.value) {
         return;
       }
 

@@ -72,7 +72,7 @@ export default defineComponent({
 
     // Attempt to expand an address shortcut to a full address
     function expandAddress(address: string): string {
-      for (const place of favoritePlaces.value) {
+      for (const place of favoritePlaces.value ?? []) {
         if (address.toLowerCase() === place.name.toLowerCase()) {
           return place.address;
         }
@@ -107,7 +107,7 @@ export default defineComponent({
 
     return {
       // Clone the readonly mileage log array
-      mileageLog: computed(() => mileageLog.value.map((journey) => ({ ...journey }))),
+      mileageLog: computed(() => mileageLog.value && mileageLog.value.map((journey) => ({ ...journey }))),
 
       createJourney,
       updateJourney,

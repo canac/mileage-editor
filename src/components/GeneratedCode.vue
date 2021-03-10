@@ -45,7 +45,7 @@ export default defineComponent({
 
     const generatedCode = computed((): string => {
       const func = populateMileageLog.toString();
-      const data = mileageLog.value.map(({ _id, __typename, ...fields }) => fields);
+      const data = (mileageLog.value ?? []).map(({ _id, __typename, ...fields }) => fields);
       return `(${func})(${JSON.stringify(data, null, 2)});`;
     });
 

@@ -54,7 +54,7 @@ export default defineComponent({
 
     return {
       // Clone the readonly places array
-      places: computed(() => favoritePlaces.value.map((place) => ({ ...place }))),
+      places: computed(() => favoritePlaces.value && favoritePlaces.value.map((place) => ({ ...place }))),
 
       // Create a new favorite place in the database
       createFavoritePlace(): Promise<FavoritePlace> {
