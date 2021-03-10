@@ -37,6 +37,10 @@
         type="number"
         @change="updateJourney(entry, 'miles')"
       >
+      <i
+        class="fas fa-fw fa-trash"
+        @click="deleteJourney(entry)"
+      />
     </data-grid>
   </div>
 </template>
@@ -44,7 +48,9 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useReadFavoritePlace } from '../composables/useFavoritePlacesCrud';
-import { useCreateJourney, useReadJourney, useUpdateJourney } from '../composables/useMileageLogCrud';
+import {
+  useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
+} from '../composables/useMileageLogCrud';
 import { Journey } from '../generated/graphql';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
@@ -61,6 +67,7 @@ export default defineComponent({
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
     const { update } = useUpdateJourney();
+    const { destroy } = useDestroyJourney();
     /* eslint-enable @typescript-eslint/unbound-method */
 
     // Attempt to expand an address shortcut to a full address
@@ -87,10 +94,15 @@ export default defineComponent({
     }
 
     // Save the field that changed to the database
-    async function updateJourney(journey: Journey, field: keyof Journey): Promise<Journey> {
+    function updateJourney(journey: Journey, field: keyof Journey): Promise<Journey> {
       return update(journey._id, {
         [field]: journey[field],
       });
+    }
+
+    // Delete the journey from the database
+    function deleteJourney(journey: Journey): Promise<string> {
+      return destroy(journey._id);
     }
 
     return {
@@ -99,6 +111,7 @@ export default defineComponent({
 
       createJourney,
       updateJourney,
+      deleteJourney,
       expandAddress,
     };
   },
@@ -107,10 +120,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .data-grid :deep(.row) {
-  grid-template-columns: 12em 16em 1fr 1fr 8em;
+  font-size: 1.25em;
+  grid-template-columns: 8em 12em 1fr 1fr 4em auto;
 
   input {
-    font-size: 1.25em;
+    font-size: inherit;
+  }
+
+  .fa-trash {
+    padding: 3px;
+    color: hsl(0, 50%, 50%);
   }
 }
 </style>

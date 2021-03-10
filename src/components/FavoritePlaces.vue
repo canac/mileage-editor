@@ -18,6 +18,10 @@
         placeholder="Address"
         @change="updateFavoritePlace(place, 'address')"
       />
+      <i
+        class="fas fa-fw fa-trash"
+        @click="deleteFavoritePlace(place)"
+      />
     </data-grid>
   </div>
 </template>
@@ -26,6 +30,7 @@
 import { computed, defineComponent } from 'vue';
 import {
   useCreateFavoritePlace,
+  useDestroyFavoritePlace,
   useReadFavoritePlace,
   useUpdateFavoritePlace,
 } from '../composables/useFavoritePlacesCrud';
@@ -44,6 +49,7 @@ export default defineComponent({
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateFavoritePlace();
     const { update } = useUpdateFavoritePlace();
+    const { destroy } = useDestroyFavoritePlace();
     /* eslint-enable @typescript-eslint/unbound-method */
 
     return {
@@ -59,10 +65,15 @@ export default defineComponent({
       },
 
       // Save the field that changed to the database
-      async updateFavoritePlace(place: FavoritePlace, field: keyof FavoritePlace): Promise<FavoritePlace> {
+      updateFavoritePlace(place: FavoritePlace, field: keyof FavoritePlace): Promise<FavoritePlace> {
         return update(place._id, {
           [field]: place[field],
         });
+      },
+
+      // Delete the favorite place from the database
+      deleteFavoritePlace(place: FavoritePlace): Promise<string> {
+        return destroy(place._id);
       },
     };
   },
@@ -71,10 +82,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .data-grid :deep(.row) {
-  grid-template-columns: 1fr 3fr;
+  font-size: 1.5em;
+  grid-template-columns: 1fr 3fr auto;
 
   input {
-    font-size: 1.5em;
+    font-size: inherit;
+  }
+
+  .fa-trash {
+    padding: 3px;
+    color: hsl(0, 50%, 50%);
   }
 }
 </style>
