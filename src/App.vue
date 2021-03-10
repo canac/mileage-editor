@@ -39,9 +39,9 @@ body {
 <style lang="scss" scoped>
 .app {
   --root-margin: 8px;
-  margin: var(--root-margin);
-  height: calc(100vh - var(--root-margin) * 2);
   display: grid;
+  height: calc(100vh - var(--root-margin) * 2);
+  margin: var(--root-margin);
   grid-template-rows: max-content 1fr max-content max-content;
 }
 </style>
