@@ -3,6 +3,8 @@
     ref="input"
     v-model="value"
     class="address-autocomplete"
+    @change="$emit('change', $event)"
+    @input="$emit('input', $event)"
   >
 </template>
 
@@ -19,7 +21,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['change', 'input', 'update:modelValue'],
 
   setup(props, { emit }) {
     const { modelValue } = toRefs(props);
@@ -58,6 +60,7 @@ export default defineComponent({
       // Notify parents of changes from the inside
       watch(value, () => {
         emit('update:modelValue', value.value);
+        emit('change', value.value);
       });
     });
 
