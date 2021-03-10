@@ -43,9 +43,11 @@ export default defineComponent({
   setup() {
     const { models: mileageLog } = useReadJourney();
 
-    const generatedCode = computed(
-      (): string => `(${populateMileageLog.toString()})(${JSON.stringify(mileageLog.value, null, 2)});`,
-    );
+    const generatedCode = computed((): string => {
+      const func = populateMileageLog.toString();
+      const data = mileageLog.value.map(({ _id, __typename, ...fields }) => fields);
+      return `(${func})(${JSON.stringify(data, null, 2)});`;
+    });
 
     async function copy() {
       await navigator.clipboard.writeText(generatedCode.value);

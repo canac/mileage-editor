@@ -31,6 +31,7 @@ module.exports = {
       'import/no-unresolved': 0,
       'import/order': ['error', { alphabetize: { order: 'asc' } }],
       'sort-imports': ['error', { ignoreDeclarationSort: true }],
+      '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
     },
   }],
   plugins: [
