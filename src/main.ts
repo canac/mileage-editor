@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Auth0Plugin from './auth';
+import Auth0Plugin from './auth/plugin';
 import App from './components/App.vue';
 import { getEnvVar } from './env';
 
@@ -9,10 +9,10 @@ async function init() {
       // Navigate back to the main state
       window.history.replaceState(appState, '', window.location.origin);
     },
-    clientId: getEnvVar('VITE_AUTH0_CLIENT_ID'),
+    client_id: getEnvVar('VITE_AUTH0_CLIENT_ID'),
     domain: getEnvVar('VITE_AUTH0_DOMAIN'),
     audience: getEnvVar('VITE_AUTH0_AUDIENCE'),
-    redirectUri: window.location.origin,
+    redirect_uri: window.location.origin,
   });
   const app = createApp(App);
   app

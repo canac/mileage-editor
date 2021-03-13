@@ -1,5 +1,6 @@
-import createAuth0Client, {
+import {
   Auth0Client,
+  Auth0ClientOptions,
   GetIdTokenClaimsOptions,
   GetTokenSilentlyOptions,
   GetTokenWithPopupOptions,
@@ -10,10 +11,11 @@ import createAuth0Client, {
 import {
   App, Plugin, computed, reactive,
 } from 'vue';
+import AsyncAuth0Client from './AsyncAuth0Client';
 
 export const AuthProvider = Symbol('auth0');
 
-let client: Auth0Client;
+const asyncClient: AsyncAuth0Client = new AsyncAuth0Client();
 
 interface Auth0PluginState {
   loading: boolean,
@@ -32,6 +34,8 @@ const state = reactive<Auth0PluginState>({
 });
 
 async function handleRedirectCallback() {
+  const client = await asyncClient.getClient();
+
   state.loading = true;
 
   try {
@@ -45,23 +49,28 @@ async function handleRedirectCallback() {
   }
 }
 
-function loginWithRedirect(o: RedirectLoginOptions) {
+async function loginWithRedirect(o: RedirectLoginOptions) {
+  const client = await asyncClient.getClient();
   return client.loginWithRedirect(o);
 }
 
-function getIdTokenClaims(o: GetIdTokenClaimsOptions) {
+async function getIdTokenClaims(o: GetIdTokenClaimsOptions) {
+  const client = await asyncClient.getClient();
   return client.getIdTokenClaims(o);
 }
 
-function getTokenSilently(o: GetTokenSilentlyOptions) {
+async function getTokenSilently(o: GetTokenSilentlyOptions) {
+  const client = await asyncClient.getClient();
   return client.getTokenSilently(o);
 }
 
-function getTokenWithPopup(o: GetTokenWithPopupOptions) {
+async function getTokenWithPopup(o: GetTokenWithPopupOptions) {
+  const client = await asyncClient.getClient();
   return client.getTokenWithPopup(o);
 }
 
-function logout(o: LogoutOptions) {
+async function logout(o: LogoutOptions) {
+  const client = await asyncClient.getClient();
   return client.logout(o);
 }
 
@@ -77,22 +86,12 @@ const authPlugin = {
   logout,
 };
 
-interface Auth0PluginOptions {
-  domain: string;
-  clientId: string;
-  audience: string;
-  redirectUri: string;
-
+export interface Auth0PluginOptions extends Auth0ClientOptions {
   onRedirectCallback(appState: unknown): void;
 }
 
 async function init(options: Auth0PluginOptions): Promise<Plugin> {
-  client = await createAuth0Client({
-    domain: options.domain,
-    client_id: options.clientId,
-    audience: options.audience,
-    redirect_uri: options.redirectUri,
-  });
+  const client = await asyncClient.init(options);
 
   try {
     // If the user is returning to the app after authentication
@@ -129,3 +128,7 @@ const plugin: Auth0Plugin = {
 };
 
 export default plugin;
+
+export function getClient(): Promise<Auth0Client> {
+  return asyncClient.getClient();
+}
