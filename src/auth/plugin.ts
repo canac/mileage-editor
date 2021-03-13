@@ -9,7 +9,7 @@ import {
   User,
 } from '@auth0/auth0-spa-js';
 import {
-  App, Plugin, computed, reactive,
+  App, ComputedRef, Plugin, computed, reactive,
 } from 'vue';
 import AsyncAuth0Client from './AsyncAuth0Client';
 
@@ -74,7 +74,15 @@ async function logout(o: LogoutOptions) {
   return client.logout(o);
 }
 
-const authPlugin = {
+export interface Auth0 extends Pick<Auth0Client, 'getIdTokenClaims' | 'getTokenSilently' | 'getTokenWithPopup' |
+  'loginWithRedirect' | 'logout'> {
+  isAuthenticated: ComputedRef<boolean>;
+  loading: ComputedRef<boolean>;
+  user: ComputedRef<User | undefined>;
+  handleRedirectCallback: () => Promise<void>;
+}
+
+const authPlugin: Auth0 = {
   isAuthenticated: computed(() => state.isAuthenticated),
   loading: computed(() => state.loading),
   user: computed(() => state.user),

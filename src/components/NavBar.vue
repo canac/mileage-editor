@@ -1,0 +1,66 @@
+<template>
+  <div
+    v-if="!loading && isAuthenticated"
+    class="nav-bar"
+  >
+    <img
+      class="avatar"
+      :src="user.picture"
+    >
+    <span class="title">
+      Concur Mileage Editor
+    </span>
+    <i
+      class="fas fa-power-off logout"
+      @click="logout"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, inject } from 'vue';
+import { Auth0, AuthProvider } from '../auth/plugin';
+
+export default defineComponent({
+  setup() {
+    const auth: Auth0 | undefined = inject(AuthProvider);
+    if (!auth) {
+      throw new Error('Auth0 is has not been provided');
+    }
+
+    const { loading, isAuthenticated, user } = auth;
+
+    return {
+      loading,
+      isAuthenticated,
+      user,
+      logout() {
+        auth.logout();
+      },
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.nav-bar {
+  display: flex;
+  width: 100%;
+
+  .title {
+    flex: 1;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 1em;
+    height: 1em;
+    border-radius: 0.25em;
+  }
+
+  .logout {
+    color: gray;
+    cursor: pointer;
+  }
+}
+</style>
