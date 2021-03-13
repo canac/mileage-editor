@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core';
+import { getEnvVar } from './env';
 
 // HTTP connection to the API
-const { VITE_API_BASE } = import.meta.env;
 const httpLink = createHttpLink({
-  uri: typeof VITE_API_BASE === 'string' ? VITE_API_BASE : '',
+  uri: getEnvVar('VITE_API_BASE'),
 });
 
 const cache = new InMemoryCache({
