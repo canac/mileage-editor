@@ -1,9 +1,35 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core';
+import {
+  ApolloClient, ApolloLink, InMemoryCache, concat, createHttpLink, from,
+} from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
+import { getClient } from './auth/plugin';
+import { getEnvVar } from './env';
+
+interface Context {
+  token?: string;
+}
+
+const withToken = setContext(async (): Promise<Context> => {
+  const authClient = await getClient();
+  const token = await authClient.getTokenSilently() as string;
+  return { token };
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // Add the authorization header
+  const { token } = operation.getContext() as Context;
+  operation.setContext({
+    headers: {
+      authorization: token && `Bearer ${token}`,
+    },
+  });
+
+  return forward(operation);
+});
 
 // HTTP connection to the API
-const { VITE_API_BASE } = import.meta.env;
 const httpLink = createHttpLink({
-  uri: typeof VITE_API_BASE === 'string' ? VITE_API_BASE : '',
+  uri: getEnvVar('VITE_API_BASE'),
 });
 
 const cache = new InMemoryCache({
@@ -21,7 +47,7 @@ const cache = new InMemoryCache({
   },
 });
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: from([withToken, concat(authMiddleware, httpLink)]),
   cache,
 });
 

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "@auth0/auth0-spa-js": "^1.12.1",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@vue/apollo-composable": "^4.0.0-alpha.12",
     "graphql": "^15.5.0",
