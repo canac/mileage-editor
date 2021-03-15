@@ -2,14 +2,14 @@
   "name": "mileage-editor",
   "version": "0.0.1",
   "scripts": {
+    "build": "vite build",
     "dev": "vite",
     "gql-codegen": "graphql-codegen --config codegen.yml",
     "gql-codegen-watch": "graphql-codegen --config codegen.yml --watch",
-    "build": "vite build",
-    "serve": "vite preview",
     "lint": "vue-cli-service lint && npm run lint:css",
     "lint:css": "stylelint src/components/*.vue",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
