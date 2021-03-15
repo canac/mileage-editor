@@ -19,11 +19,11 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue';
-import { Auth0, AuthProvider } from '../auth/plugin';
+import { AuthProvider } from '../auth/plugin';
 
 export default defineComponent({
   setup() {
-    const auth: Auth0 | undefined = inject(AuthProvider);
+    const auth = inject(AuthProvider);
     if (!auth) {
       throw new Error('Auth0 is has not been provided');
     }

@@ -9,11 +9,9 @@ import {
   User,
 } from '@auth0/auth0-spa-js';
 import {
-  App, ComputedRef, Plugin, computed, reactive,
+  App, ComputedRef, InjectionKey, Plugin, computed, reactive,
 } from 'vue';
 import AsyncAuth0Client from './AsyncAuth0Client';
-
-export const AuthProvider = Symbol('auth0');
 
 const asyncClient: AsyncAuth0Client = new AsyncAuth0Client();
 
@@ -97,6 +95,8 @@ const authPlugin: Auth0 = {
 export interface Auth0PluginOptions extends Auth0ClientOptions {
   onRedirectCallback(appState: unknown): void;
 }
+
+export const AuthProvider: InjectionKey<Auth0> = Symbol('auth0');
 
 async function init(options: Auth0PluginOptions): Promise<Plugin> {
   const client = await asyncClient.init(options);
