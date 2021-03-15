@@ -8,7 +8,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "vue-cli-service lint && npm run lint:css",
-    "lint:css": "stylelint src/components/*.vue"
+    "lint:css": "stylelint src/components/*.vue",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
@@ -38,6 +39,7 @@
     "eslint": "^7.21.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.7.0-0",
+    "patch-package": "^6.4.7",
     "sass": "^1.32.8",
     "stylelint": "^13.12.0",
     "stylelint-config-idiomatic-order": "^8.1.0",
