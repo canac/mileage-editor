@@ -29,7 +29,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 // HTTP connection to the API
 const httpLink = createHttpLink({
-  uri: getEnvVar('VITE_API_BASE'),
+  uri: getEnvVar('VITE_GRAPHQL_ENDPOINT'),
 });
 
 const cache = new InMemoryCache({
