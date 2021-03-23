@@ -37,10 +37,23 @@
         type="number"
         @change="updateJourney(entry, 'miles')"
       >
-      <i
-        class="fas fa-fw fa-trash"
-        @click="deleteJourney(entry)"
-      />
+      <div class="actions">
+        <i
+          class="fas fa-fw fa-paste"
+          title="Duplicate journey"
+          @click="duplicateJourney(entry)"
+        />
+        <i
+          class="fas fa-fw fa-route"
+          title="Continue journey"
+          @click="continueJourney(entry)"
+        />
+        <i
+          class="fas fa-fw fa-trash"
+          title="Delete journey"
+          @click="deleteJourney(entry)"
+        />
+      </div>
     </data-grid>
   </div>
 </template>
@@ -105,14 +118,40 @@ export default defineComponent({
       return destroy(journey._id);
     }
 
+    // Make a copy of the specified journey
+    function duplicateJourney(journey: Journey): Promise<Journey> {
+      const {
+        date, description, from, to, miles,
+      } = journey;
+      return create({
+        date, description, from, to, miles,
+      });
+    }
+
+    // Start a new leg of the journey that beings where the specified journey ends
+    function continueJourney(journey: Journey): Promise<Journey> {
+      const { date, to } = journey;
+      return create({
+        date,
+        description: '',
+        from: to,
+        to: '',
+        miles: 0,
+      });
+    }
+
     return {
       // Clone the readonly mileage log array
       mileageLog: computed(() => mileageLog.value && mileageLog.value.map((journey) => ({ ...journey }))),
 
+      expandAddress,
+
       createJourney,
       updateJourney,
       deleteJourney,
-      expandAddress,
+
+      duplicateJourney,
+      continueJourney,
     };
   },
 });
@@ -127,9 +166,14 @@ export default defineComponent({
     font-size: inherit;
   }
 
-  .fa-trash {
-    padding: 3px;
-    color: hsl(0, 50%, 50%);
+  .actions .fas {
+    padding: 3px 5px;
+    color: #444444;
+    cursor: pointer;
+
+    &.fa-trash {
+      color: hsl(0, 50%, 50%);
+    }
   }
 }
 </style>
