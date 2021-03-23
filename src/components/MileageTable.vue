@@ -20,16 +20,16 @@
         @change="updateJourney(entry, 'description')"
       >
       <AddressAutocomplete
-        v-model="entry.to"
-        placeholder="To"
-        @input="entry.to = expandAddress(entry.to)"
-        @change="updateJourney(entry, 'to')"
-      />
-      <AddressAutocomplete
         v-model="entry.from"
         placeholder="From"
         @input="entry.from = expandAddress(entry.from)"
         @change="updateJourney(entry, 'from')"
+      />
+      <AddressAutocomplete
+        v-model="entry.to"
+        placeholder="To"
+        @input="entry.to = expandAddress(entry.to)"
+        @change="updateJourney(entry, 'to')"
       />
       <input
         v-model.number="entry.miles"
@@ -87,8 +87,8 @@ export default defineComponent({
       return create({
         date: new Date().toISOString().slice(0, 10), // today
         description: '',
-        to: '',
         from: '',
+        to: '',
         miles: 0,
       });
     }

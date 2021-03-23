@@ -367,8 +367,8 @@ export type Journey = {
   __typename: 'Journey';
   date: Scalars['Date'];
   description: Scalars['String'];
-  to: Scalars['String'];
   from: Scalars['String'];
+  to: Scalars['String'];
   miles: Scalars['Float'];
   _id: Scalars['MongoID'];
 };
@@ -382,8 +382,8 @@ export enum SortFindByIdsJourneyInput {
 export type FilterFindOneJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -416,8 +416,8 @@ export enum SortFindOneJourneyInput {
 export type FilterFindManyJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -450,8 +450,8 @@ export enum SortFindManyJourneyInput {
 export type FilterCountJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -883,8 +883,8 @@ export type CreateOneJourneyPayload = {
 export type CreateOneJourneyInput = {
   date: Scalars['Date'];
   description: Scalars['String'];
-  to: Scalars['String'];
   from: Scalars['String'];
+  to: Scalars['String'];
   miles: Scalars['Float'];
 };
 
@@ -903,8 +903,8 @@ export type CreateManyJourneyPayload = {
 export type CreateManyJourneyInput = {
   date: Scalars['Date'];
   description: Scalars['String'];
-  to: Scalars['String'];
   from: Scalars['String'];
+  to: Scalars['String'];
   miles: Scalars['Float'];
 };
 
@@ -921,8 +921,8 @@ export type UpdateByIdJourneyPayload = {
 export type UpdateByIdJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
 };
 
@@ -939,16 +939,16 @@ export type UpdateOneJourneyPayload = {
 export type UpdateOneJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
 };
 
 export type FilterUpdateOneJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -989,16 +989,16 @@ export type UpdateManyJourneyPayload = {
 export type UpdateManyJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
 };
 
 export type FilterUpdateManyJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -1051,8 +1051,8 @@ export type RemoveOneJourneyPayload = {
 export type FilterRemoveOneJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -1093,8 +1093,8 @@ export type RemoveManyJourneyPayload = {
 export type FilterRemoveManyJourneyInput = {
   date?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
-  to?: Maybe<Scalars['String']>;
   from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   _id?: Maybe<Scalars['MongoID']>;
   /** List of *indexed* fields that can be filtered via operators. */
@@ -1183,7 +1183,7 @@ export type DeleteFavoritePlaceMutation = (
 
 export type JourneyFieldsFragment = (
   { __typename: 'Journey' }
-  & Pick<Journey, '_id' | 'date' | 'description' | 'to' | 'from' | 'miles'>
+  & Pick<Journey, '_id' | 'date' | 'description' | 'from' | 'to' | 'miles'>
 );
 
 export type ReadJourneysQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1255,8 +1255,8 @@ export const JourneyFieldsFragmentDoc = gql`
   _id
   date
   description
-  to
   from
+  to
   miles
 }
     `;

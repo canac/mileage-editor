@@ -2,8 +2,8 @@ fragment JourneyFields on Journey {
   _id
   date
   description
-  to
   from
+  to
   miles
 }
 
