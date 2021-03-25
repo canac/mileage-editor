@@ -13,6 +13,7 @@ async function init() {
     domain: getEnvVar('VITE_AUTH0_DOMAIN'),
     audience: getEnvVar('VITE_AUTH0_AUDIENCE'),
     redirect_uri: window.location.origin,
+    cacheLocation: 'localstorage',
   });
   const app = createApp(App);
   app
