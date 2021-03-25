@@ -5,7 +5,7 @@ import { getEnvVar } from './env';
 
 async function init() {
   const authPlugin = await Auth0Plugin.init({
-    onRedirectCallback: (appState) => {
+    onRedirectCallback(appState) {
       // Navigate back to the main state
       window.history.replaceState(appState, '', window.location.origin);
     },
