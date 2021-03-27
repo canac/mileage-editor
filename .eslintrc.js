@@ -32,6 +32,19 @@ module.exports = {
       'import/order': ['error', { alphabetize: { order: 'asc' } }],
       'sort-imports': ['error', { ignoreDeclarationSort: true }],
       '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
+      '@typescript-eslint/member-delimiter-style': [
+        'warn',
+        {
+          multiline: {
+            delimiter: 'semi',
+            requireLast: true,
+          },
+          singleline: {
+            delimiter: 'semi',
+            requireLast: false,
+          },
+        },
+      ],
     },
   }],
   plugins: [
