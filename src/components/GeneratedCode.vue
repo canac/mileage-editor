@@ -2,7 +2,8 @@
   <div class="generated-code">
     <details>
       <summary>
-        Generated code <button @click="copy()">
+        Generated code
+        <button @click="copy()">
           Copy
         </button>
       </summary>
