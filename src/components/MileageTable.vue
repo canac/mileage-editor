@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useReadFavoritePlace } from '../composables/useFavoritePlacesCrud';
+import useExpandAddress from '../composables/useExpandAddress';
 import {
   useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
 } from '../composables/useMileageLogCrud';
@@ -75,25 +75,13 @@ export default defineComponent({
   },
 
   setup() {
-    const { models: favoritePlaces } = useReadFavoritePlace();
     const { models: mileageLog } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
     const { update } = useUpdateJourney();
     const { destroy } = useDestroyJourney();
+    const { expandAddress } = useExpandAddress();
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    // Attempt to expand an address shortcut to a full address
-    function expandAddress(address: string): string {
-      for (const place of favoritePlaces.value ?? []) {
-        if (address.toLowerCase() === place.name.toLowerCase()) {
-          return place.address;
-        }
-      }
-
-      // Leave the address unchanged
-      return address;
-    }
 
     // Create a new journey in the database
     function createJourney(): Promise<Journey> {
