@@ -1,6 +1,6 @@
 <template>
   <div class="generated-code">
-    <details style="cursor: pointer;">
+    <details>
       <summary>
         Generated code <button @click="copy()">
           Copy
@@ -60,3 +60,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+details {
+  cursor: pointer;
+}
+</style>
