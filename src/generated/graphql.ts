@@ -81,6 +81,15 @@ export type Query = {
   journeyCount?: Maybe<Scalars['Int']>;
   journeyConnection?: Maybe<JourneyConnection>;
   journeyPagination?: Maybe<JourneyPagination>;
+  journeyTemplateById?: Maybe<JourneyTemplate>;
+  journeyTemplateByIds: Array<JourneyTemplate>;
+  journeyTemplateOne?: Maybe<JourneyTemplate>;
+  journeyTemplateMany: Array<JourneyTemplate>;
+  journeyTemplateDataLoader?: Maybe<JourneyTemplate>;
+  journeyTemplateDataLoaderMany: Array<Maybe<JourneyTemplate>>;
+  journeyTemplateCount?: Maybe<Scalars['Int']>;
+  journeyTemplateConnection?: Maybe<JourneyTemplateConnection>;
+  journeyTemplatePagination?: Maybe<JourneyTemplatePagination>;
 };
 
 
@@ -201,6 +210,66 @@ export type QueryJourneyPaginationArgs = {
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<FilterFindManyJourneyInput>;
   sort?: Maybe<SortFindManyJourneyInput>;
+};
+
+
+export type QueryJourneyTemplateByIdArgs = {
+  _id: Scalars['MongoID'];
+};
+
+
+export type QueryJourneyTemplateByIdsArgs = {
+  _ids: Array<Scalars['MongoID']>;
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<SortFindByIdsJourneyTemplateInput>;
+};
+
+
+export type QueryJourneyTemplateOneArgs = {
+  filter?: Maybe<FilterFindOneJourneyTemplateInput>;
+  skip?: Maybe<Scalars['Int']>;
+  sort?: Maybe<SortFindOneJourneyTemplateInput>;
+};
+
+
+export type QueryJourneyTemplateManyArgs = {
+  filter?: Maybe<FilterFindManyJourneyTemplateInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<SortFindManyJourneyTemplateInput>;
+};
+
+
+export type QueryJourneyTemplateDataLoaderArgs = {
+  _id: Scalars['MongoID'];
+};
+
+
+export type QueryJourneyTemplateDataLoaderManyArgs = {
+  _ids: Array<Scalars['MongoID']>;
+};
+
+
+export type QueryJourneyTemplateCountArgs = {
+  filter?: Maybe<FilterCountJourneyTemplateInput>;
+};
+
+
+export type QueryJourneyTemplateConnectionArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<FilterFindManyJourneyTemplateInput>;
+  sort?: Maybe<SortConnectionJourneyTemplateEnum>;
+};
+
+
+export type QueryJourneyTemplatePaginationArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<FilterFindManyJourneyTemplateInput>;
+  sort?: Maybe<SortFindManyJourneyTemplateInput>;
 };
 
 export type FavoritePlace = {
@@ -512,6 +581,154 @@ export type JourneyPagination = {
   pageInfo: PaginationInfo;
 };
 
+export type JourneyTemplate = {
+  __typename: 'JourneyTemplate';
+  name: Scalars['String'];
+  description: Scalars['String'];
+  from: Scalars['String'];
+  to: Scalars['String'];
+  miles: Scalars['Float'];
+  _id: Scalars['MongoID'];
+};
+
+export enum SortFindByIdsJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type FilterFindOneJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterFindOneJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterFindOneJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterFindOneJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindOneJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterFindOneJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterFindOneJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+export enum SortFindOneJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type FilterFindManyJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterFindManyJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterFindManyJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterFindManyJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindManyJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterFindManyJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterFindManyJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+export enum SortFindManyJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type FilterCountJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterCountJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterCountJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterCountJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterCountJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterCountJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterCountJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+/** A connection to a list of items. */
+export type JourneyTemplateConnection = {
+  __typename: 'JourneyTemplateConnection';
+  /** Total object count. */
+  count: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Information to aid in pagination. */
+  edges: Array<JourneyTemplateEdge>;
+};
+
+/** An edge in a connection. */
+export type JourneyTemplateEdge = {
+  __typename: 'JourneyTemplateEdge';
+  /** The item at the end of the edge */
+  node: JourneyTemplate;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export enum SortConnectionJourneyTemplateEnum {
+  IdDesc = '_ID_DESC',
+  IdAsc = '_ID_ASC'
+}
+
+/** List of items with pagination. */
+export type JourneyTemplatePagination = {
+  __typename: 'JourneyTemplatePagination';
+  /** Total object count. */
+  count?: Maybe<Scalars['Int']>;
+  /** Array of objects. */
+  items?: Maybe<Array<JourneyTemplate>>;
+  /** Information to aid in pagination. */
+  pageInfo: PaginationInfo;
+};
+
 export type Mutation = {
   __typename: 'Mutation';
   /** Create one document with mongoose defaults, setters, hooks and validation */
@@ -546,6 +763,22 @@ export type Mutation = {
   journeyRemoveOne?: Maybe<RemoveOneJourneyPayload>;
   /** Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
   journeyRemoveMany?: Maybe<RemoveManyJourneyPayload>;
+  /** Create one document with mongoose defaults, setters, hooks and validation */
+  journeyTemplateCreateOne?: Maybe<CreateOneJourneyTemplatePayload>;
+  /** Creates Many documents with mongoose defaults, setters, hooks and validation */
+  journeyTemplateCreateMany?: Maybe<CreateManyJourneyTemplatePayload>;
+  /** Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  journeyTemplateUpdateById?: Maybe<UpdateByIdJourneyTemplatePayload>;
+  /** Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  journeyTemplateUpdateOne?: Maybe<UpdateOneJourneyTemplatePayload>;
+  /** Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  journeyTemplateUpdateMany?: Maybe<UpdateManyJourneyTemplatePayload>;
+  /** Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document. */
+  journeyTemplateRemoveById?: Maybe<RemoveByIdJourneyTemplatePayload>;
+  /** Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document. */
+  journeyTemplateRemoveOne?: Maybe<RemoveOneJourneyTemplatePayload>;
+  /** Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  journeyTemplateRemoveMany?: Maybe<RemoveManyJourneyTemplatePayload>;
 };
 
 
@@ -645,6 +878,56 @@ export type MutationJourneyRemoveOneArgs = {
 
 export type MutationJourneyRemoveManyArgs = {
   filter: FilterRemoveManyJourneyInput;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationJourneyTemplateCreateOneArgs = {
+  record: CreateOneJourneyTemplateInput;
+};
+
+
+export type MutationJourneyTemplateCreateManyArgs = {
+  records: Array<CreateManyJourneyTemplateInput>;
+};
+
+
+export type MutationJourneyTemplateUpdateByIdArgs = {
+  _id: Scalars['MongoID'];
+  record: UpdateByIdJourneyTemplateInput;
+};
+
+
+export type MutationJourneyTemplateUpdateOneArgs = {
+  record: UpdateOneJourneyTemplateInput;
+  filter?: Maybe<FilterUpdateOneJourneyTemplateInput>;
+  sort?: Maybe<SortUpdateOneJourneyTemplateInput>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationJourneyTemplateUpdateManyArgs = {
+  record: UpdateManyJourneyTemplateInput;
+  filter?: Maybe<FilterUpdateManyJourneyTemplateInput>;
+  sort?: Maybe<SortUpdateManyJourneyTemplateInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationJourneyTemplateRemoveByIdArgs = {
+  _id: Scalars['MongoID'];
+};
+
+
+export type MutationJourneyTemplateRemoveOneArgs = {
+  filter?: Maybe<FilterRemoveOneJourneyTemplateInput>;
+  sort?: Maybe<SortRemoveOneJourneyTemplateInput>;
+};
+
+
+export type MutationJourneyTemplateRemoveManyArgs = {
+  filter: FilterRemoveManyJourneyTemplateInput;
   limit?: Maybe<Scalars['Int']>;
 };
 
@@ -1119,6 +1402,255 @@ export type FilterRemoveManyJourney_IdOperatorsInput = {
   exists?: Maybe<Scalars['Boolean']>;
 };
 
+export type CreateOneJourneyTemplatePayload = {
+  __typename: 'CreateOneJourneyTemplatePayload';
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']>;
+  /** Created document */
+  record?: Maybe<JourneyTemplate>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type CreateOneJourneyTemplateInput = {
+  name: Scalars['String'];
+  description: Scalars['String'];
+  from: Scalars['String'];
+  to: Scalars['String'];
+  miles: Scalars['Float'];
+};
+
+export type CreateManyJourneyTemplatePayload = {
+  __typename: 'CreateManyJourneyTemplatePayload';
+  /** Documents IDs */
+  recordIds: Array<Scalars['MongoID']>;
+  /** Created documents */
+  records?: Maybe<Array<JourneyTemplate>>;
+  /** Number of created documents */
+  createdCount: Scalars['Int'];
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type CreateManyJourneyTemplateInput = {
+  name: Scalars['String'];
+  description: Scalars['String'];
+  from: Scalars['String'];
+  to: Scalars['String'];
+  miles: Scalars['Float'];
+};
+
+export type UpdateByIdJourneyTemplatePayload = {
+  __typename: 'UpdateByIdJourneyTemplatePayload';
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']>;
+  /** Updated document */
+  record?: Maybe<JourneyTemplate>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type UpdateByIdJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+};
+
+export type UpdateOneJourneyTemplatePayload = {
+  __typename: 'UpdateOneJourneyTemplatePayload';
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']>;
+  /** Updated document */
+  record?: Maybe<JourneyTemplate>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type UpdateOneJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+};
+
+export type FilterUpdateOneJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterUpdateOneJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterUpdateOneJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterUpdateOneJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateOneJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterUpdateOneJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterUpdateOneJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+export enum SortUpdateOneJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type UpdateManyJourneyTemplatePayload = {
+  __typename: 'UpdateManyJourneyTemplatePayload';
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type UpdateManyJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+};
+
+export type FilterUpdateManyJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterUpdateManyJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterUpdateManyJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterUpdateManyJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateManyJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterUpdateManyJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterUpdateManyJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+export enum SortUpdateManyJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type RemoveByIdJourneyTemplatePayload = {
+  __typename: 'RemoveByIdJourneyTemplatePayload';
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']>;
+  /** Removed document */
+  record?: Maybe<JourneyTemplate>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type RemoveOneJourneyTemplatePayload = {
+  __typename: 'RemoveOneJourneyTemplatePayload';
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']>;
+  /** Removed document */
+  record?: Maybe<JourneyTemplate>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type FilterRemoveOneJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterRemoveOneJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterRemoveOneJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterRemoveOneJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveOneJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterRemoveOneJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterRemoveOneJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
+export enum SortRemoveOneJourneyTemplateInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export type RemoveManyJourneyTemplatePayload = {
+  __typename: 'RemoveManyJourneyTemplatePayload';
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']>;
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+};
+
+export type FilterRemoveManyJourneyTemplateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  from?: Maybe<Scalars['String']>;
+  to?: Maybe<Scalars['String']>;
+  miles?: Maybe<Scalars['Float']>;
+  _id?: Maybe<Scalars['MongoID']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: Maybe<FilterRemoveManyJourneyTemplateOperatorsInput>;
+  OR?: Maybe<Array<FilterRemoveManyJourneyTemplateInput>>;
+  AND?: Maybe<Array<FilterRemoveManyJourneyTemplateInput>>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveManyJourneyTemplateOperatorsInput = {
+  _id?: Maybe<FilterRemoveManyJourneyTemplate_IdOperatorsInput>;
+};
+
+export type FilterRemoveManyJourneyTemplate_IdOperatorsInput = {
+  gt?: Maybe<Scalars['MongoID']>;
+  gte?: Maybe<Scalars['MongoID']>;
+  lt?: Maybe<Scalars['MongoID']>;
+  lte?: Maybe<Scalars['MongoID']>;
+  ne?: Maybe<Scalars['MongoID']>;
+  in?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['MongoID']>>>;
+  exists?: Maybe<Scalars['Boolean']>;
+};
+
 export type FavoritePlaceFieldsFragment = (
   { __typename: 'FavoritePlace' }
   & Pick<FavoritePlace, '_id' | 'name' | 'address'>
@@ -1243,6 +1775,68 @@ export type DeleteJourneyMutation = (
   )> }
 );
 
+export type JourneyTemplateFieldsFragment = (
+  { __typename: 'JourneyTemplate' }
+  & Pick<JourneyTemplate, '_id' | 'name' | 'description' | 'from' | 'to' | 'miles'>
+);
+
+export type ReadJourneyTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReadJourneyTemplatesQuery = (
+  { __typename: 'Query' }
+  & { records: Array<(
+    { __typename: 'JourneyTemplate' }
+    & JourneyTemplateFieldsFragment
+  )> }
+);
+
+export type CreateJourneyTemplateMutationVariables = Exact<{
+  record: CreateOneJourneyTemplateInput;
+}>;
+
+
+export type CreateJourneyTemplateMutation = (
+  { __typename: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename: 'CreateOneJourneyTemplatePayload' }
+    & { record?: Maybe<(
+      { __typename: 'JourneyTemplate' }
+      & JourneyTemplateFieldsFragment
+    )> }
+  )> }
+);
+
+export type UpdateJourneyTemplateMutationVariables = Exact<{
+  id: Scalars['MongoID'];
+  record: UpdateByIdJourneyTemplateInput;
+}>;
+
+
+export type UpdateJourneyTemplateMutation = (
+  { __typename: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename: 'UpdateByIdJourneyTemplatePayload' }
+    & { record?: Maybe<(
+      { __typename: 'JourneyTemplate' }
+      & JourneyTemplateFieldsFragment
+    )> }
+  )> }
+);
+
+export type DeleteJourneyTemplateMutationVariables = Exact<{
+  id: Scalars['MongoID'];
+}>;
+
+
+export type DeleteJourneyTemplateMutation = (
+  { __typename: 'Mutation' }
+  & { result?: Maybe<(
+    { __typename: 'RemoveByIdJourneyTemplatePayload' }
+    & Pick<RemoveByIdJourneyTemplatePayload, 'recordId'>
+  )> }
+);
+
 export const FavoritePlaceFieldsFragmentDoc = gql`
     fragment FavoritePlaceFields on FavoritePlace {
   _id
@@ -1254,6 +1848,16 @@ export const JourneyFieldsFragmentDoc = gql`
     fragment JourneyFields on Journey {
   _id
   date
+  description
+  from
+  to
+  miles
+}
+    `;
+export const JourneyTemplateFieldsFragmentDoc = gql`
+    fragment JourneyTemplateFields on JourneyTemplate {
+  _id
+  name
   description
   from
   to
@@ -1492,3 +2096,119 @@ export function useDeleteJourneyMutation(options: VueApolloComposable.UseMutatio
   return VueApolloComposable.useMutation<DeleteJourneyMutation, DeleteJourneyMutationVariables>(DeleteJourneyDocument, options);
 }
 export type DeleteJourneyMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<DeleteJourneyMutation, DeleteJourneyMutationVariables>;
+export const ReadJourneyTemplatesDocument = gql`
+    query ReadJourneyTemplates {
+  records: journeyTemplateMany {
+    ...JourneyTemplateFields
+  }
+}
+    ${JourneyTemplateFieldsFragmentDoc}`;
+
+/**
+ * __useReadJourneyTemplatesQuery__
+ *
+ * To run a query within a Vue component, call `useReadJourneyTemplatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadJourneyTemplatesQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useReadJourneyTemplatesQuery();
+ */
+export function useReadJourneyTemplatesQuery(options: VueApolloComposable.UseQueryOptions<ReadJourneyTemplatesQuery, ReadJourneyTemplatesQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<ReadJourneyTemplatesQuery, ReadJourneyTemplatesQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<ReadJourneyTemplatesQuery, ReadJourneyTemplatesQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<ReadJourneyTemplatesQuery, ReadJourneyTemplatesQueryVariables>(ReadJourneyTemplatesDocument, {}, options);
+}
+export type ReadJourneyTemplatesQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<ReadJourneyTemplatesQuery, ReadJourneyTemplatesQueryVariables>;
+export const CreateJourneyTemplateDocument = gql`
+    mutation CreateJourneyTemplate($record: CreateOneJourneyTemplateInput!) {
+  result: journeyTemplateCreateOne(record: $record) {
+    record {
+      ...JourneyTemplateFields
+    }
+  }
+}
+    ${JourneyTemplateFieldsFragmentDoc}`;
+
+/**
+ * __useCreateJourneyTemplateMutation__
+ *
+ * To run a mutation, you first call `useCreateJourneyTemplateMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJourneyTemplateMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useCreateJourneyTemplateMutation({
+ *   variables: {
+ *     record: // value for 'record'
+ *   },
+ * });
+ */
+export function useCreateJourneyTemplateMutation(options: VueApolloComposable.UseMutationOptions<CreateJourneyTemplateMutation, CreateJourneyTemplateMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<CreateJourneyTemplateMutation, CreateJourneyTemplateMutationVariables>>) {
+  return VueApolloComposable.useMutation<CreateJourneyTemplateMutation, CreateJourneyTemplateMutationVariables>(CreateJourneyTemplateDocument, options);
+}
+export type CreateJourneyTemplateMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<CreateJourneyTemplateMutation, CreateJourneyTemplateMutationVariables>;
+export const UpdateJourneyTemplateDocument = gql`
+    mutation UpdateJourneyTemplate($id: MongoID!, $record: UpdateByIdJourneyTemplateInput!) {
+  result: journeyTemplateUpdateById(_id: $id, record: $record) {
+    record {
+      ...JourneyTemplateFields
+    }
+  }
+}
+    ${JourneyTemplateFieldsFragmentDoc}`;
+
+/**
+ * __useUpdateJourneyTemplateMutation__
+ *
+ * To run a mutation, you first call `useUpdateJourneyTemplateMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateJourneyTemplateMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useUpdateJourneyTemplateMutation({
+ *   variables: {
+ *     id: // value for 'id'
+ *     record: // value for 'record'
+ *   },
+ * });
+ */
+export function useUpdateJourneyTemplateMutation(options: VueApolloComposable.UseMutationOptions<UpdateJourneyTemplateMutation, UpdateJourneyTemplateMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<UpdateJourneyTemplateMutation, UpdateJourneyTemplateMutationVariables>>) {
+  return VueApolloComposable.useMutation<UpdateJourneyTemplateMutation, UpdateJourneyTemplateMutationVariables>(UpdateJourneyTemplateDocument, options);
+}
+export type UpdateJourneyTemplateMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<UpdateJourneyTemplateMutation, UpdateJourneyTemplateMutationVariables>;
+export const DeleteJourneyTemplateDocument = gql`
+    mutation DeleteJourneyTemplate($id: MongoID!) {
+  result: journeyTemplateRemoveById(_id: $id) {
+    recordId
+  }
+}
+    `;
+
+/**
+ * __useDeleteJourneyTemplateMutation__
+ *
+ * To run a mutation, you first call `useDeleteJourneyTemplateMutation` within a Vue component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteJourneyTemplateMutation` returns an object that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ *
+ * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ *
+ * @example
+ * const { mutate, loading, error, onDone } = useDeleteJourneyTemplateMutation({
+ *   variables: {
+ *     id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteJourneyTemplateMutation(options: VueApolloComposable.UseMutationOptions<DeleteJourneyTemplateMutation, DeleteJourneyTemplateMutationVariables> | ReactiveFunction<VueApolloComposable.UseMutationOptions<DeleteJourneyTemplateMutation, DeleteJourneyTemplateMutationVariables>>) {
+  return VueApolloComposable.useMutation<DeleteJourneyTemplateMutation, DeleteJourneyTemplateMutationVariables>(DeleteJourneyTemplateDocument, options);
+}
+export type DeleteJourneyTemplateMutationCompositionFunctionResult = VueApolloComposable.UseMutationReturn<DeleteJourneyTemplateMutation, DeleteJourneyTemplateMutationVariables>;

@@ -3,6 +3,7 @@
     <NavBar />
     <MileageTable />
     <div class="blank-space" />
+    <JourneyTemplates />
     <FavoritePlaces />
     <GeneratedCode />
   </div>
@@ -17,6 +18,7 @@ import apolloClient from '../apollo';
 import { Auth0, AuthProvider } from '../auth/plugin';
 import FavoritePlaces from './FavoritePlaces.vue';
 import GeneratedCode from './GeneratedCode.vue';
+import JourneyTemplates from './JourneyTemplates.vue';
 import MileageTable from './MileageTable.vue';
 import NavBar from './NavBar.vue';
 
@@ -28,6 +30,7 @@ export default defineComponent({
   components: {
     FavoritePlaces,
     GeneratedCode,
+    JourneyTemplates,
     MileageTable,
     NavBar,
   },

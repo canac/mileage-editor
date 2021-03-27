@@ -17,7 +17,7 @@
       <input
         v-model="entry.description"
         placeholder="Description"
-        @change="updateJourney(entry, 'description')"
+        @change="onDescriptionChange(entry)"
       >
       <AddressAutocomplete
         v-model="entry.from"
@@ -60,7 +60,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useReadFavoritePlace } from '../composables/useFavoritePlacesCrud';
+import useExpandAddress from '../composables/useExpandAddress';
+import useExpandTemplate from '../composables/useExpandTemplate';
 import {
   useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
 } from '../composables/useMileageLogCrud';
@@ -75,24 +76,26 @@ export default defineComponent({
   },
 
   setup() {
-    const { models: favoritePlaces } = useReadFavoritePlace();
     const { models: mileageLog } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
     const { update } = useUpdateJourney();
     const { destroy } = useDestroyJourney();
+    const { expandAddress } = useExpandAddress();
+    const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    // Attempt to expand an address shortcut to a full address
-    function expandAddress(address: string): string {
-      for (const place of favoritePlaces.value ?? []) {
-        if (address.toLowerCase() === place.name.toLowerCase()) {
-          return place.address;
-        }
+    // Expand the description via journey templates
+    // Return a boolean indicating whether the journey was expanded
+    function expandDescription(journey: Journey): boolean {
+      const changedFields = expandTemplate(journey);
+      if (!changedFields) {
+        return false;
       }
 
-      // Leave the address unchanged
-      return address;
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      update(journey._id, changedFields);
+      return true;
     }
 
     // Create a new journey in the database
@@ -140,11 +143,23 @@ export default defineComponent({
       });
     }
 
+    // Handle changes to the journey description
+    function onDescriptionChange(journey: Journey) {
+      // If the journey matched a template, don't save the original journey description because that will overwrite the
+      // one from the template
+      if (!expandDescription(journey)) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        updateJourney(journey, 'description');
+      }
+    }
+
     return {
       // Clone the readonly mileage log array
       mileageLog: computed(() => mileageLog.value && mileageLog.value.map((journey) => ({ ...journey }))),
 
       expandAddress,
+      expandDescription,
+      onDescriptionChange,
 
       createJourney,
       updateJourney,

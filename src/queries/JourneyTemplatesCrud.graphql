@@ -1,0 +1,36 @@
+fragment JourneyTemplateFields on JourneyTemplate {
+  _id
+  name
+  description
+  from
+  to
+  miles
+}
+
+query ReadJourneyTemplates {
+  records: journeyTemplateMany {
+    ...JourneyTemplateFields
+  }
+}
+
+mutation CreateJourneyTemplate($record: CreateOneJourneyTemplateInput!) {
+  result: journeyTemplateCreateOne(record: $record) {
+    record {
+      ...JourneyTemplateFields
+    }
+  }
+}
+
+mutation UpdateJourneyTemplate($id: MongoID!, $record: UpdateByIdJourneyTemplateInput!) {
+  result: journeyTemplateUpdateById(_id: $id, record: $record) {
+    record {
+      ...JourneyTemplateFields
+    }
+  }
+}
+
+mutation DeleteJourneyTemplate($id: MongoID!) {
+  result: journeyTemplateRemoveById(_id: $id) {
+    recordId
+  }
+}
