@@ -17,7 +17,7 @@
       <input
         v-model="entry.description"
         placeholder="Description"
-        @change="updateJourney(entry, 'description')"
+        @change="onDescriptionChange(entry)"
       >
       <AddressAutocomplete
         v-model="entry.from"
@@ -61,6 +61,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import useExpandAddress from '../composables/useExpandAddress';
+import useExpandTemplate from '../composables/useExpandTemplate';
 import {
   useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
 } from '../composables/useMileageLogCrud';
@@ -81,7 +82,21 @@ export default defineComponent({
     const { update } = useUpdateJourney();
     const { destroy } = useDestroyJourney();
     const { expandAddress } = useExpandAddress();
+    const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    // Expand the description via journey templates
+    // Return a boolean indicating whether the journey was expanded
+    function expandDescription(journey: Journey): boolean {
+      const changedFields = expandTemplate(journey);
+      if (!changedFields) {
+        return false;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      update(journey._id, changedFields);
+      return true;
+    }
 
     // Create a new journey in the database
     function createJourney(): Promise<Journey> {
@@ -128,11 +143,23 @@ export default defineComponent({
       });
     }
 
+    // Handle changes to the journey description
+    function onDescriptionChange(journey: Journey) {
+      // If the journey matched a template, don't save the original journey description because that will overwrite the
+      // one from the template
+      if (!expandDescription(journey)) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        updateJourney(journey, 'description');
+      }
+    }
+
     return {
       // Clone the readonly mileage log array
       mileageLog: computed(() => mileageLog.value && mileageLog.value.map((journey) => ({ ...journey }))),
 
       expandAddress,
+      expandDescription,
+      onDescriptionChange,
 
       createJourney,
       updateJourney,
