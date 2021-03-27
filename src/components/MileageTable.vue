@@ -3,54 +3,54 @@
     class="mileage-table"
   >
     <data-grid
-      v-slot="{ row: entry }"
-      :rows="mileageLog"
+      v-slot="{ row: journey }"
+      :rows="journeys"
       :create-new-row="createJourney"
     >
       <input
-        v-model="entry.date"
+        v-model="journey.date"
         placeholder="Date"
         type="date"
-        @change="updateJourney(entry, 'date')"
+        @change="updateJourney(journey, 'date')"
       >
       <input
-        v-model="entry.description"
+        v-model="journey.description"
         placeholder="Description"
-        @change="onDescriptionChange(entry)"
+        @change="onDescriptionChange(journey)"
       >
       <AddressAutocomplete
-        v-model="entry.from"
+        v-model="journey.from"
         placeholder="From"
-        @input="entry.from = expandAddress(entry.from)"
-        @change="updateJourney(entry, 'from')"
+        @input="journey.from = expandAddress(journey.from)"
+        @change="updateJourney(journey, 'from')"
       />
       <AddressAutocomplete
-        v-model="entry.to"
+        v-model="journey.to"
         placeholder="To"
-        @input="entry.to = expandAddress(entry.to)"
-        @change="updateJourney(entry, 'to')"
+        @input="journey.to = expandAddress(journey.to)"
+        @change="updateJourney(journey, 'to')"
       />
       <input
-        v-model.number="entry.miles"
+        v-model.number="journey.miles"
         placeholder="Miles"
         type="number"
-        @change="updateJourney(entry, 'miles')"
+        @change="updateJourney(journey, 'miles')"
       >
       <div class="actions">
         <i
           class="fas fa-fw fa-paste"
           title="Duplicate journey"
-          @click="duplicateJourney(entry)"
+          @click="duplicateJourney(journey)"
         />
         <i
           class="fas fa-fw fa-route"
           title="Continue journey"
-          @click="continueJourney(entry)"
+          @click="continueJourney(journey)"
         />
         <i
           class="fas fa-fw fa-trash"
           title="Delete journey"
-          @click="deleteJourney(entry)"
+          @click="deleteJourney(journey)"
         />
       </div>
     </data-grid>
@@ -75,7 +75,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { models: mileageLog } = useReadJourney();
+    const { models: journeys } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
     const { update } = useUpdateJourney();
@@ -153,8 +153,8 @@ export default defineComponent({
     }
 
     return {
-      // Clone the readonly mileage log array
-      mileageLog: computed(() => mileageLog.value && mileageLog.value.map((journey) => ({ ...journey }))),
+      // Clone the readonly journeys array
+      journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
 
       expandAddress,
       expandDescription,

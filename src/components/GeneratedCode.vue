@@ -23,30 +23,30 @@ import { Journey } from '../generated/graphql';
   @typescript-eslint/no-unsafe-member-access,
   @typescript-eslint/no-unsafe-assignment
 */
-function populateMileageLog(mileageLog: Journey[]) {
+function populateMileageLog(journeys: Journey[]) {
   const { journeyGrid } = Ext.getCmp('mileageExpenseTab').items.items[0];
 
-  mileageLog.forEach((entry, index) => {
+  journeys.forEach((journey, index) => {
     journeyGrid.store.addNewJourney();
     journeyGrid.addSelectedRowCssClass(index);
 
     const expense = journeyGrid.store.data.items[index];
-    expense.set('TransactionDate', new Date(entry.date));
-    expense.set('Description', entry.description);
-    expense.set('FromLocation', entry.from);
-    expense.set('ToLocation', entry.to);
-    expense.set('BusinessDistance', entry.miles);
+    expense.set('TransactionDate', new Date(journey.date));
+    expense.set('Description', journey.description);
+    expense.set('FromLocation', journey.from);
+    expense.set('ToLocation', journey.to);
+    expense.set('BusinessDistance', journey.miles);
   });
 }
 /* eslint-enable */
 
 export default defineComponent({
   setup() {
-    const { models: mileageLog } = useReadJourney();
+    const { models: journeys } = useReadJourney();
 
     const generatedCode = computed((): string => {
       const func = populateMileageLog.toString();
-      const data = (mileageLog.value ?? []).map(({ _id, __typename, ...fields }) => fields);
+      const data = (journeys.value ?? []).map(({ _id, __typename, ...fields }) => fields);
       return `(${func})(${JSON.stringify(data, null, 2)});`;
     });
 
