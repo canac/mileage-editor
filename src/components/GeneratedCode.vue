@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useReadJourney } from '../composables/useMileageLogCrud';
-import { MileageEntry } from '../types';
+import { Journey } from '../generated/graphql';
 
 /* eslint-disable
   no-undef,
@@ -22,7 +22,7 @@ import { MileageEntry } from '../types';
   @typescript-eslint/no-unsafe-member-access,
   @typescript-eslint/no-unsafe-assignment
 */
-function populateMileageLog(mileageLog: MileageEntry[]) {
+function populateMileageLog(mileageLog: Journey[]) {
   const { journeyGrid } = Ext.getCmp('mileageExpenseTab').items.items[0];
 
   mileageLog.forEach((entry, index) => {
