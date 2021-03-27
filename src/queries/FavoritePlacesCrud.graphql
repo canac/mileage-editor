@@ -1,7 +1,7 @@
 fragment FavoritePlaceFields on FavoritePlace {
-    _id
-    name
-    address
+  _id
+  name
+  address
 }
 
 query ReadFavoritePlaces {
