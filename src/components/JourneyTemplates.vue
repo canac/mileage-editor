@@ -2,7 +2,6 @@
   <div
     class="journey-templates"
   >
-    <h1>Journey Templates</h1>
     <data-grid
       v-slot="{ row: journey }"
       :rows="journeys"

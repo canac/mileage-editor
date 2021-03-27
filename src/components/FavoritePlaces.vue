@@ -2,7 +2,6 @@
   <div
     class="favorite-places"
   >
-    <h1>Favorite Places</h1>
     <data-grid
       v-slot="{ row: place }"
       :rows="places"

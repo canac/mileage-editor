@@ -2,7 +2,6 @@
   <div
     class="mileage-table"
   >
-    <h1>Mileage Log</h1>
     <data-grid
       v-slot="{ row: entry }"
       :rows="mileageLog"

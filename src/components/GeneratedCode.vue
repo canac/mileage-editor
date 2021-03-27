@@ -61,9 +61,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-details {
-  cursor: pointer;
-}
-</style>

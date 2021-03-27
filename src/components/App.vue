@@ -1,10 +1,22 @@
 <template>
   <div class="app">
-    <NavBar />
+    <p class="header">
+      Mileage Table
+    </p>
     <MileageTable />
     <div class="blank-space" />
-    <JourneyTemplates />
-    <FavoritePlaces />
+    <details>
+      <summary class="header">
+        Journey Templates
+      </summary>
+      <JourneyTemplates />
+    </details>
+    <details>
+      <summary class="header">
+        Favorite Places
+      </summary>
+      <FavoritePlaces />
+    </details>
     <GeneratedCode />
   </div>
 </template>
@@ -61,6 +73,10 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+summary {
+  cursor: pointer;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -74,6 +90,13 @@ body {
 
   .nav-bar {
     font-size: 3em;
+  }
+
+  .header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-block-end: 0.67em;
+    margin-block-start: 0.67em;
   }
 }
 </style>
