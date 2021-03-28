@@ -195,7 +195,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .data-grid :deep(.row) {
-  font-size: 1.25em;
   grid-template-columns: 8em 12em 1fr 1fr 4em auto;
 
   input {
