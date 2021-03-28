@@ -48,6 +48,11 @@
           @click="continueJourney(journey)"
         />
         <i
+          class="fas fa-fw fa-save"
+          title="Convert journey to template"
+          @click="convertJourneyToTemplate(journey)"
+        />
+        <i
           class="fas fa-fw fa-trash"
           title="Delete journey"
           @click="deleteJourney(journey)"
@@ -61,10 +66,11 @@
 import { computed, defineComponent } from 'vue';
 import useExpandAddress from '../composables/useExpandAddress';
 import useExpandTemplate from '../composables/useExpandTemplate';
+import { useCreateJourneyTemplate } from '../composables/useJourneyTemplateCrud';
 import {
   useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
 } from '../composables/useMileageLogCrud';
-import { Journey } from '../generated/graphql';
+import { Journey, JourneyTemplate } from '../generated/graphql';
 import AddressAutocomplete from './AddressAutocomplete.vue';
 import DataGrid from './DataGrid.vue';
 
@@ -78,6 +84,7 @@ export default defineComponent({
     const { models: journeys } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
+    const { create: createTemplate } = useCreateJourneyTemplate();
     const { update } = useUpdateJourney();
     const { destroy } = useDestroyJourney();
     const { expandAddress } = useExpandAddress();
@@ -142,6 +149,20 @@ export default defineComponent({
       });
     }
 
+    // Convert the journey into a journey template
+    function convertJourneyToTemplate(journey: Journey): Promise<JourneyTemplate> {
+      const {
+        description, from, to, miles,
+      } = journey;
+      return createTemplate({
+        name: '',
+        description,
+        from,
+        to,
+        miles,
+      });
+    }
+
     // Handle changes to the journey description
     function onDescriptionChange(journey: Journey) {
       // If the journey matched a template, don't save the original journey description because that will overwrite the
@@ -166,6 +187,7 @@ export default defineComponent({
 
       duplicateJourney,
       continueJourney,
+      convertJourneyToTemplate,
     };
   },
 });
