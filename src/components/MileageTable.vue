@@ -38,7 +38,7 @@
       >
       <div class="actions">
         <i
-          class="fas fa-fw fa-paste"
+          class="fas fa-fw fa-copy"
           title="Duplicate journey"
           @click="duplicateJourney(journey)"
         />
