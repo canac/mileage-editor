@@ -39,6 +39,9 @@ const cache = new InMemoryCache({
         journeyMany: {
           merge: false,
         },
+        journeyTemplateMany: {
+          merge: false,
+        },
         favoritePlaceMany: {
           merge: false,
         },
