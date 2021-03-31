@@ -1,7 +1,7 @@
 <template>
   <input
     ref="input"
-    v-model="value"
+    v-model="address"
     class="address-autocomplete"
     @change="$emit('change', $event)"
     @input="$emit('input', $event)"
@@ -29,7 +29,7 @@ export default defineComponent({
     const { lazyLoad } = useGoogleMapsApi();
 
     const input: Ref<HTMLInputElement | null> = ref(null);
-    const value: Ref<string> = ref('');
+    const address: Ref<string> = ref('');
 
     onMounted(async () => {
       if (!input.value) {
@@ -43,30 +43,30 @@ export default defineComponent({
         fields: ['formatted_address'],
       });
       autocomplete.addListener('place_changed', () => {
-        const address = autocomplete.getPlace().formatted_address;
-        if (!address) {
+        const newAddress = autocomplete.getPlace().formatted_address;
+        if (!newAddress) {
           return;
         }
 
         // Trim off the trailing country code if present
-        value.value = address.endsWith(', USA') ? address.slice(0, -5) : address;
+        address.value = newAddress.endsWith(', USA') ? newAddress.slice(0, -5) : newAddress;
       });
 
       // Sync up with changes from the outside
       watch(modelValue, () => {
-        value.value = modelValue.value;
+        address.value = modelValue.value;
       }, { immediate: true });
 
       // Notify parents of changes from the inside
-      watch(value, () => {
-        emit('update:modelValue', value.value);
-        emit('change', value.value);
+      watch(address, () => {
+        emit('update:modelValue', address.value);
+        emit('change', address.value);
       });
     });
 
     return {
       input,
-      value,
+      address,
     };
   },
 });
