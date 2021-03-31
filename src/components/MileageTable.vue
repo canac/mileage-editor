@@ -109,7 +109,7 @@ export default defineComponent({
       return create({
         date: new Date().toISOString().slice(0, 10), // today
         description: '',
-        from: '',
+        from: expandAddress('home'),
         to: '',
         miles: 0,
       });
