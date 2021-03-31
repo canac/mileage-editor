@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <NavBar />
     <p class="header">
       Mileage Table
     </p>
