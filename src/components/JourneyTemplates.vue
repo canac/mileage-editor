@@ -20,13 +20,11 @@
       <AddressAutocomplete
         v-model="journey.from"
         placeholder="From"
-        @input="journey.from = expandAddress(journey.from)"
         @change="updateJourneyTemplate(journey, 'from')"
       />
       <AddressAutocomplete
         v-model="journey.to"
         placeholder="To"
-        @input="journey.to = expandAddress(journey.to)"
         @change="updateJourneyTemplate(journey, 'to')"
       />
       <input
@@ -45,7 +43,6 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import useExpandAddress from '../composables/useExpandAddress';
 import {
   useCreateJourneyTemplate,
   useDestroyJourneyTemplate,
@@ -68,14 +65,11 @@ export default defineComponent({
     const { create } = useCreateJourneyTemplate();
     const { update } = useUpdateJourneyTemplate();
     const { destroy } = useDestroyJourneyTemplate();
-    const { expandAddress } = useExpandAddress();
     /* eslint-enable @typescript-eslint/unbound-method */
 
     return {
       // Clone the readonly journeys array
       journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
-
-      expandAddress,
 
       // Create a journey template in the database
       createJourneyTemplate(): Promise<JourneyTemplate> {
