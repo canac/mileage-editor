@@ -15,6 +15,7 @@
       <AddressAutocomplete
         v-model="place.address"
         placeholder="Address"
+        :expand-favorites="false"
         @change="updateFavoritePlace(place, 'address')"
       />
       <i

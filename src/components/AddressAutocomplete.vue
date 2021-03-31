@@ -1,10 +1,9 @@
 <template>
   <input
     ref="input"
-    v-model="value"
+    v-model="address"
     class="address-autocomplete"
-    @change="$emit('change', $event)"
-    @input="$emit('input', $event)"
+    @change="onChange()"
   >
 </template>
 
@@ -12,6 +11,7 @@
 import {
   Ref, defineComponent, onMounted, ref, toRefs, watch,
 } from 'vue';
+import useExpandAddress from '../composables/useExpandAddress';
 import useGoogleMapsApi from '../composables/useGoogleMapsApi';
 
 export default defineComponent({
@@ -20,16 +20,38 @@ export default defineComponent({
       type: String,
       required: true,
     },
+
+    // Flag for whether we should automatically expand favorite addresses into a full address
+    expandFavorites: {
+      type: Boolean,
+      default: true,
+    },
   },
-  emits: ['change', 'input', 'update:modelValue'],
+  emits: ['change', 'update:modelValue'],
 
   setup(props, { emit }) {
-    const { modelValue } = toRefs(props);
+    const { modelValue, expandFavorites } = toRefs(props);
 
     const { lazyLoad } = useGoogleMapsApi();
+    const { expandAddress } = useExpandAddress();
 
     const input: Ref<HTMLInputElement | null> = ref(null);
-    const value: Ref<string> = ref('');
+    const address: Ref<string> = ref('');
+
+    // Notify parents of changes to the address
+    function broadcastChange() {
+      emit('update:modelValue', address.value);
+      emit('change', address.value);
+    }
+
+    // Called when the address input's value changes
+    function onChange() {
+      if (expandFavorites.value) {
+        address.value = expandAddress(address.value);
+      }
+
+      broadcastChange();
+    }
 
     onMounted(async () => {
       if (!input.value) {
@@ -43,30 +65,26 @@ export default defineComponent({
         fields: ['formatted_address'],
       });
       autocomplete.addListener('place_changed', () => {
-        const address = autocomplete.getPlace().formatted_address;
-        if (!address) {
+        const newAddress = autocomplete.getPlace().formatted_address;
+        if (!newAddress) {
           return;
         }
 
         // Trim off the trailing country code if present
-        value.value = address.endsWith(', USA') ? address.slice(0, -5) : address;
-      });
-
-      // Sync up with changes from the outside
-      watch(modelValue, () => {
-        value.value = modelValue.value;
-      }, { immediate: true });
-
-      // Notify parents of changes from the inside
-      watch(value, () => {
-        emit('update:modelValue', value.value);
-        emit('change', value.value);
+        address.value = newAddress.endsWith(', USA') ? newAddress.slice(0, -5) : newAddress;
+        broadcastChange();
       });
     });
 
+    // Sync up with changes from the outside
+    watch(modelValue, () => {
+      address.value = modelValue.value;
+    }, { immediate: true });
+
     return {
       input,
-      value,
+      address,
+      onChange,
     };
   },
 });

@@ -21,13 +21,11 @@
       <AddressAutocomplete
         v-model="journey.from"
         placeholder="From"
-        @input="journey.from = expandAddress(journey.from)"
         @change="updateJourney(journey, 'from')"
       />
       <AddressAutocomplete
         v-model="journey.to"
         placeholder="To"
-        @input="journey.to = expandAddress(journey.to)"
         @change="updateJourney(journey, 'to')"
       />
       <input
@@ -177,7 +175,6 @@ export default defineComponent({
       // Clone the readonly journeys array
       journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
 
-      expandAddress,
       expandDescription,
       onDescriptionChange,
 
