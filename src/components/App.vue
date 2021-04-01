@@ -85,7 +85,7 @@ summary {
   --nav-bar-height: 3em;
   --root-margin: 8px;
   display: grid;
-  height: calc(100vh - var(--root-margin) * 2 - var(--nav-bar-height));
+  min-height: calc(100vh - var(--root-margin) * 2 - var(--nav-bar-height));
   margin: var(--root-margin);
   grid-template-rows: auto max-content 1fr max-content max-content;
 
