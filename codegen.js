@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 require('dotenv').config({ path: '.env.local' });
 
 async function config() {
-  // Generate an access token to be able
+  // Generate an access token to be able to access the GraphQL API
   const res = await fetch(`https://${process.env.VITE_AUTH0_DOMAIN}/oauth/token`, {
     method: 'POST',
     headers: {
