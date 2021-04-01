@@ -9,32 +9,37 @@
     >
       <input
         v-model="journey.name"
+        class="name"
         placeholder="Name"
         @change="updateJourneyTemplate(journey, 'name')"
       >
       <input
         v-model="journey.description"
+        class="description"
         placeholder="Description"
         @change="updateJourneyTemplate(journey, 'description')"
       >
       <AddressAutocomplete
         v-model="journey.from"
+        class="from"
         placeholder="From"
         @change="updateJourneyTemplate(journey, 'from')"
       />
       <AddressAutocomplete
         v-model="journey.to"
+        class="to"
         placeholder="To"
         @change="updateJourneyTemplate(journey, 'to')"
       />
       <input
         v-model.number="journey.miles"
+        class="miles"
         type="number"
         placeholder="Miles"
         @change="updateJourneyTemplate(journey, 'miles')"
       >
       <i
-        class="fas fa-fw fa-trash"
+        class="fas fa-fw fa-trash trash"
         @click="deleteJourneyTemplate(journey)"
       />
     </data-grid>
@@ -99,16 +104,63 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../mixins/multiline.scss';
+
 .data-grid :deep(.row) {
+  .name {
+    grid-area: name;
+  }
+  .description {
+    grid-area: description;
+  }
+  .from {
+    grid-area: from;
+  }
+  .to {
+    grid-area: to;
+  }
+  .miles {
+    grid-area: miles;
+  }
+  .trash {
+    grid-area: trash;
+  }
+
+  grid-template-areas:
+    "name description from to miles trash";
   grid-template-columns: 8em 12em 1fr 1fr 4em auto;
+
+  @media (max-width: 1024px) {
+    @include multiline;
+
+    grid-template-areas:
+      "name description miles trash"
+      "from to . .";
+    grid-template-columns: 1fr 1fr 4em auto;
+  }
+
+  @media (max-width: 512px) {
+    @include multiline;
+
+    grid-template-areas:
+      "name"
+      "description"
+      "from"
+      "to"
+      "miles"
+      "trash";
+    grid-template-columns: 1fr;
+  }
 
   input {
     font-size: inherit;
   }
 
-  .fa-trash {
+  .trash {
+    display: flex;
     padding: 3px;
     color: hsl(0, 50%, 50%);
+    justify-self: center;
   }
 }
 </style>

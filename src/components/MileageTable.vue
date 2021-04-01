@@ -9,27 +9,32 @@
     >
       <input
         v-model="journey.date"
+        class="date"
         placeholder="Date"
         type="date"
         @change="updateJourney(journey, 'date')"
       >
       <input
         v-model="journey.description"
+        class="description"
         placeholder="Description"
         @change="onDescriptionChange(journey)"
       >
       <AddressAutocomplete
         v-model="journey.from"
+        class="from"
         placeholder="From"
         @change="updateJourney(journey, 'from')"
       />
       <AddressAutocomplete
         v-model="journey.to"
+        class="to"
         placeholder="To"
         @change="updateJourney(journey, 'to')"
       />
       <input
         v-model.number="journey.miles"
+        class="miles"
         placeholder="Miles"
         type="number"
         @change="updateJourney(journey, 'miles')"
@@ -191,20 +196,71 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../mixins/multiline.scss';
+
 .data-grid :deep(.row) {
+  .date {
+    grid-area: date;
+  }
+  .description {
+    grid-area: description;
+  }
+  .from {
+    grid-area: from;
+  }
+  .to {
+    grid-area: to;
+  }
+  .miles {
+    grid-area: miles;
+  }
+  .actions {
+    grid-area: actions;
+  }
+
+  grid-template-areas:
+    "date description from to miles actions";
   grid-template-columns: 9em 12em 1fr 1fr 4em auto;
+
+  @media (max-width: 1024px) {
+    @include multiline;
+
+    grid-template-areas:
+      "date description"
+      "from to"
+      "miles actions";
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 512px) {
+    @include multiline;
+
+    grid-template-areas:
+      "date"
+      "description"
+      "from"
+      "to"
+      "miles"
+      "actions";
+    grid-template-columns: 1fr;
+  }
 
   input {
     font-size: inherit;
   }
 
-  .actions .fas {
-    padding: 3px 5px;
-    color: #444444;
-    cursor: pointer;
+  .actions {
+    display: flex;
+    justify-self: center;
 
-    &.fa-trash {
-      color: hsl(0, 50%, 50%);
+    .fas {
+      padding: 3px 5px;
+      color: #444444;
+      cursor: pointer;
+
+      &.fa-trash {
+        color: hsl(0, 50%, 50%);
+      }
     }
   }
 }

@@ -9,17 +9,19 @@
     >
       <input
         v-model="place.name"
+        class="name"
         placeholder="Name"
         @change="updateFavoritePlace(place, 'name')"
       >
       <AddressAutocomplete
         v-model="place.address"
+        class="address"
         placeholder="Address"
         :expand-favorites="false"
         @change="updateFavoritePlace(place, 'address')"
       />
       <i
-        class="fas fa-fw fa-trash"
+        class="fas fa-fw fa-trash trash"
         @click="deleteFavoritePlace(place)"
       />
     </data-grid>
@@ -81,16 +83,42 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../mixins/multiline.scss';
+
 .data-grid :deep(.row) {
+  .name {
+    grid-area: name;
+  }
+  .address {
+    grid-area: address;
+  }
+  .trash {
+    grid-area: trash;
+  }
+
+  grid-template-areas:
+    "name address trash";
   grid-template-columns: 1fr 3fr auto;
+
+  @media (max-width: 512px) {
+    @include multiline;
+
+    grid-template-areas:
+      "name"
+      "address"
+      "trash";
+    grid-template-columns: 1fr;
+  }
 
   input {
     font-size: inherit;
   }
 
-  .fa-trash {
+  .trash {
+    display: flex;
     padding: 3px;
     color: hsl(0, 50%, 50%);
+    justify-self: center;
   }
 }
 </style>

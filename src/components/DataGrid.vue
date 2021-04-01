@@ -102,7 +102,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .data-grid .row {
   display: grid;
-  padding-bottom: 1em;
+  margin-bottom: 1em;
   grid-column-gap: 1em;
 }
 </style>

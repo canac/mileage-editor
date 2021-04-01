@@ -1,0 +1,5 @@
+@mixin multiline {
+  padding-bottom: 1em;
+  border-bottom: 2px solid black;
+  grid-row-gap: 0.5em;
+}
