@@ -90,7 +90,7 @@ summary {
   grid-template-rows: auto max-content 1fr max-content max-content;
 
   .nav-bar {
-    font-size: 3em;
+    font-size: calc(min(6vw, 3em));
   }
 
   .header {
