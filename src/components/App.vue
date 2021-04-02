@@ -82,12 +82,11 @@ summary {
 
 <style lang="scss" scoped>
 .app {
-  --nav-bar-height: 3em;
   --root-margin: 8px;
   display: grid;
-  min-height: calc(100vh - var(--root-margin) * 2 - var(--nav-bar-height));
+  min-height: calc(100vh - var(--root-margin) * 2);
   margin: var(--root-margin);
-  grid-template-rows: auto max-content 1fr max-content max-content;
+  grid-template-rows: auto max-content max-content 1fr max-content max-content max-content;
 
   .nav-bar {
     font-size: calc(min(6vw, 3em));
