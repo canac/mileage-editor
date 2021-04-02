@@ -6,6 +6,7 @@
     <img
       class="avatar"
       :src="user.picture"
+      alt="Avatar"
     >
     <span class="title">
       Concur Mileage Editor
@@ -59,6 +60,8 @@ export default defineComponent({
   }
 
   .logout {
+    width: 1em;
+    height: 1em;
     color: gray;
     cursor: pointer;
   }
