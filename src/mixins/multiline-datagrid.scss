@@ -1,0 +1,15 @@
+@mixin multiline-datagrid {
+  padding-bottom: 1em;
+  border-bottom: 2px solid black;
+  grid-row-gap: 0.5em;
+
+  .actions {
+    display: flex;
+    width: 50%;
+    justify-self: center;
+
+    .fas {
+      flex: 1;
+    }
+  }
+}

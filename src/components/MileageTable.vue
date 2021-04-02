@@ -196,9 +196,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '../mixins/multiline.scss';
+@import '../mixins/datagrid.scss';
+@import '../mixins/multiline-datagrid.scss';
 
 .data-grid :deep(.row) {
+  @include datagrid;
+
   .date {
     grid-area: date;
   }
@@ -223,7 +226,7 @@ export default defineComponent({
   grid-template-columns: 9em 12em 1fr 1fr 4em auto;
 
   @media (max-width: 1024px) {
-    @include multiline;
+    @include multiline-datagrid;
 
     grid-template-areas:
       "date description"
@@ -233,7 +236,7 @@ export default defineComponent({
   }
 
   @media (max-width: 512px) {
-    @include multiline;
+    @include multiline-datagrid;
 
     grid-template-areas:
       "date"
@@ -245,23 +248,8 @@ export default defineComponent({
     grid-template-columns: 1fr;
   }
 
-  input {
-    font-size: inherit;
-  }
-
-  .actions {
-    display: flex;
-    justify-self: center;
-
-    .fas {
-      padding: 3px 5px;
-      color: #444444;
-      cursor: pointer;
-
-      &.fa-trash {
-        color: hsl(0, 50%, 50%);
-      }
-    }
+  .fas {
+    color: #444444;
   }
 }
 </style>

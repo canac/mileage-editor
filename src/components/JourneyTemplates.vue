@@ -38,10 +38,12 @@
         placeholder="Miles"
         @change="updateJourneyTemplate(journey, 'miles')"
       >
-      <i
-        class="fas fa-fw fa-trash trash"
-        @click="deleteJourneyTemplate(journey)"
-      />
+      <div class="actions">
+        <i
+          class="fas fa-fw fa-trash"
+          @click="deleteJourneyTemplate(journey)"
+        />
+      </div>
     </data-grid>
   </div>
 </template>
@@ -104,9 +106,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '../mixins/multiline.scss';
+@import '../mixins/datagrid.scss';
+@import '../mixins/multiline-datagrid.scss';
 
 .data-grid :deep(.row) {
+  @include datagrid;
+
   .name {
     grid-area: name;
   }
@@ -122,25 +127,25 @@ export default defineComponent({
   .miles {
     grid-area: miles;
   }
-  .trash {
-    grid-area: trash;
+  .actions {
+    grid-area: actions;
   }
 
   grid-template-areas:
-    "name description from to miles trash";
+    "name description from to miles actions";
   grid-template-columns: 8em 12em 1fr 1fr 4em auto;
 
   @media (max-width: 1024px) {
-    @include multiline;
+    @include multiline-datagrid;
 
     grid-template-areas:
-      "name description miles trash"
-      "from to . .";
-    grid-template-columns: 1fr 1fr 4em auto;
+      "name description miles"
+      "from to actions";
+    grid-template-columns: 1fr 1fr 4em;
   }
 
   @media (max-width: 512px) {
-    @include multiline;
+    @include multiline-datagrid;
 
     grid-template-areas:
       "name"
@@ -148,19 +153,8 @@ export default defineComponent({
       "from"
       "to"
       "miles"
-      "trash";
+      "actions";
     grid-template-columns: 1fr;
-  }
-
-  input {
-    font-size: inherit;
-  }
-
-  .trash {
-    display: flex;
-    padding: 3px;
-    color: hsl(0, 50%, 50%);
-    justify-self: center;
   }
 }
 </style>

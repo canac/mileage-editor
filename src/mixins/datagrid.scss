@@ -1,0 +1,16 @@
+@mixin datagrid {
+  input {
+    font-size: inherit;
+  }
+
+  .actions {
+    .fas {
+      padding: 3px 5px;
+      cursor: pointer;
+    }
+
+    .fa-trash {
+      color: hsl(0, 50%, 50%);
+    }
+  }
+}
