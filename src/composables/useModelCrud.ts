@@ -55,13 +55,15 @@ type DestroyVariables = {
 export function useRead<Model extends ModelTemplate>(
   useReadQuery: () => UseQueryReturn<QueryResult<Model>, Record<string, never>>,
 ): {
-  models: Ref<Readonly<Model[] | undefined>>,
+  models: Ref<Readonly<Model[] | undefined>>;
+  loading: Ref<boolean>;
 } {
-  const { result } = useReadQuery();
+  const { result, loading } = useReadQuery();
 
   const models = useResult(result);
   return {
     models,
+    loading,
   };
 }
 
@@ -74,7 +76,7 @@ export function useCreate<
   modelName: Model['__typename'],
   readQuery: DocumentNode,
 ): {
-  create(newModel: OnlyFields<Model>): Promise<Model>,
+  create(newModel: OnlyFields<Model>): Promise<Model>;
 } {
   const { mutate } = useCreateMutation({});
 
@@ -133,7 +135,7 @@ export function useUpdate<
     UseMutationReturn<UpdateMutationResult<Model>, UpdateVariables<Model>>,
   modelName: Model['__typename'],
 ): {
-  update(id: MongoId, modifiedFields: ModifiableFields<Model>): Promise<Model>,
+  update(id: MongoId, modifiedFields: ModifiableFields<Model>): Promise<Model>;
 } {
   const { mutate } = useUpdateMutation({});
 
@@ -175,7 +177,7 @@ export function useDestroy<
   modelName: Model['__typename'],
   readQuery: DocumentNode,
 ): {
-  destroy(id: MongoId): Promise<MongoId>,
+  destroy(id: MongoId): Promise<MongoId>;
 } {
   const { mutate } = useDestroyMutation({});
 

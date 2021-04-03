@@ -4,27 +4,29 @@
     <p class="header">
       Mileage Table
     </p>
-    <MileageTable />
-    <details>
-      <summary class="header">
-        Journey Templates
-      </summary>
-      <JourneyTemplates />
-    </details>
-    <details>
-      <summary class="header">
-        Favorite Places
-      </summary>
-      <FavoritePlaces />
-    </details>
-    <GeneratedCode />
+    <div :class="{ invisible: !loaded }">
+      <MileageTable @loaded="loaded = true" />
+      <details>
+        <summary class="header">
+          Journey Templates
+        </summary>
+        <JourneyTemplates />
+      </details>
+      <details>
+        <summary class="header">
+          Favorite Places
+        </summary>
+        <FavoritePlaces />
+      </details>
+      <GeneratedCode />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import {
-  defineComponent, inject, provide, watchEffect,
+  defineComponent, inject, provide, ref, watchEffect,
 } from 'vue';
 import apolloClient from '../apollo';
 import { Auth0, AuthProvider } from '../auth/plugin';
@@ -64,6 +66,11 @@ export default defineComponent({
         auth.loginWithRedirect();
       }
     });
+
+    return {
+      // Show the components only after the MileageTable finishes loading to avoid CLS
+      loaded: ref(false),
+    };
   },
 });
 </script>
@@ -100,6 +107,10 @@ summary {
     font-weight: bold;
     margin-block-end: 0.67em;
     margin-block-start: 0.67em;
+  }
+
+  .invisible {
+    visibility: hidden;
   }
 }
 </style>

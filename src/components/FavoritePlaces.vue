@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import {
   useCreateFavoritePlace,
   useDestroyFavoritePlace,
@@ -48,13 +48,21 @@ export default defineComponent({
     DataGrid,
   },
 
-  setup() {
-    const { models: favoritePlaces } = useReadFavoritePlace();
+  emits: ['loaded'],
+
+  setup(props, { emit }) {
+    const { models: favoritePlaces, loading } = useReadFavoritePlace();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateFavoritePlace();
     const { update } = useUpdateFavoritePlace();
     const { destroy } = useDestroyFavoritePlace();
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    watch(loading, () => {
+      if (loading.value === false) {
+        emit('loaded');
+      }
+    });
 
     return {
       // Clone the readonly places array
