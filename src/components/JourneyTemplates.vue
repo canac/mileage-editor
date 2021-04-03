@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import {
   useCreateJourneyTemplate,
   useDestroyJourneyTemplate,
@@ -66,13 +66,21 @@ export default defineComponent({
     DataGrid,
   },
 
-  setup() {
-    const { models: journeys } = useReadJourneyTemplate();
+  emits: ['loaded'],
+
+  setup(props, { emit }) {
+    const { models: journeys, loading } = useReadJourneyTemplate();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourneyTemplate();
     const { update } = useUpdateJourneyTemplate();
     const { destroy } = useDestroyJourneyTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    watch(loading, () => {
+      if (loading.value === false) {
+        emit('loaded');
+      }
+    });
 
     return {
       // Clone the readonly journeys array

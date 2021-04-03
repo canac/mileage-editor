@@ -4,28 +4,29 @@
     <p class="header">
       Mileage Table
     </p>
-    <MileageTable />
-    <div class="blank-space" />
-    <details>
-      <summary class="header">
-        Journey Templates
-      </summary>
-      <JourneyTemplates />
-    </details>
-    <details>
-      <summary class="header">
-        Favorite Places
-      </summary>
-      <FavoritePlaces />
-    </details>
-    <GeneratedCode />
+    <div :class="{ invisible: !loaded }">
+      <MileageTable @loaded="loaded = true" />
+      <details>
+        <summary class="header">
+          Journey Templates
+        </summary>
+        <JourneyTemplates />
+      </details>
+      <details>
+        <summary class="header">
+          Favorite Places
+        </summary>
+        <FavoritePlaces />
+      </details>
+      <GeneratedCode />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import {
-  defineComponent, inject, provide, watchEffect,
+  defineComponent, inject, provide, ref, watchEffect,
 } from 'vue';
 import apolloClient from '../apollo';
 import { Auth0, AuthProvider } from '../auth/plugin';
@@ -65,6 +66,11 @@ export default defineComponent({
         auth.loginWithRedirect();
       }
     });
+
+    return {
+      // Show the components only after the MileageTable finishes loading to avoid CLS
+      loaded: ref(false),
+    };
   },
 });
 </script>
@@ -82,15 +88,18 @@ summary {
 
 <style lang="scss" scoped>
 .app {
-  --nav-bar-height: 3em;
   --root-margin: 8px;
-  display: grid;
-  min-height: calc(100vh - var(--root-margin) * 2 - var(--nav-bar-height));
+  display: flex;
+  min-height: calc(100vh - var(--root-margin) * 2);
+  flex-direction: column;
   margin: var(--root-margin);
-  grid-template-rows: auto max-content 1fr max-content max-content;
 
   .nav-bar {
     font-size: calc(min(6vw, 3em));
+  }
+
+  .mileage-table {
+    flex: 1;
   }
 
   .header {
@@ -98,6 +107,10 @@ summary {
     font-weight: bold;
     margin-block-end: 0.67em;
     margin-block-start: 0.67em;
+  }
+
+  .invisible {
+    visibility: hidden;
   }
 }
 </style>

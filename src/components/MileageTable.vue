@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import useExpandAddress from '../composables/useExpandAddress';
 import useExpandTemplate from '../composables/useExpandTemplate';
 import { useCreateJourneyTemplate } from '../composables/useJourneyTemplateCrud';
@@ -83,8 +83,10 @@ export default defineComponent({
     DataGrid,
   },
 
-  setup() {
-    const { models: journeys } = useReadJourney();
+  emits: ['loaded'],
+
+  setup(props, { emit }) {
+    const { models: journeys, loading } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
     const { create: createTemplate } = useCreateJourneyTemplate();
@@ -93,6 +95,12 @@ export default defineComponent({
     const { expandAddress } = useExpandAddress();
     const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    watch(loading, () => {
+      if (loading.value === false) {
+        emit('loaded');
+      }
+    });
 
     // Expand the description via journey templates
     // Return a boolean indicating whether the journey was expanded

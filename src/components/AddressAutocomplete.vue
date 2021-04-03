@@ -4,12 +4,13 @@
     v-model="address"
     class="address-autocomplete"
     @change="onChange()"
+    @focus.once="setupMapsAPI()"
   >
 </template>
 
 <script lang="ts">
 import {
-  Ref, defineComponent, onMounted, ref, toRefs, watch,
+  Ref, defineComponent, ref, toRefs, watch,
 } from 'vue';
 import useExpandAddress from '../composables/useExpandAddress';
 import useGoogleMapsApi from '../composables/useGoogleMapsApi';
@@ -53,7 +54,10 @@ export default defineComponent({
       broadcastChange();
     }
 
-    onMounted(async () => {
+    // Load and initialize the Google Maps autocomplete API
+    // Setup is deferred and lazy-loaded only after the autocomplete is focused so that it won't be unnecessarily
+    // loaded if it won't even be used
+    async function setupMapsAPI() {
       if (!input.value) {
         return;
       }
@@ -74,7 +78,7 @@ export default defineComponent({
         address.value = newAddress.endsWith(', USA') ? newAddress.slice(0, -5) : newAddress;
         broadcastChange();
       });
-    });
+    }
 
     // Sync up with changes from the outside
     watch(modelValue, () => {
@@ -85,6 +89,7 @@ export default defineComponent({
       input,
       address,
       onChange,
+      setupMapsAPI,
     };
   },
 });
