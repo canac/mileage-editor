@@ -5,7 +5,6 @@
       Mileage Table
     </p>
     <MileageTable />
-    <div class="blank-space" />
     <details>
       <summary class="header">
         Journey Templates
@@ -83,13 +82,17 @@ summary {
 <style lang="scss" scoped>
 .app {
   --root-margin: 8px;
-  display: grid;
+  display: flex;
   min-height: calc(100vh - var(--root-margin) * 2);
+  flex-direction: column;
   margin: var(--root-margin);
-  grid-template-rows: auto max-content max-content 1fr max-content max-content max-content;
 
   .nav-bar {
     font-size: calc(min(6vw, 3em));
+  }
+
+  .mileage-table {
+    flex: 1;
   }
 
   .header {
