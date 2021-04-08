@@ -4,7 +4,10 @@
     <p class="header">
       Mileage Table
     </p>
-    <div :class="{ invisible: !loaded }">
+    <div
+      v-show="loaded"
+      class="content"
+    >
       <MileageTable @loaded="loaded = true" />
       <details>
         <summary class="header">
@@ -98,6 +101,12 @@ summary {
     font-size: calc(min(6vw, 3em));
   }
 
+  .content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
   .mileage-table {
     flex: 1;
   }
@@ -107,10 +116,6 @@ summary {
     font-weight: bold;
     margin-block-end: 0.67em;
     margin-block-start: 0.67em;
-  }
-
-  .invisible {
-    visibility: hidden;
   }
 }
 </style>
