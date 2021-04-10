@@ -101,7 +101,13 @@ export default defineComponent({
     const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    const destinationRegExp = /^(.+) \[.+\]$/;
+    function parseDescription(description: string): { description: string; modifier: string } {
+      const matches = /^(?<description>[^[]+)?\s*(?:\[(?<modifier>.+)\])?$/.exec(description);
+      return {
+        description: (matches?.groups?.description ?? '').trim(),
+        modifier: matches?.groups?.modifier ?? '',
+      };
+    }
 
     watch(loading, () => {
       if (loading.value === false) {
@@ -160,7 +166,7 @@ export default defineComponent({
       const { date, to } = journey;
       return create({
         date,
-        description: '',
+        description: ' [to]',
         from: to,
         to: '',
         miles: 0,
@@ -170,7 +176,7 @@ export default defineComponent({
     // Start a new leg of the journey that begins where the specified journey ends and goes home
     function returnHome(journey: Journey): Promise<Journey> {
       const { date, description, to } = journey;
-      const [, rootDescription] = destinationRegExp.exec(description) ?? [];
+      const { description: rootDescription } = parseDescription(description);
       return create({
         date,
         description: `${rootDescription} [from]`,
@@ -200,12 +206,19 @@ export default defineComponent({
       // one from the template
       if (!expandDescription(journey)) {
         // Determine whether the destination has a "[xxx]" modifier at the end of it
-        const destinationHasModifier = destinationRegExp.test(journey.description);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        update(journey._id, {
+        const { description, modifier } = parseDescription(journey.description);
+
+        const changedFields: Partial<Journey> = {
           // Add a modifier if it doesn't have one
-          description: journey.description + (destinationHasModifier ? '' : ' [2 way]'),
-        });
+          description: `${description} [${modifier || '2 way'}]`,
+        };
+
+        if (modifier === 'from') {
+          changedFields.to = expandAddress('home');
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        update(journey._id, changedFields);
       }
     }
 
