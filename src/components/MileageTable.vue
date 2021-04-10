@@ -51,6 +51,11 @@
           @click="continueJourney(journey)"
         />
         <i
+          class="fas fa-fw fa-home"
+          title="Return home"
+          @click="returnHome(journey)"
+        />
+        <i
           class="fas fa-fw fa-save"
           title="Convert journey to template"
           @click="convertJourneyToTemplate(journey)"
@@ -95,6 +100,8 @@ export default defineComponent({
     const { expandAddress } = useExpandAddress();
     const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    const destinationRegExp = /^(.+) \[.+\]$/;
 
     watch(loading, () => {
       if (loading.value === false) {
@@ -160,6 +167,19 @@ export default defineComponent({
       });
     }
 
+    // Start a new leg of the journey that begins where the specified journey ends and goes home
+    function returnHome(journey: Journey): Promise<Journey> {
+      const { date, description, to } = journey;
+      const [, rootDescription] = destinationRegExp.exec(description) ?? [];
+      return create({
+        date,
+        description: `${rootDescription} [from]`,
+        from: to,
+        to: expandAddress('home'),
+        miles: 0,
+      });
+    }
+
     // Convert the journey into a journey template
     function convertJourneyToTemplate(journey: Journey): Promise<JourneyTemplate> {
       const {
@@ -179,8 +199,13 @@ export default defineComponent({
       // If the journey matched a template, don't save the original journey description because that will overwrite the
       // one from the template
       if (!expandDescription(journey)) {
+        // Determine whether the destination has a "[xxx]" modifier at the end of it
+        const destinationHasModifier = destinationRegExp.test(journey.description);
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        updateJourney(journey, 'description');
+        update(journey._id, {
+          // Add a modifier if it doesn't have one
+          description: journey.description + (destinationHasModifier ? '' : ' [2 way]'),
+        });
       }
     }
 
@@ -197,6 +222,7 @@ export default defineComponent({
 
       duplicateJourney,
       continueJourney,
+      returnHome,
       convertJourneyToTemplate,
     };
   },
