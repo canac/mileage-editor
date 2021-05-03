@@ -125,19 +125,6 @@ export default defineComponent({
       }
     });
 
-    // Expand the description via journey templates
-    // Return a boolean indicating whether the journey was expanded
-    function expandDescription(journey: Journey): boolean {
-      const changedFields = expandTemplate(journey);
-      if (!changedFields) {
-        return false;
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      update(journey._id, changedFields);
-      return true;
-    }
-
     // Create a new journey in the database
     function createJourney(): Promise<Journey> {
       return create({
@@ -214,29 +201,27 @@ export default defineComponent({
     function onDescriptionChange(journey: Journey) {
       // If the journey matched a template, don't save the original journey description because that will overwrite the
       // one from the template
-      if (!expandDescription(journey)) {
-        // Determine whether the destination has a "- xxx" modifier at the end of it
-        const { description, modifier } = parseDescription(journey.description);
+      const changedFields: Partial<Journey> = expandTemplate(journey) ?? {};
 
-        const changedFields: Partial<Journey> = {
-          // Add a modifier if it doesn't have one
-          description: `${description} - ${modifier || '2 way'}`,
-        };
+      // Determine whether the destination has a "- xxx" modifier at the end of it
+      const { description, modifier } = parseDescription(changedFields.description ?? journey.description);
 
-        if (modifier === 'from') {
-          changedFields.to = expandAddress('home');
-        }
+      // Normalize the description by adding a modifier if it doesn't have one
+      changedFields.description = `${description} - ${modifier || '2 way'}`;
 
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        update(journey._id, changedFields);
+      if (modifier === 'from') {
+        // "from" modifier means that we are going home
+        changedFields.to = expandAddress('home');
       }
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      update(journey._id, changedFields);
     }
 
     return {
       // Clone the readonly journeys array
       journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
 
-      expandDescription,
       onDescriptionChange,
 
       createJourney,
