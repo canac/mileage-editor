@@ -101,11 +101,21 @@ export default defineComponent({
     const { expandTemplate } = useExpandTemplate();
     /* eslint-enable @typescript-eslint/unbound-method */
 
+    // Extract the description and the modifier from a description
+    // The expected format is "description - modifier"
     function parseDescription(description: string): { description: string; modifier: string } {
-      const matches = /^(?<description>[^[]+)?\s*(?:\[(?<modifier>.+)\])?$/.exec(description);
+      const matches = /^(?<description>.+?)\s*-\s*(?<modifier>\S[^-]+)$/.exec(description);
+      if (!matches) {
+        // If the description doesn't match that pattern, use the entire description as the modifier
+        return {
+          description,
+          modifier: '',
+        };
+      }
+
       return {
-        description: (matches?.groups?.description ?? '').trim(),
-        modifier: matches?.groups?.modifier ?? '',
+        description: (matches.groups?.description ?? '').trim(),
+        modifier: matches.groups?.modifier ?? '',
       };
     }
 
@@ -166,7 +176,7 @@ export default defineComponent({
       const { date, to } = journey;
       return create({
         date,
-        description: ' [to]',
+        description: ' - to',
         from: to,
         to: '',
         miles: 0,
@@ -179,7 +189,7 @@ export default defineComponent({
       const { description: rootDescription } = parseDescription(description);
       return create({
         date,
-        description: `${rootDescription} [from]`,
+        description: `${rootDescription} - from`,
         from: to,
         to: expandAddress('home'),
         miles: 0,
@@ -205,12 +215,12 @@ export default defineComponent({
       // If the journey matched a template, don't save the original journey description because that will overwrite the
       // one from the template
       if (!expandDescription(journey)) {
-        // Determine whether the destination has a "[xxx]" modifier at the end of it
+        // Determine whether the destination has a "- xxx" modifier at the end of it
         const { description, modifier } = parseDescription(journey.description);
 
         const changedFields: Partial<Journey> = {
           // Add a modifier if it doesn't have one
-          description: `${description} [${modifier || '2 way'}]`,
+          description: `${description} - ${modifier || '2 way'}`,
         };
 
         if (modifier === 'from') {
