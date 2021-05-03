@@ -90,7 +90,7 @@ export default defineComponent({
 
   emits: ['loaded'],
 
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const { models: journeys, loading } = useReadJourney();
     /* eslint-disable @typescript-eslint/unbound-method */
     const { create } = useCreateJourney();
