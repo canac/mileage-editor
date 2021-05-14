@@ -16,9 +16,9 @@ import AsyncAuth0Client from './AsyncAuth0Client';
 const asyncClient: AsyncAuth0Client = new AsyncAuth0Client();
 
 interface Auth0PluginState {
-  loading: boolean,
+  loading: boolean;
   isAuthenticated: boolean;
-  user: User | undefined,
+  user: User | undefined;
   popupOpen: boolean;
   error: unknown;
 }

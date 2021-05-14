@@ -6,7 +6,7 @@ const { VITE_GOOGLE_API_KEY } = import.meta.env;
 const apiKey = typeof VITE_GOOGLE_API_KEY === 'string' ? VITE_GOOGLE_API_KEY : '';
 
 export default function useGoogleMapsApi(): {
-  lazyLoad: () => Promise<GoogleMaps>,
+  lazyLoad: () => Promise<GoogleMaps>;
   } {
   let mapsApiPromise: Promise<GoogleMaps> | null = null;
 

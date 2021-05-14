@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="gridRef"
-    class="data-grid"
-  >
+  <div ref="gridRef" class="data-grid">
     <form
       v-for="(row, index) in rows"
       :key="index"
@@ -10,17 +7,20 @@
       @submit.prevent="onSubmit(index)"
     >
       <slot :row="row" />
-      <button
-        type="submit"
-        style="display: none;"
-      />
+      <button type="submit" style="display: none;" />
     </form>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  PropType, Ref, defineComponent, nextTick, ref, toRefs, watch,
+  PropType,
+  Ref,
+  defineComponent,
+  nextTick,
+  ref,
+  toRefs,
+  watch,
 } from 'vue';
 
 export default defineComponent({
@@ -59,9 +59,11 @@ export default defineComponent({
       }
 
       // Determine which column of the grid is currently focused
-      const columns = Array.from(gridRef.value.querySelectorAll<HTMLElement>(
-        `.row:nth-of-type(${index + 1}) ${props.columnSelector}`,
-      ));
+      const columns = Array.from(
+        gridRef.value.querySelectorAll<HTMLElement>(
+          `.row:nth-of-type(${index + 1}) ${props.columnSelector}`,
+        ),
+      );
       const focusedInput = gridRef.value.querySelector<HTMLElement>(':focus');
       const focusedColumn = focusedInput ? columns.indexOf(focusedInput) : -1;
       if (focusedColumn === -1) {
@@ -79,9 +81,11 @@ export default defineComponent({
           await nextTick();
         }
 
-        const [firstColumn] = Array.from(gridRef.value.querySelectorAll<HTMLElement>(
-          `.row:nth-of-type(${index + 2}) ${props.columnSelector}`,
-        ));
+        const [firstColumn] = Array.from(
+          gridRef.value.querySelectorAll<HTMLElement>(
+            `.row:nth-of-type(${index + 2}) ${props.columnSelector}`,
+          ),
+        );
         if (firstColumn) {
           firstColumn.focus();
         }
