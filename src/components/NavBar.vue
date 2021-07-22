@@ -36,6 +36,7 @@ export default defineComponent({
       isAuthenticated,
       user,
       logout() {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         auth.logout();
       },
     };
