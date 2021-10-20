@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <NavBar />
-    <p class="header">Mileage Table</p>
+    <p class="header">Mileage Table <ReimbursementTotals /></p>
     <div v-show="loaded" class="content">
       <MileageTable @loaded="loaded = true" />
       <details>
@@ -27,6 +27,7 @@ import GeneratedCode from './GeneratedCode.vue';
 import JourneyTemplates from './JourneyTemplates.vue';
 import MileageTable from './MileageTable.vue';
 import NavBar from './NavBar.vue';
+import ReimbursementTotals from './ReimbursementTotals.vue';
 
 import '@fortawesome/fontawesome-free/css/solid.css';
 import '@fortawesome/fontawesome-free/css/fontawesome.css';
@@ -39,6 +40,7 @@ export default defineComponent({
     JourneyTemplates,
     MileageTable,
     NavBar,
+    ReimbursementTotals,
   },
 
   setup() {
