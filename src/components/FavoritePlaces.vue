@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="favorite-places"
-  >
+  <div class="favorite-places">
     <data-grid
       v-slot="{ row: place }"
       :rows="places"
@@ -12,7 +10,7 @@
         class="name"
         placeholder="Name"
         @change="updateFavoritePlace(place, 'name')"
-      >
+      />
       <AddressAutocomplete
         v-model="place.address"
         class="address"
@@ -21,10 +19,7 @@
         @change="updateFavoritePlace(place, 'address')"
       />
       <div class="actions">
-        <i
-          class="fas fa-fw fa-trash"
-          @click="deleteFavoritePlace(place)"
-        />
+        <i class="fas fa-fw fa-trash" @click="deleteFavoritePlace(place)" />
       </div>
     </data-grid>
   </div>
@@ -66,7 +61,11 @@ export default defineComponent({
 
     return {
       // Clone the readonly places array
-      places: computed(() => favoritePlaces.value && favoritePlaces.value.map((place) => ({ ...place }))),
+      places: computed(
+        () =>
+          favoritePlaces.value &&
+          favoritePlaces.value.map((place) => ({ ...place })),
+      ),
 
       // Create a new favorite place in the database
       createFavoritePlace(): Promise<FavoritePlace> {
@@ -77,7 +76,10 @@ export default defineComponent({
       },
 
       // Save the field that changed to the database
-      updateFavoritePlace(place: FavoritePlace, field: keyof FavoritePlace): Promise<FavoritePlace> {
+      updateFavoritePlace(
+        place: FavoritePlace,
+        field: keyof FavoritePlace,
+      ): Promise<FavoritePlace> {
         return update(place._id, {
           [field]: place[field],
         });
@@ -109,17 +111,16 @@ export default defineComponent({
     grid-area: actions;
   }
 
-  grid-template-areas:
-    "name address actions";
+  grid-template-areas: 'name address actions';
   grid-template-columns: 1fr 3fr auto;
 
   @media (max-width: 512px) {
     @include multiline-datagrid;
 
     grid-template-areas:
-      "name"
-      "address"
-      "actions";
+      'name'
+      'address'
+      'actions';
     grid-template-columns: 1fr;
   }
 }

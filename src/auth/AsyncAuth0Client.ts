@@ -1,4 +1,7 @@
-import createAuth0Client, { Auth0Client, Auth0ClientOptions } from '@auth0/auth0-spa-js';
+import createAuth0Client, {
+  Auth0Client,
+  Auth0ClientOptions,
+} from '@auth0/auth0-spa-js';
 
 /*
  * This class represents an asynchronously loaded Auth0 client. Instead of the application synchronously accessing
@@ -39,12 +42,14 @@ export default class AsyncAuth0Client {
     this.initialized = true;
 
     const clientPromise = createAuth0Client(options);
-    clientPromise.then((client) => {
-      this.client = client;
-      this.resolveLoadClient(client);
-    }).catch((error) => {
-      this.rejectLoadClient(error);
-    });
+    clientPromise
+      .then((client) => {
+        this.client = client;
+        this.resolveLoadClient(client);
+      })
+      .catch((error) => {
+        this.rejectLoadClient(error);
+      });
     return clientPromise;
   }
 

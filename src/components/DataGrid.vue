@@ -7,7 +7,7 @@
       @submit.prevent="onSubmit(index)"
     >
       <slot :row="row" />
-      <button type="submit" style="display: none;" />
+      <button type="submit" style="display: none" />
     </form>
   </div>
 </template>

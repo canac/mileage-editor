@@ -1,9 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import vue from '@vitejs/plugin-vue';
-import {
-  ConfigEnv, UserConfigExport, defineConfig, loadEnv,
-} from 'vite';
+import { ConfigEnv, UserConfigExport, defineConfig, loadEnv } from 'vite';
 import { injectHtml } from 'vite-plugin-html';
 
 // https://vitejs.dev/config/

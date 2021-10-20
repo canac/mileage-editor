@@ -9,7 +9,12 @@ import {
   User,
 } from '@auth0/auth0-spa-js';
 import {
-  App, ComputedRef, InjectionKey, Plugin, computed, reactive,
+  App,
+  ComputedRef,
+  InjectionKey,
+  Plugin,
+  computed,
+  reactive,
 } from 'vue';
 import AsyncAuth0Client from './AsyncAuth0Client';
 
@@ -72,8 +77,15 @@ async function logout(o: LogoutOptions) {
   return client.logout(o);
 }
 
-export interface Auth0 extends Pick<Auth0Client, 'getIdTokenClaims' | 'getTokenSilently' | 'getTokenWithPopup' |
-  'loginWithRedirect' | 'logout'> {
+export interface Auth0
+  extends Pick<
+    Auth0Client,
+    | 'getIdTokenClaims'
+    | 'getTokenSilently'
+    | 'getTokenWithPopup'
+    | 'loginWithRedirect'
+    | 'logout'
+  > {
   isAuthenticated: ComputedRef<boolean>;
   loading: ComputedRef<boolean>;
   user: ComputedRef<User | undefined>;
@@ -103,7 +115,10 @@ async function init(options: Auth0PluginOptions): Promise<Plugin> {
 
   try {
     // If the user is returning to the app after authentication
-    if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
+    if (
+      window.location.search.includes('code=') &&
+      window.location.search.includes('state=')
+    ) {
       // handle the redirect and retrieve tokens
       const result = await client.handleRedirectCallback();
 

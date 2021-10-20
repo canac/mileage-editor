@@ -4,18 +4,21 @@ require('dotenv').config({ path: '.env.local' });
 
 async function config() {
   // Generate an access token to be able to access the GraphQL API
-  const res = await fetch(`https://${process.env.VITE_AUTH0_DOMAIN}/oauth/token`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
+  const res = await fetch(
+    `https://${process.env.VITE_AUTH0_DOMAIN}/oauth/token`,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        grant_type: 'client_credentials',
+        client_id: process.env.GQL_CODEGEN_AUTH0_CLIENT_ID,
+        client_secret: process.env.GQL_CODEGEN_AUTH0_CLIENT_SECRET,
+        audience: process.env.VITE_AUTH0_AUDIENCE,
+      }),
     },
-    body: JSON.stringify({
-      grant_type: 'client_credentials',
-      client_id: process.env.GQL_CODEGEN_AUTH0_CLIENT_ID,
-      client_secret: process.env.GQL_CODEGEN_AUTH0_CLIENT_SECRET,
-      audience: process.env.VITE_AUTH0_AUDIENCE,
-    }),
-  });
+  );
   const body = await res.json();
   return {
     overwrite: true,

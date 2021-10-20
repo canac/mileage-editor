@@ -18,7 +18,10 @@ mutation CreateFavoritePlace($record: CreateOneFavoritePlaceInput!) {
   }
 }
 
-mutation UpdateFavoritePlace($id: MongoID!, $record: UpdateByIdFavoritePlaceInput!) {
+mutation UpdateFavoritePlace(
+  $id: MongoID!
+  $record: UpdateByIdFavoritePlaceInput!
+) {
   result: favoritePlaceUpdateById(_id: $id, record: $record) {
     record {
       ...FavoritePlaceFields

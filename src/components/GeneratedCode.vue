@@ -3,9 +3,7 @@
     <details>
       <summary>
         Generated code
-        <button @click="copy()">
-          Copy
-        </button>
+        <button @click="copy()">Copy</button>
       </summary>
       <pre>{{ generatedCode }}</pre>
     </details>
@@ -46,7 +44,9 @@ export default defineComponent({
 
     const generatedCode = computed((): string => {
       const func = populateMileageLog.toString();
-      const data = (journeys.value ?? []).map(({ _id, __typename, ...fields }) => fields);
+      const data = (journeys.value ?? []).map(
+        ({ _id, __typename, ...fields }) => fields,
+      );
       return `(${func})(${JSON.stringify(data, null, 2)});`;
     });
 

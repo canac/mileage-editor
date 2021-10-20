@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  Journey, ReadJourneysDocument, ReadJourneysQuery,
-  useCreateJourneyMutation, useDeleteJourneyMutation,
-  useReadJourneysQuery, useUpdateJourneyMutation,
+  Journey,
+  ReadJourneysDocument,
+  ReadJourneysQuery,
+  useCreateJourneyMutation,
+  useDeleteJourneyMutation,
+  useReadJourneysQuery,
+  useUpdateJourneyMutation,
 } from '../generated/graphql';
-import {
-  useCreate, useDestroy, useRead, useUpdate,
-} from './useModelCrud';
+import { useCreate, useDestroy, useRead, useUpdate } from './useModelCrud';
 
 export function useReadJourney() {
   return useRead<Journey>(useReadJourneysQuery);
@@ -14,18 +16,20 @@ export function useReadJourney() {
 
 export function useCreateJourney() {
   return useCreate<Journey, ReadJourneysQuery>(
-    useCreateJourneyMutation, 'Journey', ReadJourneysDocument,
+    useCreateJourneyMutation,
+    'Journey',
+    ReadJourneysDocument,
   );
 }
 
 export function useUpdateJourney() {
-  return useUpdate<Journey>(
-    useUpdateJourneyMutation, 'Journey',
-  );
+  return useUpdate<Journey>(useUpdateJourneyMutation, 'Journey');
 }
 
 export function useDestroyJourney() {
   return useDestroy<Journey, ReadJourneysQuery>(
-    useDeleteJourneyMutation, 'Journey', ReadJourneysDocument,
+    useDeleteJourneyMutation,
+    'Journey',
+    ReadJourneysDocument,
   );
 }

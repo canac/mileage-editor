@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="mileage-table"
-  >
+  <div class="mileage-table">
     <data-grid
       v-slot="{ row: journey }"
       :rows="journeys"
@@ -13,13 +11,13 @@
         placeholder="Date"
         type="date"
         @change="updateJourney(journey, 'date')"
-      >
+      />
       <input
         v-model="journey.description"
         class="description"
         placeholder="Description"
         @change="onDescriptionChange(journey)"
-      >
+      />
       <AddressAutocomplete
         v-model="journey.from"
         class="from"
@@ -38,7 +36,7 @@
         placeholder="Miles"
         type="number"
         @change="updateJourney(journey, 'miles')"
-      >
+      />
       <div class="actions">
         <i
           class="fas fa-fw fa-copy"
@@ -76,7 +74,10 @@ import useExpandAddress from '../composables/useExpandAddress';
 import useExpandTemplate from '../composables/useExpandTemplate';
 import { useCreateJourneyTemplate } from '../composables/useJourneyTemplateCrud';
 import {
-  useCreateJourney, useDestroyJourney, useReadJourney, useUpdateJourney,
+  useCreateJourney,
+  useDestroyJourney,
+  useReadJourney,
+  useUpdateJourney,
 } from '../composables/useMileageLogCrud';
 import { Journey, JourneyTemplate } from '../generated/graphql';
 import AddressAutocomplete from './AddressAutocomplete.vue';
@@ -103,8 +104,13 @@ export default defineComponent({
 
     // Extract the description and the modifier from a description
     // The expected format is "description - modifier"
-    function parseDescription(description: string): { description: string; modifier: string } {
-      const matches = /^(?<description>.+?)\s*-\s*(?<modifier>\S[^-]+)$/.exec(description);
+    function parseDescription(description: string): {
+      description: string;
+      modifier: string;
+    } {
+      const matches = /^(?<description>.+?)\s*-\s*(?<modifier>\S[^-]+)$/.exec(
+        description,
+      );
       if (!matches) {
         // If the description doesn't match that pattern, use the entire description as the modifier
         return {
@@ -137,7 +143,10 @@ export default defineComponent({
     }
 
     // Save the field that changed to the database
-    function updateJourney(journey: Journey, field: keyof Journey): Promise<Journey> {
+    function updateJourney(
+      journey: Journey,
+      field: keyof Journey,
+    ): Promise<Journey> {
       return update(journey._id, {
         [field]: journey[field],
       });
@@ -150,11 +159,13 @@ export default defineComponent({
 
     // Make a copy of the specified journey
     function duplicateJourney(journey: Journey): Promise<Journey> {
-      const {
-        date, description, from, to, miles,
-      } = journey;
+      const { date, description, from, to, miles } = journey;
       return create({
-        date, description, from, to, miles,
+        date,
+        description,
+        from,
+        to,
+        miles,
       });
     }
 
@@ -184,10 +195,10 @@ export default defineComponent({
     }
 
     // Convert the journey into a journey template
-    function convertJourneyToTemplate(journey: Journey): Promise<JourneyTemplate> {
-      const {
-        description, from, to, miles,
-      } = journey;
+    function convertJourneyToTemplate(
+      journey: Journey,
+    ): Promise<JourneyTemplate> {
+      const { description, from, to, miles } = journey;
       return createTemplate({
         name: '',
         description,
@@ -204,7 +215,9 @@ export default defineComponent({
       const changedFields: Partial<Journey> = expandTemplate(journey) ?? {};
 
       // Determine whether the destination has a "- xxx" modifier at the end of it
-      const { description, modifier } = parseDescription(changedFields.description ?? journey.description);
+      const { description, modifier } = parseDescription(
+        changedFields.description ?? journey.description,
+      );
 
       // Normalize the description by adding a modifier if it doesn't have one
       changedFields.description = `${description} - ${modifier || '2 way'}`;
@@ -220,7 +233,10 @@ export default defineComponent({
 
     return {
       // Clone the readonly journeys array
-      journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
+      journeys: computed(
+        () =>
+          journeys.value && journeys.value.map((journey) => ({ ...journey })),
+      ),
 
       onDescriptionChange,
 
@@ -263,17 +279,16 @@ export default defineComponent({
     grid-area: actions;
   }
 
-  grid-template-areas:
-    "date description from to miles actions";
+  grid-template-areas: 'date description from to miles actions';
   grid-template-columns: 9em 12em 1fr 1fr 4em auto;
 
   @media (max-width: 1024px) {
     @include multiline-datagrid;
 
     grid-template-areas:
-      "date description"
-      "from to"
-      "miles actions";
+      'date description'
+      'from to'
+      'miles actions';
     grid-template-columns: 1fr 1fr;
   }
 
@@ -281,12 +296,12 @@ export default defineComponent({
     @include multiline-datagrid;
 
     grid-template-areas:
-      "date"
-      "description"
-      "from"
-      "to"
-      "miles"
-      "actions";
+      'date'
+      'description'
+      'from'
+      'to'
+      'miles'
+      'actions';
     grid-template-columns: 1fr;
   }
 

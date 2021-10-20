@@ -3,7 +3,7 @@ import { useReadFavoritePlace } from './useFavoritePlacesCrud';
 // Attempt to expand an address shortcut to a full address
 export default function useExpandAddress(): {
   expandAddress: (address: string) => string;
-  } {
+} {
   const { models: favoritePlaces } = useReadFavoritePlace();
 
   return {

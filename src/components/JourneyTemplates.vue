@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="journey-templates"
-  >
+  <div class="journey-templates">
     <data-grid
       v-slot="{ row: journey }"
       :rows="journeys"
@@ -12,13 +10,13 @@
         class="name"
         placeholder="Name"
         @change="updateJourneyTemplate(journey, 'name')"
-      >
+      />
       <input
         v-model="journey.description"
         class="description"
         placeholder="Description"
         @change="updateJourneyTemplate(journey, 'description')"
-      >
+      />
       <AddressAutocomplete
         v-model="journey.from"
         class="from"
@@ -37,12 +35,9 @@
         type="number"
         placeholder="Miles"
         @change="updateJourneyTemplate(journey, 'miles')"
-      >
+      />
       <div class="actions">
-        <i
-          class="fas fa-fw fa-trash"
-          @click="deleteJourneyTemplate(journey)"
-        />
+        <i class="fas fa-fw fa-trash" @click="deleteJourneyTemplate(journey)" />
       </div>
     </data-grid>
   </div>
@@ -84,7 +79,10 @@ export default defineComponent({
 
     return {
       // Clone the readonly journeys array
-      journeys: computed(() => journeys.value && journeys.value.map((journey) => ({ ...journey }))),
+      journeys: computed(
+        () =>
+          journeys.value && journeys.value.map((journey) => ({ ...journey })),
+      ),
 
       // Create a journey template in the database
       createJourneyTemplate(): Promise<JourneyTemplate> {
@@ -98,7 +96,10 @@ export default defineComponent({
       },
 
       // Save the field that changed to the database
-      updateJourneyTemplate(journey: JourneyTemplate, field: keyof JourneyTemplate): Promise<JourneyTemplate> {
+      updateJourneyTemplate(
+        journey: JourneyTemplate,
+        field: keyof JourneyTemplate,
+      ): Promise<JourneyTemplate> {
         return update(journey._id, {
           [field]: journey[field],
         });
@@ -139,16 +140,15 @@ export default defineComponent({
     grid-area: actions;
   }
 
-  grid-template-areas:
-    "name description from to miles actions";
+  grid-template-areas: 'name description from to miles actions';
   grid-template-columns: 8em 12em 1fr 1fr 4em auto;
 
   @media (max-width: 1024px) {
     @include multiline-datagrid;
 
     grid-template-areas:
-      "name description miles"
-      "from to actions";
+      'name description miles'
+      'from to actions';
     grid-template-columns: 1fr 1fr 4em;
   }
 
@@ -156,12 +156,12 @@ export default defineComponent({
     @include multiline-datagrid;
 
     grid-template-areas:
-      "name"
-      "description"
-      "from"
-      "to"
-      "miles"
-      "actions";
+      'name'
+      'description'
+      'from'
+      'to'
+      'miles'
+      'actions';
     grid-template-columns: 1fr;
   }
 }

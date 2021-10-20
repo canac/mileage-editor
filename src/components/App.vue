@@ -1,24 +1,15 @@
 <template>
   <div class="app">
     <NavBar />
-    <p class="header">
-      Mileage Table
-    </p>
-    <div
-      v-show="loaded"
-      class="content"
-    >
+    <p class="header">Mileage Table</p>
+    <div v-show="loaded" class="content">
       <MileageTable @loaded="loaded = true" />
       <details>
-        <summary class="header">
-          Journey Templates
-        </summary>
+        <summary class="header">Journey Templates</summary>
         <JourneyTemplates />
       </details>
       <details>
-        <summary class="header">
-          Favorite Places
-        </summary>
+        <summary class="header">Favorite Places</summary>
         <FavoritePlaces />
       </details>
       <GeneratedCode />
@@ -28,9 +19,7 @@
 
 <script lang="ts">
 import { DefaultApolloClient } from '@vue/apollo-composable';
-import {
-  defineComponent, inject, provide, ref, watchEffect,
-} from 'vue';
+import { defineComponent, inject, provide, ref, watchEffect } from 'vue';
 import apolloClient from '../apollo';
 import { Auth0, AuthProvider } from '../auth/plugin';
 import FavoritePlaces from './FavoritePlaces.vue';

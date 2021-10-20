@@ -21,7 +21,10 @@ mutation CreateJourneyTemplate($record: CreateOneJourneyTemplateInput!) {
   }
 }
 
-mutation UpdateJourneyTemplate($id: MongoID!, $record: UpdateByIdJourneyTemplateInput!) {
+mutation UpdateJourneyTemplate(
+  $id: MongoID!
+  $record: UpdateByIdJourneyTemplateInput!
+) {
   result: journeyTemplateUpdateById(_id: $id, record: $record) {
     record {
       ...JourneyTemplateFields

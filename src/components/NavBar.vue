@@ -1,20 +1,8 @@
 <template>
-  <div
-    v-if="!loading && isAuthenticated"
-    class="nav-bar"
-  >
-    <img
-      class="avatar"
-      :src="user.picture"
-      alt="Avatar"
-    >
-    <span class="title">
-      Concur Mileage Editor
-    </span>
-    <i
-      class="fas fa-power-off logout"
-      @click="logout"
-    />
+  <div v-if="!loading && isAuthenticated" class="nav-bar">
+    <img class="avatar" :src="user.picture" alt="Avatar" />
+    <span class="title"> Concur Mileage Editor </span>
+    <i class="fas fa-power-off logout" @click="logout" />
   </div>
 </template>
 

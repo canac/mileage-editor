@@ -5,13 +5,11 @@
     class="address-autocomplete"
     @change="onChange()"
     @focus.once="setupMapsAPI()"
-  >
+  />
 </template>
 
 <script lang="ts">
-import {
-  Ref, defineComponent, ref, toRefs, watch,
-} from 'vue';
+import { Ref, defineComponent, ref, toRefs, watch } from 'vue';
 import useExpandAddress from '../composables/useExpandAddress';
 import useGoogleMapsApi from '../composables/useGoogleMapsApi';
 
@@ -75,15 +73,21 @@ export default defineComponent({
         }
 
         // Trim off the trailing country code if present
-        address.value = newAddress.endsWith(', USA') ? newAddress.slice(0, -5) : newAddress;
+        address.value = newAddress.endsWith(', USA')
+          ? newAddress.slice(0, -5)
+          : newAddress;
         broadcastChange();
       });
     }
 
     // Sync up with changes from the outside
-    watch(modelValue, () => {
-      address.value = modelValue.value;
-    }, { immediate: true });
+    watch(
+      modelValue,
+      () => {
+        address.value = modelValue.value;
+      },
+      { immediate: true },
+    );
 
     return {
       input,

@@ -30,7 +30,6 @@ mutation UpdateJourney($id: MongoID!, $record: UpdateByIdJourneyInput!) {
 }
 
 mutation DeleteJourney($id: MongoID!) {
-
   result: journeyRemoveById(_id: $id) {
     recordId
   }
