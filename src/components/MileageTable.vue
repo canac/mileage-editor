@@ -37,6 +37,13 @@
         type="number"
         @change="updateJourney(journey, 'miles')"
       />
+      <input
+        v-model.number="journey.tolls"
+        class="tolls"
+        placeholder="Tolls"
+        type="number"
+        @change="updateJourney(journey, 'tolls')"
+      />
       <div class="actions">
         <i
           class="fas fa-fw fa-copy"
@@ -139,6 +146,7 @@ export default defineComponent({
         from: expandAddress('home'),
         to: '',
         miles: 0,
+        tolls: 0,
       });
     }
 
@@ -159,13 +167,14 @@ export default defineComponent({
 
     // Make a copy of the specified journey
     function duplicateJourney(journey: Journey): Promise<Journey> {
-      const { date, description, from, to, miles } = journey;
+      const { date, description, from, to, miles, tolls } = journey;
       return create({
         date,
         description,
         from,
         to,
         miles,
+        tolls,
       });
     }
 
@@ -178,6 +187,7 @@ export default defineComponent({
         from: to,
         to: '',
         miles: 0,
+        tolls: 0,
       });
     }
 
@@ -191,6 +201,7 @@ export default defineComponent({
         from: to,
         to: expandAddress('home'),
         miles: 0,
+        tolls: 0,
       });
     }
 
@@ -275,21 +286,24 @@ export default defineComponent({
   .miles {
     grid-area: miles;
   }
+  .tolls {
+    grid-area: tolls;
+  }
   .actions {
     grid-area: actions;
   }
 
-  grid-template-areas: 'date description from to miles actions';
-  grid-template-columns: 9em 12em 1fr 1fr 4em auto;
+  grid-template-areas: 'date description from to miles tolls actions';
+  grid-template-columns: 9em 12em 1fr 1fr 4em 4em auto;
 
   @media (max-width: 1024px) {
     @include multiline-datagrid;
 
     grid-template-areas:
-      'date description'
-      'from to'
-      'miles actions';
-    grid-template-columns: 1fr 1fr;
+      'date date description description'
+      'from from to to'
+      'miles tolls actions actions';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   @media (max-width: 512px) {
@@ -301,6 +315,7 @@ export default defineComponent({
       'from'
       'to'
       'miles'
+      'tolls'
       'actions';
     grid-template-columns: 1fr;
   }

@@ -3,9 +3,10 @@
     <details>
       <summary>
         Generated code
-        <button @click="copy()">Copy</button>
+        <button @click="copyMileage()">Copy mileage</button>
+        <button @click="copyTolls()">Copy tolls</button>
       </summary>
-      <pre>{{ generatedCode }}</pre>
+      <pre>{{ generatedMileageCode }}{{ generatedTollsCode }}</pre>
     </details>
   </div>
 </template>
@@ -38,26 +39,69 @@ function populateMileageLog(journeys: Journey[]) {
 }
 /* eslint-enable */
 
+/* eslint-disable
+  no-undef,
+  @typescript-eslint/no-unsafe-call,
+  @typescript-eslint/no-unsafe-member-access,
+  @typescript-eslint/no-unsafe-assignment
+*/
+function populateTolls(journeys: Journey[]) {
+  const { store } = Ext.getCmp('QuickExpenseGrid');
+
+  journeys
+    .filter((journey) => journey.tolls > 0)
+    .forEach((journey, index) => {
+      store.addCexp();
+
+      const expense = store.data.items[index];
+      expense.set('TransactionDate', new Date(journey.date));
+      expense.set('Description', `${journey.description} tolls`);
+      expense.set('ExpKey', 'CARFR');
+      expense.set('TransactionAmount', journey.tolls / 100);
+    });
+}
+/* eslint-enable */
+
 export default defineComponent({
   setup() {
     const { models: journeys } = useReadJourney();
 
-    const generatedCode = computed((): string => {
-      const func = populateMileageLog.toString();
+    const serializedData = computed((): string => {
       const data = (journeys.value ?? []).map(
         ({ _id, __typename, ...fields }) => fields,
       );
-      return `(${func})(${JSON.stringify(data, null, 2)});`;
+      return JSON.stringify(data, null, 2);
     });
 
-    async function copy() {
-      await navigator.clipboard.writeText(generatedCode.value);
+    const generatedMileageCode = computed(
+      (): string =>
+        `(${populateMileageLog.toString()})(${serializedData.value});`,
+    );
+
+    const generatedTollsCode = computed(
+      (): string => `(${populateTolls.toString()})(${serializedData.value});`,
+    );
+
+    async function copyMileage() {
+      await navigator.clipboard.writeText(generatedMileageCode.value);
+    }
+
+    async function copyTolls() {
+      await navigator.clipboard.writeText(generatedTollsCode.value);
     }
 
     return {
-      generatedCode,
-      copy,
+      generatedMileageCode,
+      generatedTollsCode,
+      copyMileage,
+      copyTolls,
     };
   },
 });
 </script>
+
+<style lang="scss">
+button {
+  margin-left: 1em;
+}
+</style>

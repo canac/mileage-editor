@@ -44,6 +44,7 @@ export type CreateManyJourneyInput = {
   from: Scalars['String'];
   miles: Scalars['Float'];
   to: Scalars['String'];
+  tolls: Scalars['Float'];
 };
 
 export type CreateManyJourneyPayload = {
@@ -99,6 +100,7 @@ export type CreateOneJourneyInput = {
   from: Scalars['String'];
   miles: Scalars['Float'];
   to: Scalars['String'];
+  tolls: Scalars['Float'];
 };
 
 export type CreateOneJourneyPayload = {
@@ -209,6 +211,7 @@ export type FilterCountJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -293,6 +296,7 @@ export type FilterFindManyJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -377,6 +381,7 @@ export type FilterFindOneJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -461,6 +466,7 @@ export type FilterRemoveManyJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -545,6 +551,7 @@ export type FilterRemoveOneJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -629,6 +636,7 @@ export type FilterUpdateManyJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -713,6 +721,7 @@ export type FilterUpdateOneJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 /** For performance reason this type contains only *indexed* fields. */
@@ -768,6 +777,7 @@ export type Journey = {
   from: Scalars['String'];
   miles: Scalars['Float'];
   to: Scalars['String'];
+  tolls: Scalars['Float'];
 };
 
 /** A connection to a list of items. */
@@ -1502,6 +1512,7 @@ export type UpdateByIdJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateByIdJourneyPayload = {
@@ -1551,6 +1562,7 @@ export type UpdateManyJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateManyJourneyPayload = {
@@ -1598,6 +1610,7 @@ export type UpdateOneJourneyInput = {
   from?: Maybe<Scalars['String']>;
   miles?: Maybe<Scalars['Float']>;
   to?: Maybe<Scalars['String']>;
+  tolls?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateOneJourneyPayload = {
@@ -1677,19 +1690,19 @@ export type DeleteFavoritePlaceMutationVariables = Exact<{
 
 export type DeleteFavoritePlaceMutation = { __typename: 'Mutation', result?: { __typename: 'RemoveByIdFavoritePlacePayload', recordId?: string | null | undefined } | null | undefined };
 
-export type JourneyFieldsFragment = { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number };
+export type JourneyFieldsFragment = { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number, tolls: number };
 
 export type ReadJourneysQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ReadJourneysQuery = { __typename: 'Query', records: Array<{ __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number }> };
+export type ReadJourneysQuery = { __typename: 'Query', records: Array<{ __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number, tolls: number }> };
 
 export type CreateJourneyMutationVariables = Exact<{
   record: CreateOneJourneyInput;
 }>;
 
 
-export type CreateJourneyMutation = { __typename: 'Mutation', result?: { __typename: 'CreateOneJourneyPayload', record?: { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number } | null | undefined } | null | undefined };
+export type CreateJourneyMutation = { __typename: 'Mutation', result?: { __typename: 'CreateOneJourneyPayload', record?: { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number, tolls: number } | null | undefined } | null | undefined };
 
 export type UpdateJourneyMutationVariables = Exact<{
   id: Scalars['MongoID'];
@@ -1697,7 +1710,7 @@ export type UpdateJourneyMutationVariables = Exact<{
 }>;
 
 
-export type UpdateJourneyMutation = { __typename: 'Mutation', result?: { __typename: 'UpdateByIdJourneyPayload', record?: { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number } | null | undefined } | null | undefined };
+export type UpdateJourneyMutation = { __typename: 'Mutation', result?: { __typename: 'UpdateByIdJourneyPayload', record?: { __typename: 'Journey', _id: string, date: string, description: string, from: string, to: string, miles: number, tolls: number } | null | undefined } | null | undefined };
 
 export type DeleteJourneyMutationVariables = Exact<{
   id: Scalars['MongoID'];
@@ -1750,6 +1763,7 @@ export const JourneyFieldsFragmentDoc = gql`
   from
   to
   miles
+  tolls
 }
     `;
 export const JourneyTemplateFieldsFragmentDoc = gql`

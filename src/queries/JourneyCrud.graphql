@@ -5,6 +5,7 @@ fragment JourneyFields on Journey {
   from
   to
   miles
+  tolls
 }
 
 query ReadJourneys {
