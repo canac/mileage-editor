@@ -16,7 +16,7 @@ interface Context {
 
 const withToken = setContext(async (): Promise<Context> => {
   const authClient = await getClient();
-  const token = (await authClient.getTokenSilently()) as string;
+  const token = await authClient.getTokenSilently();
   return { token };
 });
 
